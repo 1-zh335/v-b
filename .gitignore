@@ -1,0 +1,23 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+.next/
+build/
+
+# 版本控制元数据
+.git/
+
+# 日志 / 归档 / 二进制（见工程规范 §5 审查排除目录）
+*.log
+*.zip
+*.7z
+*.rar
+*.exe
+*.dll
+
+# Python 产物
+__pycache__/
+.venv/
+.pytest_cache/
