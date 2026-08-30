@@ -11,17 +11,21 @@
 
 ## 上传到 GitHub
 
-1. 在 GitHub 新建**空**仓库：<https://github.com/new>，仓库名建议 `v-b`（不能含空格），**不要**勾选 README/.gitignore/LICENSE 等初始化文件，公开/私有任选
-2. 关联远程并推送（当前分支 `main`，命令在仓库目录执行；HTTPS 首次会弹出 GitHub 登录/认证）：
+**一键方式（推荐）**：双击 `push-to-github.bat`，按提示粘贴个人访问令牌（PAT）即可自动完成：验证账号 → 建仓库（`v-b`，公开，脚本开头可改）→ 关联远程 → 推送 `main`。
+- 令牌只在运行时输入、不写入任何文件；成功后存入系统凭据管理器，之后 `git push` 免登录
+- 令牌获取：https://github.com/settings/tokens → Generate new token → Tokens (classic) → 勾选 `repo` → 复制 `ghp_...`
+- 用完可随时撤销：GitHub → Settings → Developer settings → Personal access tokens
+
+**手动方式（备选）**：
+1. 在 GitHub 新建空仓库：https://github.com/new（建议 `v-b`，**不要**勾选任何初始化文件）
+2. 在仓库目录执行：
    ```powershell
    git remote add origin https://github.com/1-zh335/v-b.git
    git push -u origin main
    ```
-   - 仓库名与上面不同时，把 URL 中 `v-b` 换成实际名称
-   - 或使用 GitHub Desktop：File → Add local repository → 选择本目录 → 首次操作选择 Publish repository
-3. 推送前 `git status` 确认无敏感/大文件（排除规则见 `.gitignore`；本仓库当前约 20KB）
-4. 提交身份：`1-zh335 <3138470565@qq.com>`（2026-08-30 设置）。若要提交记录关联账号，请在 GitHub → Settings → Emails 验证该邮箱；或改用 GitHub 的 noreply 邮箱（`git config user.email` 查看/修改）
-5. 之后的增量上传只需 `git add -A && git commit -m "..."`，再 `git push origin main`
+3. 之后的增量上传：`git add -A && git commit -m "说明"`，再 `git push origin main`
+4. 提交身份为 `1-zh335 <3138470565@qq.com>`；若要提交关联账号，请在 GitHub → Settings → Emails 验证该邮箱
+5. 推送前 `git status` 确认无敏感/大文件（排除规则见 `.gitignore`）
 
 ## 约定
 
