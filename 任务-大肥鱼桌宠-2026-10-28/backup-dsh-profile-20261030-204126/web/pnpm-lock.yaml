@@ -1,0 +1,43 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      dsh-cost-meter:
+        specifier: 1.9.41
+        version: 1.9.41
+
+packages:
+
+  acorn@8.15.0:
+    resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  dsh-cost-meter@1.9.41:
+    resolution: {integrity: sha512-IPRi0qMWVmVDA1sOtkJ9moXTh8JCisNefa+4AlB53B5MbbB3/8jfAH/d3xR1IzMv234xdvvnQxk4xxPAPP5BAg==}
+    engines: {dsh: '>=0.2.0-rc.1 <0.3.0-0', node: '>=20'}
+    os: [darwin, linux, win32]
+    hasBin: true
+    peerDependencies:
+      '@deepseek-ai/dsh-credentials': '>=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-0 <0.3.0-0'
+      '@deepseek-ai/dsh-home-paths': '>=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-0 <0.3.0-0'
+
+  zod@4.6.6:
+    resolution: {integrity: sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA==}
+
+snapshots:
+
+  acorn@8.15.0: {}
+
+  dsh-cost-meter@1.9.41:
+    dependencies:
+      acorn: 8.15.0
+      zod: 4.6.6
+
+  zod@4.6.6: {}

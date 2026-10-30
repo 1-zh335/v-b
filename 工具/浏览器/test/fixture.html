@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSH 浏览器自检页</title>
+  <style>
+    body { font-family: "Microsoft YaHei", sans-serif; padding: 40px; color: #1f2937; }
+    h1 { color: #0f766e; }
+    #p { font-size: 18px; padding: 8px; background: #f0fdfa; border-left: 4px solid #0f766e; }
+    input, button { font-size: 16px; padding: 8px 12px; margin-right: 8px; }
+    button { background: #0f766e; color: #fff; border: 0; border-radius: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1 id="h">浏览器自动化自检</h1>
+  <p id="p">初始文本：等待点击</p>
+  <input id="q" placeholder="输入关键词">
+  <button id="btn" onclick="document.title='已点击'; document.getElementById('p').textContent='按钮已点击：' + document.getElementById('q').value">点击我</button>
+</body>
+</html>

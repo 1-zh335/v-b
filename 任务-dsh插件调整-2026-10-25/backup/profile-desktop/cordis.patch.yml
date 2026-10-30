@@ -1,0 +1,65 @@
+# Your patch layer for this dsh profile, applied after every bundle layer:
+# a top-level YAML array of loader patch entries (id-targeted config
+# overrides, disables, and insert lists; `!!js` expressions allowed).
+- id: ui-settings-general
+  name: "@deepseek-ai/dsh-client-ui-settings-general"
+  config:
+    welcomeNoticeVersion: 2026-08-13.1
+- id: permission
+  name: "@deepseek-ai/dsh-permission-presets"
+  config:
+    presets:
+      read-only:
+        sandbox: read-only
+        approval: ask
+      workspace-write:
+        sandbox: workspace-write
+        approval: ask
+      danger-full-access:
+        sandbox: danger-full-access
+        approval: never
+    defaultPreset: danger-full-access
+- id: agent-default-model
+  name: "@deepseek-ai/dsh-agent-default-model"
+  config:
+    provider: deepseek-account
+    model: deepseek-flash
+    reasoningEffort: max
+- id: ui-chat
+  name: "@deepseek-ai/dsh-client-ui-chat"
+  config:
+    transcriptView: verbose
+    performanceUsage: detailed
+- id: ui-settings
+  name: "@deepseek-ai/dsh-client-ui-settings"
+  config:
+    enabled: true
+- id: ui-settings-account
+  name: "@deepseek-ai/dsh-client-ui-settings-account"
+  config:
+    version: 1
+    step: done
+    usage: detailed
+    developerTools: true
+    purpose: null
+    process: standard
+    completion: api-key
+- id: agent-preset-registry
+  name: "@deepseek-ai/dsh-agent-preset-registry"
+  config:
+    default: standard
+    selectedDefault: cordis
+- id: subagent-model-selection-settings
+  name: "@deepseek-ai/dsh-tool-subagent/model-selection-settings"
+  config:
+    enabled: true
+    allowedModels:
+      - provider: deepseek-official
+        model: deepseek-v4-pro
+      - provider: deepseek-account
+        model: deepseek-v4-pro
+- id: web
+  name: "@deepseek-ai/dsh-web"
+  config:
+    searchProvider: deepseek-search-api
+    fetchProvider: deepseek-fetch-api

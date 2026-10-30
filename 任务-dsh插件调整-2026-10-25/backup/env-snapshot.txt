@@ -1,0 +1,6 @@
+﻿snapshot_time: 2026-10-25 10:16:26 +08:00
+dsh --version: 0.2.1-rc.2
+where dsh: C:\Users\31384\AppData\Local\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd | C:\Users\31384\AppData\Roaming\npm\dsh | C:\Users\31384\AppData\Roaming\npm\dsh.cmd
+npm global: `-- @deepseek-ai/dsh@0.1.1-rc.2
+web profile deps: {"dsh-damage-pulse":"^4.0.0"}
+desktop profile deps: {"@deepseek-ai/dsh-subagent-claude-code":"0.2.1-rc.2","@deepseek-ai/dsh-subagent-codex":"0.2.1-rc.2"}

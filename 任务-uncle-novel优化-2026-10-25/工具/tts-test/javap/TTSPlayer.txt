@@ -1,0 +1,443 @@
+﻿Compiled from "TTSPlayer.java"
+public class com.unclezs.novel.app.main.views.reader.player.TTSPlayer {
+  private static final org.slf4j.Logger log;
+
+  public static final long MB_10 = 10485760l;
+
+  private static final java.io.File CACHE_DIR;
+
+  private final java.lang.Runnable nextPageRunner;
+
+  private com.unclezs.novel.app.main.model.config.TTSConfig config;
+
+  private javafx.scene.media.MediaPlayer player;
+
+  private com.unclezs.novel.app.framework.executor.FluentTask<java.io.File> transformTask;
+
+  private java.util.Queue<java.lang.String> paragraphs;
+
+  private java.lang.String originalText;
+
+  private javafx.concurrent.Task<java.lang.Void> cacheTask;
+
+  public com.unclezs.novel.app.main.views.reader.player.TTSPlayer(com.unclezs.novel.app.main.model.config.TTSConfig, java.lang.Runnable);
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: aload_1
+       6: putfield      #2                  // Field config:Lcom/unclezs/novel/app/main/model/config/TTSConfig;
+       9: aload_0
+      10: aload_2
+      11: putfield      #3                  // Field nextPageRunner:Ljava/lang/Runnable;
+      14: return
+
+  public synchronized void setText(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #4                  // Field originalText:Ljava/lang/String;
+       4: aload_1
+       5: invokestatic  #5                  // Method java/util/Objects.equals:(Ljava/lang/Object;Ljava/lang/Object;)Z
+       8: ifeq          12
+      11: return
+      12: aload_1
+      13: ifnonnull     17
+      16: return
+      17: aload_0
+      18: invokevirtual #6                  // Method dispose:()V
+      21: aload_0
+      22: aload_1
+      23: putfield      #4                  // Field originalText:Ljava/lang/String;
+      26: getstatic     #7                  // Field CACHE_DIR:Ljava/io/File;
+      29: invokestatic  #8                  // Method cn/hutool/core/io/FileUtil.size:(Ljava/io/File;)J
+      32: ldc2_w        #10                 // long 10485760l
+      35: lcmp
+      36: ifle          45
+      39: getstatic     #7                  // Field CACHE_DIR:Ljava/io/File;
+      42: invokestatic  #12                 // Method com/unclezs/novel/analyzer/util/FileUtils.deleteForce:(Ljava/io/File;)V
+      45: aload_0
+      46: new           #13                 // class java/util/LinkedList
+      49: dup
+      50: invokespecial #14                 // Method java/util/LinkedList."<init>":()V
+      53: putfield      #15                 // Field paragraphs:Ljava/util/Queue;
+      56: aload_1
+      57: ldc           #17                 // String \n
+      59: invokevirtual #18                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+      62: astore_2
+      63: aload_2
+      64: arraylength
+      65: istore_3
+      66: iconst_0
+      67: istore        4
+      69: iload         4
+      71: iload_3
+      72: if_icmpge     107
+      75: aload_2
+      76: iload         4
+      78: aaload
+      79: astore        5
+      81: aload         5
+      83: invokestatic  #19                 // Method com/unclezs/novel/analyzer/util/StringUtils.isNotBlank:(Ljava/lang/CharSequence;)Z
+      86: ifeq          101
+      89: aload_0
+      90: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+      93: aload         5
+      95: invokeinterface #20,  2           // InterfaceMethod java/util/Queue.add:(Ljava/lang/Object;)Z
+     100: pop
+     101: iinc          4, 1
+     104: goto          69
+     107: aload_0
+     108: invokevirtual #21                 // Method deleteCache:()V
+     111: return
+
+  public void speak();
+    Code:
+       0: aload_0
+       1: iconst_1
+       2: invokevirtual #22                 // Method speak:(Z)V
+       5: return
+
+  private void speak(boolean);
+    Code:
+       0: aload_0
+       1: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+       4: invokestatic  #23                 // Method com/unclezs/novel/analyzer/util/CollectionUtils.isEmpty:(Ljava/util/Collection;)Z
+       7: ifeq          11
+      10: return
+      11: aload_0
+      12: iconst_0
+      13: aload_0
+      14: iload_1
+      15: invokedynamic #24,  0             // InvokeDynamic #0:call:(Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;Z)Ljava/util/concurrent/Callable;
+      20: invokestatic  #25                 // Method com/unclezs/novel/app/framework/executor/TaskFactory.create:(ZLjava/util/concurrent/Callable;)Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      23: aload_0
+      24: iload_1
+      25: invokedynamic #26,  0             // InvokeDynamic #1:accept:(Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;Z)Ljava/util/function/Consumer;
+      30: invokevirtual #27                 // Method com/unclezs/novel/app/framework/executor/FluentTask.onSuccess:(Ljava/util/function/Consumer;)Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      33: invokedynamic #28,  0             // InvokeDynamic #2:accept:()Ljava/util/function/Consumer;
+      38: invokevirtual #29                 // Method com/unclezs/novel/app/framework/executor/FluentTask.onFailed:(Ljava/util/function/Consumer;)Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      41: putfield      #30                 // Field transformTask:Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      44: aload_0
+      45: getfield      #30                 // Field transformTask:Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      48: invokevirtual #31                 // Method com/unclezs/novel/app/framework/executor/FluentTask.start:()V
+      51: return
+
+  private void runCacheTask();
+    Code:
+       0: aload_0
+       1: new           #32                 // class com/unclezs/novel/app/main/views/reader/player/TTSPlayer$1
+       4: dup
+       5: aload_0
+       6: invokespecial #33                 // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer$1."<init>":(Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;)V
+       9: putfield      #34                 // Field cacheTask:Ljavafx/concurrent/Task;
+      12: aload_0
+      13: getfield      #34                 // Field cacheTask:Ljavafx/concurrent/Task;
+      16: invokestatic  #35                 // Method com/unclezs/novel/analyzer/common/concurrent/ThreadUtils.execute:(Ljava/lang/Runnable;)V
+      19: return
+
+  private java.io.File toAudio(java.lang.String) throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iconst_1
+       3: invokevirtual #36                 // Method toAudio:(Ljava/lang/String;Z)Ljava/io/File;
+       6: areturn
+
+  private java.io.File toAudio(java.lang.String, boolean) throws java.io.IOException;
+    Code:
+       0: aload_1
+       1: invokevirtual #37                 // Method java/lang/String.hashCode:()I
+       4: invokedynamic #38,  0             // InvokeDynamic #3:makeConcatWithConstants:(I)Ljava/lang/String;
+       9: astore_3
+      10: getstatic     #7                  // Field CACHE_DIR:Ljava/io/File;
+      13: aload_3
+      14: invokestatic  #39                 // Method cn/hutool/core/io/FileUtil.file:(Ljava/io/File;Ljava/lang/String;)Ljava/io/File;
+      17: astore        4
+      19: iload_2
+      20: ifeq          34
+      23: aload         4
+      25: invokevirtual #40                 // Method java/io/File.exists:()Z
+      28: ifeq          34
+      31: aload         4
+      33: areturn
+      34: aload_0
+      35: getfield      #2                  // Field config:Lcom/unclezs/novel/app/main/model/config/TTSConfig;
+      38: aload_1
+      39: invokevirtual #41                 // Method com/unclezs/novel/app/main/model/config/TTSConfig.getFormattedParams:(Ljava/lang/String;)Lcom/unclezs/novel/analyzer/request/RequestParams;
+      42: invokestatic  #42                 // Method com/unclezs/novel/analyzer/request/Http.bytes:(Lcom/unclezs/novel/analyzer/request/RequestParams;)[B
+      45: aload         4
+      47: invokestatic  #43                 // Method cn/hutool/core/io/FileUtil.writeBytes:([BLjava/io/File;)Ljava/io/File;
+      50: areturn
+      51: astore        5
+      53: aload         5
+      55: athrow
+    Exception table:
+       from    to  target type
+          34    50    51   Class java/lang/Exception
+
+  private void deleteCache();
+    Code:
+       0: aload_0
+       1: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+       4: invokestatic  #23                 // Method com/unclezs/novel/analyzer/util/CollectionUtils.isEmpty:(Ljava/util/Collection;)Z
+       7: ifeq          11
+      10: return
+      11: aload_0
+      12: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+      15: invokeinterface #45,  1           // InterfaceMethod java/util/Queue.iterator:()Ljava/util/Iterator;
+      20: astore_1
+      21: aload_1
+      22: invokeinterface #46,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      27: ifeq          103
+      30: aload_1
+      31: invokeinterface #47,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      36: checkcast     #48                 // class java/lang/String
+      39: astore_2
+      40: aload_2
+      41: invokevirtual #37                 // Method java/lang/String.hashCode:()I
+      44: invokedynamic #38,  0             // InvokeDynamic #3:makeConcatWithConstants:(I)Ljava/lang/String;
+      49: astore_3
+      50: getstatic     #7                  // Field CACHE_DIR:Ljava/io/File;
+      53: aload_3
+      54: invokestatic  #39                 // Method cn/hutool/core/io/FileUtil.file:(Ljava/io/File;Ljava/lang/String;)Ljava/io/File;
+      57: astore        4
+      59: getstatic     #49                 // Field log:Lorg/slf4j/Logger;
+      62: ldc           #50                 // String ɾ�����棺{}
+      64: aload         4
+      66: invokeinterface #51,  3           // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;Ljava/lang/Object;)V
+      71: aload         4
+      73: invokestatic  #52                 // Method cn/hutool/core/io/FileUtil.del:(Ljava/io/File;)Z
+      76: pop
+      77: ldc2_w        #53                 // long 100l
+      80: invokestatic  #55                 // Method com/unclezs/novel/analyzer/common/concurrent/ThreadUtils.sleep:(J)V
+      83: goto          100
+      86: astore        5
+      88: getstatic     #49                 // Field log:Lorg/slf4j/Logger;
+      91: ldc           #56                 // String ɾ���ʶ���Ƶ����ʧ��
+      93: aload         5
+      95: invokeinterface #57,  3           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+     100: goto          21
+     103: return
+    Exception table:
+       from    to  target type
+          71    83    86   Class java/lang/Exception
+
+  public void setConfig(com.unclezs.novel.app.main.model.config.TTSConfig);
+    Code:
+       0: aload_1
+       1: ifnonnull     14
+       4: new           #58                 // class java/lang/NullPointerException
+       7: dup
+       8: ldc           #59                 // String config is marked non-null but is null
+      10: invokespecial #60                 // Method java/lang/NullPointerException."<init>":(Ljava/lang/String;)V
+      13: athrow
+      14: aload_1
+      15: aload_0
+      16: getfield      #2                  // Field config:Lcom/unclezs/novel/app/main/model/config/TTSConfig;
+      19: if_acmpeq     57
+      22: getstatic     #49                 // Field log:Lorg/slf4j/Logger;
+      25: ldc           #61                 // String �л�TTS���棺{}
+      27: aload_1
+      28: invokeinterface #62,  3           // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;Ljava/lang/Object;)V
+      33: aload_0
+      34: aload_1
+      35: putfield      #2                  // Field config:Lcom/unclezs/novel/app/main/model/config/TTSConfig;
+      38: aload_0
+      39: getfield      #4                  // Field originalText:Ljava/lang/String;
+      42: astore_2
+      43: aload_0
+      44: aconst_null
+      45: putfield      #4                  // Field originalText:Ljava/lang/String;
+      48: aload_0
+      49: aload_2
+      50: invokevirtual #63                 // Method setText:(Ljava/lang/String;)V
+      53: aload_0
+      54: invokevirtual #64                 // Method speak:()V
+      57: return
+
+  public void setSpeed(double);
+    Code:
+       0: aload_0
+       1: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+       4: ifnull        15
+       7: aload_0
+       8: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      11: dload_1
+      12: invokevirtual #66                 // Method javafx/scene/media/MediaPlayer.setRate:(D)V
+      15: return
+
+  public void pause();
+    Code:
+       0: aload_0
+       1: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+       4: ifnull        14
+       7: aload_0
+       8: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      11: invokevirtual #67                 // Method javafx/scene/media/MediaPlayer.pause:()V
+      14: return
+
+  public void play();
+    Code:
+       0: aload_0
+       1: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+       4: ifnull        14
+       7: aload_0
+       8: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      11: invokevirtual #68                 // Method javafx/scene/media/MediaPlayer.play:()V
+      14: return
+
+  public void dispose();
+    Code:
+       0: aload_0
+       1: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+       4: ifnull        28
+       7: aload_0
+       8: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      11: invokevirtual #69                 // Method javafx/scene/media/MediaPlayer.dispose:()V
+      14: getstatic     #49                 // Field log:Lorg/slf4j/Logger;
+      17: ldc           #70                 // String �ͷ�TTS��Դ��{}
+      19: aload_0
+      20: getfield      #2                  // Field config:Lcom/unclezs/novel/app/main/model/config/TTSConfig;
+      23: invokeinterface #62,  3           // InterfaceMethod org/slf4j/Logger.info:(Ljava/lang/String;Ljava/lang/Object;)V
+      28: aload_0
+      29: getfield      #30                 // Field transformTask:Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      32: ifnull        53
+      35: aload_0
+      36: getfield      #30                 // Field transformTask:Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      39: invokevirtual #71                 // Method com/unclezs/novel/app/framework/executor/FluentTask.isRunning:()Z
+      42: ifeq          53
+      45: aload_0
+      46: getfield      #30                 // Field transformTask:Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      49: invokevirtual #72                 // Method com/unclezs/novel/app/framework/executor/FluentTask.cancel:()Z
+      52: pop
+      53: aload_0
+      54: getfield      #34                 // Field cacheTask:Ljavafx/concurrent/Task;
+      57: ifnull        68
+      60: aload_0
+      61: getfield      #34                 // Field cacheTask:Ljavafx/concurrent/Task;
+      64: invokevirtual #73                 // Method javafx/concurrent/Task.cancel:()Z
+      67: pop
+      68: aload_0
+      69: aconst_null
+      70: putfield      #4                  // Field originalText:Ljava/lang/String;
+      73: aload_0
+      74: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+      77: invokestatic  #74                 // Method com/unclezs/novel/analyzer/util/CollectionUtils.isNotEmpty:(Ljava/util/Collection;)Z
+      80: ifeq          92
+      83: aload_0
+      84: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+      87: invokeinterface #75,  1           // InterfaceMethod java/util/Queue.clear:()V
+      92: return
+
+  public com.unclezs.novel.app.main.model.config.TTSConfig getConfig();
+    Code:
+       0: aload_0
+       1: getfield      #2                  // Field config:Lcom/unclezs/novel/app/main/model/config/TTSConfig;
+       4: areturn
+
+  private static void lambda$speak$4(java.lang.Throwable);
+    Code:
+       0: ldc           #76                 // String ��Ƶ��ȡʧ��
+       2: invokestatic  #77                 // Method com/unclezs/novel/app/framework/components/Toast.error:(Ljava/lang/String;)V
+       5: return
+
+  private void lambda$speak$3(boolean, java.io.File);
+    Code:
+       0: aload_2
+       1: ifnull        50
+       4: aload_0
+       5: new           #78                 // class javafx/scene/media/MediaPlayer
+       8: dup
+       9: new           #79                 // class javafx/scene/media/Media
+      12: dup
+      13: aload_2
+      14: invokestatic  #80                 // Method cn/hutool/core/util/URLUtil.getURL:(Ljava/io/File;)Ljava/net/URL;
+      17: invokevirtual #81                 // Method java/net/URL.toExternalForm:()Ljava/lang/String;
+      20: invokespecial #82                 // Method javafx/scene/media/Media."<init>":(Ljava/lang/String;)V
+      23: invokespecial #83                 // Method javafx/scene/media/MediaPlayer."<init>":(Ljavafx/scene/media/Media;)V
+      26: putfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      29: aload_0
+      30: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      33: iconst_1
+      34: invokevirtual #84                 // Method javafx/scene/media/MediaPlayer.setAutoPlay:(Z)V
+      37: aload_0
+      38: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      41: aload_0
+      42: invokedynamic #85,  0             // InvokeDynamic #4:run:(Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;)Ljava/lang/Runnable;
+      47: invokevirtual #86                 // Method javafx/scene/media/MediaPlayer.setOnError:(Ljava/lang/Runnable;)V
+      50: aload_0
+      51: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+      54: invokeinterface #87,  1           // InterfaceMethod java/util/Queue.isEmpty:()Z
+      59: ifeq          76
+      62: aload_0
+      63: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      66: aload_0
+      67: getfield      #3                  // Field nextPageRunner:Ljava/lang/Runnable;
+      70: invokevirtual #88                 // Method javafx/scene/media/MediaPlayer.setOnEndOfMedia:(Ljava/lang/Runnable;)V
+      73: goto          97
+      76: iload_1
+      77: ifeq          84
+      80: aload_0
+      81: invokevirtual #89                 // Method runCacheTask:()V
+      84: aload_0
+      85: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      88: aload_0
+      89: invokedynamic #90,  0             // InvokeDynamic #5:run:(Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;)Ljava/lang/Runnable;
+      94: invokevirtual #88                 // Method javafx/scene/media/MediaPlayer.setOnEndOfMedia:(Ljava/lang/Runnable;)V
+      97: return
+
+  private void lambda$speak$2();
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: invokevirtual #22                 // Method speak:(Z)V
+       5: return
+
+  private void lambda$speak$1();
+    Code:
+       0: getstatic     #49                 // Field log:Lorg/slf4j/Logger;
+       3: ldc           #91                 // String TTS��Ƶ����ʧ�ܣ�{}
+       5: aload_0
+       6: getfield      #2                  // Field config:Lcom/unclezs/novel/app/main/model/config/TTSConfig;
+       9: aload_0
+      10: getfield      #65                 // Field player:Ljavafx/scene/media/MediaPlayer;
+      13: invokevirtual #92                 // Method javafx/scene/media/MediaPlayer.getError:()Ljavafx/scene/media/MediaException;
+      16: invokeinterface #93,  4           // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V
+      21: ldc           #94                 // String ����ʧ��
+      23: invokestatic  #77                 // Method com/unclezs/novel/app/framework/components/Toast.error:(Ljava/lang/String;)V
+      26: aload_0
+      27: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+      30: invokeinterface #75,  1           // InterfaceMethod java/util/Queue.clear:()V
+      35: return
+
+  private java.io.File lambda$speak$0(boolean) throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: getfield      #15                 // Field paragraphs:Ljava/util/Queue;
+       4: invokeinterface #95,  1           // InterfaceMethod java/util/Queue.poll:()Ljava/lang/Object;
+       9: checkcast     #48                 // class java/lang/String
+      12: astore_2
+      13: aload_2
+      14: ifnonnull     19
+      17: aconst_null
+      18: areturn
+      19: aload_0
+      20: aload_2
+      21: iload_1
+      22: ifne          29
+      25: iconst_1
+      26: goto          30
+      29: iconst_0
+      30: invokevirtual #36                 // Method toAudio:(Ljava/lang/String;Z)Ljava/io/File;
+      33: areturn
+
+  static {};
+    Code:
+       0: ldc           #9                  // class com/unclezs/novel/app/main/views/reader/player/TTSPlayer
+       2: invokestatic  #96                 // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+       5: putstatic     #49                 // Field log:Lorg/slf4j/Logger;
+       8: ldc           #97                 // String tts
+      10: invokestatic  #98                 // Method com/unclezs/novel/app/main/manager/ResourceManager.cacheFile:(Ljava/lang/String;)Ljava/io/File;
+      13: putstatic     #7                  // Field CACHE_DIR:Ljava/io/File;
+      16: return
+}

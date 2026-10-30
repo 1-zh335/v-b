@@ -1,0 +1,46 @@
+
+D:\>echoThe system cannot write to the specified device.
+
+The system cannot write to the specified device.
+
+D:\>echoThe system cannot write to the specified device.
+
+The system cannot write to the specified device.
+
+D:\>echoThe system cannot write to the specified device.
+
+The system cannot write to the specified device.
+
+D:\>echo.
+
+
+D:\>REMThe system cannot write to the specified device.
+
+
+D:\>net use Z: /delete /y  1>nul 2>&1
+
+D:\>REMThe system cannot write to the specified device.
+
+
+D:\>netThe system cannot write to the specified device.
+1>nul 2>&1
+
+D:\>if 2 EQU 0 goto success
+
+D:\>REMThe system cannot write to the specified device.
+
+
+D:\>netThe system cannot write to the specified device.
+1>nul 2>&1
+
+D:\>if 2 EQU 0 goto success
+
+D:\>echoThe system cannot write to the specified device.
+
+The system cannot write to the specified device.
+
+D:\>echoThe system cannot write to the specified device.
+
+The system cannot write to the specified device.
+
+D:\>timeout /t 30 /nobreak  1>nul

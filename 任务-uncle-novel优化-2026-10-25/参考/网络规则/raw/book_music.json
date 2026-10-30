@@ -1,0 +1,1047 @@
+[
+  {
+    "name": "🎧 中文听书网",
+    "site": "https://www.tingzh.com/",
+    "group": "10.30 可播放",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "params": {
+        "dynamic": false,
+        "script": "",
+        "dynamicDelayTime": 500
+      },
+      "content": {
+        "script": "js_now=utils.match(source,\"///body/div[5]/div[1]/div[1]/div[1]/div/script[1]/html()\");eval(js_now);result=now;"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "dynamicDelayTime": 500
+      },
+      "list": "//ul[@class=\"compress\"]/ul/li/a",
+      "name": "//@title",
+      "url": "//@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "https://www.tingzh.com/search.php?page=1&searchword={{keyword}}&searchtype=",
+        "dynamicDelayTime": 500
+      },
+      "list": "//div[contains(@class,'clist')]/ul/li",
+      "detail": {
+        "url": "///p[1]/b/a/@href",
+        "title": "///p[1]/b/a/text()",
+        "author": {
+          "rule": "///p[2]/text()",
+          "replace": "\"作者：##\""
+        },
+        "broadcast": "///p[4]/a/text()",
+        "category": {
+          "rule": "///p[3]/text()",
+          "replace": "\"类型：##\""
+        },
+        "coverUrl": "///a/img/@src",
+        "updateTime": {
+          "rule": "///p[5]/text()",
+          "replace": "\"时间：##\""
+        }
+      }
+    }
+  },
+  {
+    "name": "🎧 中华听书",
+    "site": "https://m.tingshucn.com",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {},
+    "content": {
+      "content": {
+        "rule": "//div[@class=\"booksite\"]/script[1]/html()",
+        "script": "eval(result);result=now;"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//div[@class=\"compress\"]/li/a",
+      "name": "//@title",
+      "url": "//@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "https://m.tingshucn.com/search.php",
+        "method": "POST",
+        "charset": "UTF-8",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "page=1&searchword={{keyword}}",
+        "dynamicDelayTime": 500
+      },
+      "list": "//*[@id=\"cateList_wap\"]/div",
+      "detail": {
+        "url": {
+          "rule": "///@bookid",
+          "replace": "\"regex:([\\\\s\\\\S]+)##https://m.tingshucn.com/book/$1.html\""
+        },
+        "title": "///div[2]/h4/text()",
+        "author": "///div[2]/div[1]/a/text()",
+        "broadcast": {
+          "rule": "///div[2]/div[1]/text()[2]",
+          "replace": "\"播音:##\""
+        },
+        "introduce": {
+          "rule": "///div[2]/div[4]/allText()",
+          "replace": "\"简介：##\""
+        },
+        "coverUrl": "///div[1]/img/@src",
+        "state": {
+          "rule": "///div[2]/div[3]/allText()",
+          "replace": "\"状态：##\""
+        }
+      }
+    }
+  },
+  {
+    "name": "🎧 一路听",
+    "site": "https://www.16ting.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+    },
+    "content": {
+      "content": {
+        "script": "utils.match(utils.get('https://m.16ting.com/h5/audio.aspx?act=getaudioinfo&id='+url.match(/[-t]([0-9]+?)\\./)[1]),\"$.data.audio.Url\");"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "xpath://div[@class=\"i_time\"]/a",
+      "name": "xpath:text()",
+      "url": "xpath:@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": true,
+      "filter": false,
+      "reverse": false,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "https://www.16ting.com/search/{{keyword}}.html",
+        "dynamicDelayTime": 500
+      },
+      "list": "///body/div[3]/div/div[2]/div[1]/div/div[2]/ul/li",
+      "detail": {
+        "url": "///a/@href",
+        "title": "///p[1]/a/text()",
+        "author": "///p[2]/text()[2]",
+        "broadcast": "///p[2]/text()[1]",
+        "category": "//",
+        "wordCount": "//",
+        "introduce": "//",
+        "latestChapterName": "//",
+        "latestChapterUrl": "//",
+        "coverUrl": "///a/div/img/@src",
+        "state": "//",
+        "updateTime": "//"
+      }
+    }
+  },
+  {
+    "name": "🎧 喜马拉雅",
+    "site": "http://mobile.ximalaya.com/",
+    "group": "10.30 可播放",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+    },
+    "content": {
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "$.data.list",
+      "name": "$.title",
+      "url": "$.playPathAacv224",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://search.ximalaya.com/speed/album/v1/list?condition=relation&core=album&device=android&fq=categoryId:3&kw={{keyword}}&page={{page}}&rows=20&spellchecker=true",
+        "dynamicDelayTime": 500
+      },
+      "list": "$.response.docs",
+      "detail": {
+        "url": {
+          "rule": "$.id",
+          "replace": "\"regex:([\\\\s\\\\S]+)##http://mobile.ximalaya.com/fmobile-album/album/track/ts-1576706285548?ac=4G&albumId=$1&device=android&isAsc=true&isQueryInvitationBrand=true&isVideoAsc=true&pageSize=200&source=3&supportWebp=true&pageId=1\""
+        },
+        "title": "$.title",
+        "author": "$.nickname",
+        "broadcast": "$.nickname",
+        "category": "$.category_title",
+        "introduce": "$.intro",
+        "coverUrl": {
+          "rule": "$.cover_path",
+          "replace": "\"regex:\\\"##\"",
+          "script": "result"
+        }
+      }
+    }
+  },
+  {
+    "name": "🎧 听中国",
+    "site": "https://www.tingchina.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {
+      "dynamic": false,
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50"
+    },
+    "content": {
+      "params": {
+        "dynamic": true,
+        "script": "wpPlayer.mp3Src",
+        "dynamicDelayTime": 2000
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "script": "",
+        "dynamicDelayTime": 500
+      },
+      "list": "//div[@class=\"list\"]/ul/li[position()>3]",
+      "name": "///a/text()",
+      "url": "///a/@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "blackUrls": [],
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {
+      "title": "//body/div[2]/div[3]/div[1]/div[2]/div[1]/ul/li[1]/span/strong/text()",
+      "author": "//body/div[2]/div[3]/div[1]/div[2]/div[1]/ul/li[6]/text()",
+      "broadcast": "//body/div[2]/div[3]/div[1]/div[2]/div[1]/ul/li[5]/text()",
+      "category": "//body/div[2]/div[3]/div[1]/div[2]/div[1]/ul/li[2]/text()",
+      "introduce": "//body/div[2]/div[3]/div[1]/div[2]/div[2]/text()",
+      "coverUrl": "//body/div[2]/div[3]/div[1]/div[2]/div[1]/img/@src",
+      "state": "//body/div[2]/div[3]/div[1]/div[2]/div[1]/ul/li[7]/span/text()",
+      "updateTime": "//body/div[2]/div[3]/div[1]/div[2]/div[1]/ul/li[8]/span/text()"
+    },
+    "search": {
+      "params": {
+        "url": "https://www.tingchina.com/search1.asp?mainlei=0&lei=0&keyword={{keyword}}",
+        "charset": "GB2312",
+        "dynamicDelayTime": 500
+      },
+      "list": "//div[2]/dl/dd/ul/li",
+      "detailPage": "///a/@href",
+      "detail": {
+        "url": {
+          "rule": "///a/@href",
+          "page": "search"
+        },
+        "title": {
+          "rule": "///a/text()",
+          "page": "search"
+        },
+        "author": "//div[@class=\"book01\"]/ul/li[6]/text()",
+        "broadcast": "//div[@class=\"book01\"]/ul/li[5]/text()",
+        "category": "//div[@class=\"book01\"]/ul/li[2]/text()",
+        "introduce": "//div[@class=\"book02 padding5 line5\"]/text()",
+        "coverUrl": "//div[@class=\"book01\"]/img/@src",
+        "state": "//div[@class=\"book01\"]/ul/li[7]/span/text()",
+        "updateTime": "//div[@class=\"book01\"]/ul/li[8]/span/text()"
+      }
+    }
+  },
+  {
+    "name": "🎧  听书宝",
+    "site": "http://m.tingshubao.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "params": {
+        "dynamicDelayTime": 500
+      },
+      "content": {
+        "script": "function FonHen_JieMa(u){var tArr = u.split(\"*\");var str = '';for(var i=1,n=tArr.length;i<n;i++){str += String.fromCharCode(tArr[i]);}return str;}window = {'location':{'href':url}};eval(utils.match(source,\"xpath:/head/script[last()]/html()\"));if(datas[2]==='tudou'){    audio_url = utils.absUrl(url,'/player/getcode.php?id='+datas[0]);    result = utils.match(utils.get(audio_url),'$.url');}else if(datas[2]==='tc'){    audio_url='https://www.gushiciju.com/player/key.php?url='+datas[0];    result = utils.match(utils.get(audio_url),'$.url');}else{    result=datas2[0];}"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//*[@id=\"playlist\"]/ul/li/a",
+      "name": "//text()",
+      "url": "//@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://m.tingshubao.com/search.asp?page=1&searchword={{keyword}}&searchtype=-1",
+        "charset": "GBK",
+        "dynamicDelayTime": 500
+      },
+      "list": "///body/div[2]/ul/li",
+      "detail": {
+        "url": "///a/@href",
+        "title": "///a/div/h4/text()",
+        "author": {
+          "rule": "///a/div/div/text()",
+          "replace": "\"regex:(.*?) (.*)##$1\""
+        },
+        "broadcast": {
+          "rule": "///a/div/div/text()",
+          "replace": "\"regex:(.*?) (.*)##$2\""
+        },
+        "introduce": "///a/div/p/text()",
+        "coverUrl": "///a/img/@data-original"
+      }
+    }
+  },
+  {
+    "name": "🎧 失效 有兔听书 ",
+    "site": "http://app.zhoudamozi.com/",
+    "group": "10.30 可播放",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {
+      "userAgent": "Dalvik/2.1.0 (Linux; U; Android 9; MI 6 MIUI/V11.0.5.0.PCACNXM)"
+    },
+    "content": {
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "headers": {
+          "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 9; MI 6 MIUI/V11.0.5.0.PCACNXM)",
+          "Seq": "bfa2354f3387c57840e83138cc6456a4"
+        },
+        "dynamicDelayTime": 500
+      },
+      "list": "$.data",
+      "name": {
+        "rule": "$.name",
+        "replace": "\"regex:《.*?》##\""
+      },
+      "url": {
+        "rule": "$.musicPath",
+        "replace": [
+          "regex:\\{.*\"addr|\\:\"|\\}|\\\"|http.*chapter/|\\:|\\\\##",
+          "regex:([\\s\\S]+)##http://ys.mayiyunxinxi.com/klajdfiaoj/music_collect$1"
+        ]
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://app.zhoudamozi.com/es/search/audio?q={{keyword}}&pageNo={{page}}&pageSize=10",
+        "charset": "",
+        "headers": {
+          "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 9; MI 6 MIUI/V11.0.5.0.PCACNXM)",
+          "Seq": "bfa2354f3387c57840e83138cc6456a4"
+        },
+        "mediaType": "",
+        "dynamicDelayTime": 500
+      },
+      "list": "$.data",
+      "detail": {
+        "url": {
+          "rule": "$.id",
+          "replace": "\"regex:([\\\\s\\\\S]+)##http://app.zhoudamozi.com/audio/chapter/listAll?sortType=0&audioId=$1\""
+        },
+        "title": "$.name",
+        "author": "$.actorName",
+        "broadcast": "$.actorName",
+        "category": {
+          "rule": "$.clsName",
+          "replace": "\"小说 -##\""
+        },
+        "introduce": "$.intro",
+        "coverUrl": {
+          "rule": "$.photoPath",
+          "replace": "\"regex:([\\\\s\\\\S]+)##https://img.dayouzh.com/klajdfiaoj/music_collect$1\""
+        }
+      }
+    }
+  },
+  {
+    "name": "🎧 失效 幻听网 ",
+    "site": "http://www.ting89.com",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 1,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+    },
+    "content": {
+      "params": {
+        "dynamic": true,
+        "dynamicDelayTime": 500
+      },
+      "content": "//div[4]/div[1]/div[2]/a/@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//div[4]/div/ul/li/a",
+      "name": "///text()",
+      "url": "///@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": true,
+      "filter": true,
+      "reverse": false,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://www.ting89.com/search.asp?page=1&searchword={{keyword}}&searchtype=-1",
+        "method": "GET",
+        "charset": "GB2312",
+        "mediaType": "",
+        "body": "",
+        "dynamic": false,
+        "dynamicDelayTime": 500
+      },
+      "list": "//div[3]/ul/li",
+      "detail": {
+        "url": "///a/@href",
+        "title": "///a/@title",
+        "author": "///p[3]/text()",
+        "broadcast": "///p[4]/text()",
+        "category": "///p[2]/text()",
+        "coverUrl": "///a/img/@src",
+        "state": "///p[6]/text()",
+        "updateTime": "///p[5]/text()"
+      }
+    }
+  },
+  {
+    "name": "🎧 懒人听书",
+    "site": "https://www.lrts.me",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {
+      "dynamic": false,
+      "cookie": "uid=16355631770280e4d3872706342ca8da7fcdf1bff2c35; CNZZDATA1254668430=1874256637-1624441951-https%253A%252F%252Fwww.baidu.com%252F%7C1635561095; Hm_lvt_ada61571fd48bb3f905f5fd1d6ef0ec4=1635563178; Hm_lpvt_ada61571fd48bb3f905f5fd1d6ef0ec4=1635563186",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+    },
+    "content": {
+      "content": {
+        "script": "\nvar reqParams = {\n    url: url,\n    headers: {\n       \"Referer\":\"http://www.lrts.me/playlist\",\n   },\n    method: \"GET\"\n}\nsource= utils.request(utils.toJson(reqParams));\nresult=utils.match(source,\"regex:\\\"data\\\":\\\"(.*?)\\\"##$1\")"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "dynamicDelayTime": 500
+      },
+      "list": "$.data.data",
+      "name": {
+        "rule": "$.*",
+        "script": "result=eval(result)\nresult=unescape(String(result[4]).replace(/&#x/g,'%u').replace(/;/g,''))"
+      },
+      "url": {
+        "rule": "$.*",
+        "script": "result=eval(result)\n\nresult=\"/ajax/path/4/\"+result[0]+\"/\"+result[3]\n\n"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "sort": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "https://www.lrts.me/search/book/{{keyword}}",
+        "charset": "UTF-8",
+        "headers": {
+          "Referer": "https://www.lrts.me/"
+        },
+        "mediaType": "application/x-www-form-urlencoded",
+        "dynamic": false,
+        "dynamicDelayTime": 500
+      },
+      "list": "////li[@class=\"book-item\"]",
+      "detail": {
+        "url": {
+          "rule": "///a[2]/@href",
+          "replace": [
+            "book##ajax/book",
+            "regex:(\\d+)##$1/0/9999"
+          ]
+        },
+        "title": "///a[2]/allText()",
+        "author": "///div[2]/div[2]/a[1]/text()",
+        "broadcast": "///div[2]/div[2]/a[2]/text()",
+        "category": "///div[2]/div[2]/text()",
+        "coverUrl": "///div[1]/a/img/@src"
+      }
+    }
+  },
+  {
+    "name": "🎧 酷我听书",
+    "site": "http://baby.kuwo.cn/",
+    "group": "10.30 可播放",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "$.data",
+      "name": "$.name",
+      "url": {
+        "rule": "$.id",
+        "replace": "\"regex:([\\\\s\\\\S]+)##http://antiserver.kuwo.cn/anti.s?useless=/resource/&format=mp3&rid=MUSIC_$1&response=res&type=convert_url&\""
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "https://tingshu.kuwo.cn/tingshu/api/search/Search?rn=10&type=album&version=8.5.6.1&wd={{keyword}}&pn={{page}}&kweexVersion=1.0.2",
+        "dynamicDelayTime": 500
+      },
+      "list": "$.data.data",
+      "detail": {
+        "url": {
+          "rule": "$.albumId",
+          "replace": "\"regex:([\\\\s\\\\S]+)##http://baby.kuwo.cn/tingshu/api//data/album/songs?albumId=$1&online=0&kweexVersion=1.0.2\""
+        },
+        "title": "$.albumName",
+        "author": "$.artistName",
+        "broadcast": "$.artistName",
+        "category": "$.tags.datas",
+        "introduce": "$.title",
+        "coverUrl": "$.coverImg"
+      }
+    }
+  },
+  {
+    "name": "🎧 聚听网",
+    "site": "https://www.yousxs.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {
+      "dynamic": false,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36",
+      "autoReferer": true
+    },
+    "content": {
+      "params": {
+        "dynamicDelayTime": 500
+      },
+      "content": {
+        "script": "skeyPage = utils.get('https://www.yousxs.com/js/bootstrap.min.js');skey = utils.match(skeyPage, \"regex:ey\\\"]=\\\"(.+?)\\\"##$1\");result = utils.match(source, \"regex:url: '(https://.+?skey=)'##$1\") + skey;"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "dynamicDelayTime": 500
+      },
+      "list": "//div/div[3]/div[1]/div[2]/div/div/div",
+      "name": "//a/text()",
+      "url": "//a/@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": true,
+      "filter": true,
+      "reverse": false,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "https://www.yousxs.com/classify.html?clsid=&pageNum=1&novelName={{keyword}}",
+        "charset": "UTF-8",
+        "mediaType": "",
+        "dynamicDelayTime": 500
+      },
+      "list": "//div/div[5]/div/div/div[2]/ul/li",
+      "detailPage": "//a/@href",
+      "detail": {
+        "url": {
+          "rule": "//a/@href",
+          "page": "search"
+        },
+        "title": "//div/div[3]/div[1]/div[1]/div/div/div[2]/h3/text()",
+        "author": {
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[1]/text()",
+          "replace": "\"作者：##\""
+        },
+        "broadcast": {
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[2]/text()",
+          "replace": "\"播讲：##\""
+        },
+        "introduce": "//div[2]/p[3]/text()",
+        "coverUrl": "//div/div[3]/div[1]/div[1]/div/div/div[1]/img/@src"
+      }
+    }
+  },
+  {
+    "name": "🎧 海盗听书",
+    "site": "http://app.yn21.cn/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Mobile Safari/537.36"
+    },
+    "content": {
+      "content": "$.src",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "mediaType": "application/json",
+        "dynamicDelayTime": 500
+      },
+      "list": {
+        "script": "var result = new java.util.ArrayList();var r = utils.matchList(source,\"$.data.list\");for(var i=0;i<r.length;i++){    var title = String(utils.match(r[i],\"$.chapterTitle\")).replace(/\\.mp3/,\"\");    var cid = utils.match(r[i],'$.chapterId');    var bookId = utils.match(r[i],'$.bookId');    var link = \"http://app.yn21.cn/listen/apiapp/AppGetChapterUrl?uid=1161&chapterId=\"+cid+\"&bookId=\"+bookId;    var item = {        name:title,        link:link    };    result.add(utils.toJson(item));}result"
+      },
+      "name": {
+        "rule": "$.name",
+        "replace": "\".mp3##\""
+      },
+      "url": "$.link",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://app.yn21.cn/listen/apptingchina/AppSearch?search={{keyword}}",
+        "dynamicDelayTime": 500
+      },
+      "list": "$.data.bookData",
+      "detail": {
+        "url": {
+          "rule": "$.id",
+          "replace": "\"regex:([\\\\s\\\\S]+)##http://app.yn21.cn/listen/apiapp/chapter?uid=1161&size=50000&page=1&sort=asc&type=works&bookId=$1\""
+        },
+        "title": {
+          "rule": "$.bookTitle",
+          "replace": "\"regex:\\\\|.*##\""
+        },
+        "author": "$.bookName",
+        "broadcast": "$.bookAnchor",
+        "introduce": "$.bookDesc",
+        "coverUrl": "$.bookImage",
+        "state": {
+          "rule": "$.bookUpdateStatus",
+          "script": "result=result==1?'完结':'连载';"
+        }
+      }
+    }
+  },
+  {
+    "name": "🎧 安卓听书",
+    "site": "http://120.25.207.193",
+    "group": "10.30 可播放",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "params": {
+        "charset": "",
+        "mediaType": "",
+        "dynamicDelayTime": 500
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "charset": "UTF-8",
+        "mediaType": "application/json",
+        "dynamicDelayTime": 500
+      },
+      "list": {
+        "script": "var tid= url.match(/&typeid=[\\s\\S]+/);var obj=JSON.parse(source);var list = [];result = new java.util.ArrayList();for (var i = 1; i <= obj.totalpage; i++){    var voicelist =obj.voicelist;;    if(i!=1)    {        link = utils.absUrl(url,'/voice/list/voicepage?pageNum=' + i + tid);        var reqParams = {            url: link,            charset: \"UTF-8\",            method: \"GET\",            mediaType:\"application/json\",        };        var html_json = utils.request(utils.toJson(reqParams));        voicelist =JSON.parse(html_json).voicelist;    }    for(var j=0;j<voicelist.length;j++)    {        item = {            name: voicelist[j].title,            link: voicelist[j].downurl        };        result.add(utils.toJson(item));    }}result;"
+      },
+      "name": "$.name",
+      "url": "$.link",
+      "next": {
+        "script": "var tid= url.match(/&typeid=[\\s\\S]+/);var downPage=parseInt(JSON.parse(source).userpage)+1;result='http://120.25.207.193/voice/list/voicepage?pageNum=' + downPage + tid;result;"
+      },
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://120.25.207.193/voice/list/voicesearchpage?pageNum=1&title={{keyword}}",
+        "charset": "UTF-8",
+        "mediaType": "application/json",
+        "dynamicDelayTime": 500
+      },
+      "list": "$.voicelist",
+      "detail": {
+        "url": {
+          "rule": "$.id",
+          "replace": "\"regex:([\\\\s\\\\S]+)##/voice/list/voicepage?pageNum=1&typeid=$1&userid=3dacc573d2d7464c9a7a19dcecd7327b\""
+        },
+        "title": "$.name",
+        "author": "$.zz",
+        "broadcast": "$.by",
+        "introduce": "$.des",
+        "coverUrl": "$.picurl",
+        "state": "$.zt",
+        "updateTime": "$.updatetime"
+      }
+    }
+  },
+  {
+    "name": "🎧 爱上你听书",
+    "site": "http://www.23ts.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {},
+    "content": {
+      "content": {
+        "rule": "//*[@id=\"play\"]/@src",
+        "script": "html=utils.get(utils.absUrl(url,result));js_play=utils.match(html,\"xpath://script[4]/html()\");eval(js_play.replace(/function[\\s\\S]+/,'')+'csMp3='+js_play.match(/{[\\s\\S]+?mp3:([\\s\\S]+?)}/)[1]);csMp3;"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//*[@id=\"playlist\"]/ul/li/a",
+      "name": "//text()",
+      "url": "//@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://www.23ts.com/search.html?searchtype=name&searchword={{keyword}}&page=1",
+        "dynamicDelayTime": 500
+      },
+      "list": "//body/div[4]/div[1]/ul/li",
+      "detail": {
+        "url": "///dl/dt/a/@href",
+        "title": "///dl/dt/a/text()",
+        "author": "///dl/dd[2]/span[1]/text()",
+        "broadcast": "///dl/dd[2]/span[2]/text()",
+        "introduce": "///dl/dd[1]/text()",
+        "coverUrl": "///div/a/img/@data-original",
+        "state": "///dl/dd[2]/span[3]/a/text()",
+        "updateTime": "///dl/dd[2]/span[4]/text()"
+      }
+    }
+  },
+  {
+    "name": "🎧 i257听书网",
+    "site": "http://www.i275.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 5,
+    "params": {},
+    "content": {
+      "delayTime": 2000,
+      "params": {
+        "charset": "UTF-8",
+        "mediaType": "application/json",
+        "dynamic": false,
+        "dynamicDelayTime": 500
+      },
+      "content": {
+        "script": "function abc(u){var tArr=u.split(\"*\"),str='';for(var i=0,n=tArr.length;i<n;i++){str+=String.fromCharCode(tArr[i]);}return str;}data = JSON.parse(source);if(data.jsjm==1){    result=abc(data.src);}else{    result=\"\";}result;"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//*[@id=\"stab1\"]/ul/li/a",
+      "name": "//text()",
+      "url": {
+        "rule": "//@href",
+        "replace": "\"regex:[\\\\s\\\\S]+?/([0-9]+?)/([0-9]+)##/pc/index/getchapterurl/bookId/$1/chapterId/$2\""
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://www.i275.com/pc/index/search.html?keyword={{keyword}}&submit=&page=1",
+        "dynamicDelayTime": 500
+      },
+      "list": "//*[@id=\"yun-list\"]/li",
+      "detail": {
+        "url": "///a/@href",
+        "title": "///a/div[2]/p[1]/text()",
+        "author": {
+          "rule": "///a/div[2]/p[2]/text()[1]",
+          "replace": "\",##\""
+        },
+        "broadcast": "///a/div[2]/p[2]/text()[2]",
+        "category": "//",
+        "wordCount": "//",
+        "introduce": "///a/div[1]/span/p[2]/text()",
+        "latestChapterName": "//",
+        "latestChapterUrl": "//",
+        "coverUrl": "///a/div[1]/img/@data-original",
+        "state": "//",
+        "updateTime": "//"
+      }
+    }
+  },
+  {
+    "name": "🎧 74听书网",
+    "site": "http://www.ting74.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {},
+    "content": {
+      "content": {
+        "rule": "//*[@id=\"play\"]/@src",
+        "script": "html=utils.get(utils.absUrl(url,result));js_play=utils.match(html,\"xpath://script[4]/html()\");eval(js_play.replace(/function[\\s\\S]+/,'')+'csMp3='+js_play.match(/{[\\s\\S]+?mp3:([\\s\\S]+?)}/)[1]);csMp3;"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//*[@id=\"playlist\"]/ul/li/a",
+      "name": "//text()",
+      "url": "//@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://www.ting74.com/search.html?searchtype=name&searchword={{keyword}}&page=1",
+        "dynamicDelayTime": 500
+      },
+      "list": "////ul[@class=\"list-works\"]/li",
+      "detail": {
+        "url": "///dl/dt/a/@href",
+        "title": "///dl/dt/a/text()",
+        "author": "///dl/dd[2]/span[1]/text()",
+        "broadcast": "///dl/dd[2]/span[2]/text()",
+        "introduce": "///dl/dd[1]/text()",
+        "latestChapterName": "///dl/dd[2]/span[3]/a/@title",
+        "latestChapterUrl": "///dl/dd[2]/span[3]/a/href",
+        "coverUrl": "///div/a/img/@data-original",
+        "state": "///dl/dd[2]/span[3]/a/text()"
+      }
+    }
+  },
+  {
+    "name": "🎧 56听书网",
+    "site": "http://www.ting56.com/",
+    "group": "10.30 仅下载(搜索接口不可用，可解析下载)",
+    "enabled": false,
+    "audio": true,
+    "weight": 9999,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36"
+    },
+    "content": {
+      "content": {
+        "rule": "regex:FonHen_JieMa.'(.*?)'##$1",
+        "script": "function FonHen_JieMa(u){\n\tvar tArr = u.split(\"*\");\n\tvar str = '';\n\tfor(var i=1,n=tArr.length;i<n;i++){\n\t\tstr += String.fromCharCode(tArr[i]);\n\t}\n\treturn str;\n}\nresult=FonHen_JieMa(result).split(\"&\")[0]"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//*[@id=\"vlink_1\"]/ul/li",
+      "name": "///a/text()",
+      "url": "///a/@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "blackUrls": [],
+      "filter": true,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {
+      "title": "//body/div[5]/div[1]/div[1]/h1/text()",
+      "author": "//body/div[5]/div[1]/div[1]/div/span[1]/a/text()",
+      "broadcast": "//body/div[5]/div[1]/div[1]/div/span[2]/a/text()",
+      "introduce": "//body/div[5]/div[1]/div[2]/p[1]/text()",
+      "latestChapterName": "//body/div[5]/div[1]/div[1]/div/span[3]/a/text()",
+      "latestChapterUrl": "//body/div[5]/div[1]/div[1]/div/span[3]/a/@href",
+      "coverUrl": "//body/div[5]/div[2]/div[1]/img/@src"
+    },
+    "search": {
+      "params": {
+        "url": "http://www.ting56.com/paihangbang.html",
+        "dynamicDelayTime": 500
+      },
+      "list": "//ul[@class=\"liebiao\"]/li",
+      "detailPage": "///span[3]/a[1]/@href",
+      "detail": {
+        "url": {
+          "rule": "///span[3]/a[1]/@href",
+          "page": "search"
+        },
+        "title": {
+          "rule": "///span[3]/allText()",
+          "page": "search"
+        },
+        "author": {
+          "rule": "///span[4]/text()",
+          "page": "search"
+        },
+        "broadcast": {
+          "rule": "///span[5]/text()",
+          "page": "search"
+        },
+        "category": {
+          "rule": "///span[2]/text()",
+          "page": "search"
+        },
+        "updateTime": "///span[6]/text()"
+      }
+    }
+  },
+  {
+    "name": "🎧 520听书",
+    "site": "http://www.fushu520.com/",
+    "group": "10.30 仅下载",
+    "enabled": false,
+    "audio": true,
+    "weight": 2,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
+    },
+    "content": {
+      "params": {
+        "charset": "UTF-8",
+        "headers": {
+          "referer": "http://www.fushu520.com/mp3/5675/4.html"
+        },
+        "mediaType": "",
+        "dynamic": false,
+        "dynamicDelayTime": 2000
+      },
+      "content": {
+        "rule": "//*[@id=\"play\"]/@src",
+        "script": "html=utils.get(utils.absUrl(url,result));js_play=utils.match(html,\"xpath://script[4]/html()\");eval(js_play.replace(/function[\\s\\S]+/,'')+'csMp3='+js_play.match(/{[\\s\\S]+?mp3:([\\s\\S]+?)}/)[1]);csMp3;"
+      },
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "list": "//*[@id=\"playlist\"]/ul/li/a",
+      "name": "//text()",
+      "url": "//@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": false,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "http://www.fushu520.com/search.html?searchtype=name&searchword={{keyword}}&page=1",
+        "dynamicDelayTime": 500
+      },
+      "list": "//ul[@class=\"list-works\"]/li",
+      "detail": {
+        "url": "///div/a/@href",
+        "title": "///dl/dt/a/text()",
+        "author": "///dl/dd[2]/span[1]/text()",
+        "broadcast": "///dl/dd[2]/span[2]/text()",
+        "introduce": "///dl/dd[1]/text()",
+        "coverUrl": "///div/a/img/@data-original",
+        "state": "///dl/dd[2]/span[3]/a/text()",
+        "updateTime": "///dl/dd[2]/span[4]/text()"
+      }
+    }
+  }
+]

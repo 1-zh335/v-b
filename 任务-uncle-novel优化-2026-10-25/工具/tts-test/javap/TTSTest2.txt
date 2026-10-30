@@ -1,0 +1,63 @@
+﻿Compiled from "TTSTest2.java"
+public class com.unclezs.novel.app.main.test.TTSTest2 extends javafx.application.Application {
+  public com.unclezs.novel.app.main.test.TTSTest2();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method javafx/application/Application."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: aload_0
+       1: invokestatic  #2                  // Method launch:([Ljava/lang/String;)V
+       4: return
+
+  public void start(javafx.stage.Stage);
+    Code:
+       0: new           #3                  // class javafx/scene/control/Button
+       3: dup
+       4: ldc           #4                  // String ����
+       6: invokespecial #5                  // Method javafx/scene/control/Button."<init>":(Ljava/lang/String;)V
+       9: astore_2
+      10: aload_2
+      11: aload_2
+      12: invokedynamic #6,  0              // InvokeDynamic #0:handle:(Ljavafx/scene/control/Button;)Ljavafx/event/EventHandler;
+      17: invokevirtual #7                  // Method javafx/scene/control/Button.setOnAction:(Ljavafx/event/EventHandler;)V
+      20: new           #8                  // class javafx/scene/layout/VBox
+      23: dup
+      24: iconst_1
+      25: anewarray     #9                  // class javafx/scene/Node
+      28: dup
+      29: iconst_0
+      30: aload_2
+      31: aastore
+      32: invokespecial #10                 // Method javafx/scene/layout/VBox."<init>":([Ljavafx/scene/Node;)V
+      35: astore_3
+      36: new           #11                 // class javafx/scene/Scene
+      39: dup
+      40: aload_3
+      41: ldc2_w        #12                 // double 200.0d
+      44: ldc2_w        #12                 // double 200.0d
+      47: invokespecial #14                 // Method javafx/scene/Scene."<init>":(Ljavafx/scene/Parent;DD)V
+      50: astore        4
+      52: aload_1
+      53: aload         4
+      55: invokevirtual #15                 // Method javafx/stage/Stage.setScene:(Ljavafx/scene/Scene;)V
+      58: aload_1
+      59: invokevirtual #16                 // Method javafx/stage/Stage.show:()V
+      62: return
+
+  private static void lambda$start$0(javafx.scene.control.Button, javafx.event.ActionEvent);
+    Code:
+       0: aload_0
+       1: invokevirtual #17                 // Method javafx/scene/control/Button.isPressed:()Z
+       4: ifeq          18
+       7: getstatic     #18                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      10: ldc           #19                 // String ���Ű�ť��ѡ��
+      12: invokevirtual #20                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      15: goto          26
+      18: getstatic     #18                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      21: ldc           #21                 // String ���Ű�ťδ��ѡ��
+      23: invokevirtual #20                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      26: return
+}

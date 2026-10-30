@@ -1,0 +1,190 @@
+﻿Compiled from "TTSConfig.java"
+public class com.unclezs.novel.app.main.model.config.TTSConfig {
+  private com.unclezs.novel.analyzer.request.RequestParams params;
+
+  private java.lang.String name;
+
+  public com.unclezs.novel.analyzer.request.RequestParams getFormattedParams(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #1                  // Field params:Lcom/unclezs/novel/analyzer/request/RequestParams;
+       4: invokevirtual #2                  // Method com/unclezs/novel/analyzer/request/RequestParams.copy:()Lcom/unclezs/novel/analyzer/request/RequestParams;
+       7: astore_2
+       8: getstatic     #3                  // Field cn/hutool/core/net/RFC3986.GEN_DELIMS:Lcn/hutool/core/codec/PercentCodec;
+      11: getstatic     #3                  // Field cn/hutool/core/net/RFC3986.GEN_DELIMS:Lcn/hutool/core/codec/PercentCodec;
+      14: aload_1
+      15: getstatic     #4                  // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+      18: iconst_0
+      19: newarray       char
+      21: invokevirtual #5                  // Method cn/hutool/core/codec/PercentCodec.encode:(Ljava/lang/CharSequence;Ljava/nio/charset/Charset;[C)Ljava/lang/String;
+      24: getstatic     #4                  // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+      27: iconst_0
+      28: newarray       char
+      30: invokevirtual #5                  // Method cn/hutool/core/codec/PercentCodec.encode:(Ljava/lang/CharSequence;Ljava/nio/charset/Charset;[C)Ljava/lang/String;
+      33: astore_1
+      34: aload_0
+      35: getfield      #1                  // Field params:Lcom/unclezs/novel/analyzer/request/RequestParams;
+      38: invokevirtual #6                  // Method com/unclezs/novel/analyzer/request/RequestParams.getBody:()Ljava/lang/String;
+      41: invokestatic  #7                  // Method cn/hutool/core/util/StrUtil.isNotBlank:(Ljava/lang/CharSequence;)Z
+      44: ifeq          64
+      47: aload_2
+      48: aload_0
+      49: getfield      #1                  // Field params:Lcom/unclezs/novel/analyzer/request/RequestParams;
+      52: invokevirtual #6                  // Method com/unclezs/novel/analyzer/request/RequestParams.getBody:()Ljava/lang/String;
+      55: ldc           #8                  // String {{text}}
+      57: aload_1
+      58: invokevirtual #9                  // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      61: invokevirtual #10                 // Method com/unclezs/novel/analyzer/request/RequestParams.setBody:(Ljava/lang/String;)V
+      64: aload_2
+      65: aload_0
+      66: getfield      #1                  // Field params:Lcom/unclezs/novel/analyzer/request/RequestParams;
+      69: invokevirtual #11                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrl:()Ljava/lang/String;
+      72: ldc           #8                  // String {{text}}
+      74: aload_1
+      75: invokevirtual #9                  // Method java/lang/String.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+      78: invokevirtual #12                 // Method com/unclezs/novel/analyzer/request/RequestParams.setUrl:(Ljava/lang/String;)V
+      81: aload_2
+      82: areturn
+
+  public com.unclezs.novel.app.main.model.config.TTSConfig();
+    Code:
+       0: aload_0
+       1: invokespecial #13                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public com.unclezs.novel.analyzer.request.RequestParams getParams();
+    Code:
+       0: aload_0
+       1: getfield      #1                  // Field params:Lcom/unclezs/novel/analyzer/request/RequestParams;
+       4: areturn
+
+  public java.lang.String getName();
+    Code:
+       0: aload_0
+       1: getfield      #14                 // Field name:Ljava/lang/String;
+       4: areturn
+
+  public void setParams(com.unclezs.novel.analyzer.request.RequestParams);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #1                  // Field params:Lcom/unclezs/novel/analyzer/request/RequestParams;
+       5: return
+
+  public void setName(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #14                 // Field name:Ljava/lang/String;
+       5: return
+
+  public boolean equals(java.lang.Object);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: if_acmpne     7
+       5: iconst_1
+       6: ireturn
+       7: aload_1
+       8: instanceof    #15                 // class com/unclezs/novel/app/main/model/config/TTSConfig
+      11: ifne          16
+      14: iconst_0
+      15: ireturn
+      16: aload_1
+      17: checkcast     #15                 // class com/unclezs/novel/app/main/model/config/TTSConfig
+      20: astore_2
+      21: aload_2
+      22: aload_0
+      23: invokevirtual #16                 // Method canEqual:(Ljava/lang/Object;)Z
+      26: ifne          31
+      29: iconst_0
+      30: ireturn
+      31: aload_0
+      32: invokevirtual #17                 // Method getParams:()Lcom/unclezs/novel/analyzer/request/RequestParams;
+      35: astore_3
+      36: aload_2
+      37: invokevirtual #17                 // Method getParams:()Lcom/unclezs/novel/analyzer/request/RequestParams;
+      40: astore        4
+      42: aload_3
+      43: ifnonnull     54
+      46: aload         4
+      48: ifnull        65
+      51: goto          63
+      54: aload_3
+      55: aload         4
+      57: invokevirtual #18                 // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      60: ifne          65
+      63: iconst_0
+      64: ireturn
+      65: aload_0
+      66: invokevirtual #19                 // Method getName:()Ljava/lang/String;
+      69: astore        5
+      71: aload_2
+      72: invokevirtual #19                 // Method getName:()Ljava/lang/String;
+      75: astore        6
+      77: aload         5
+      79: ifnonnull     90
+      82: aload         6
+      84: ifnull        102
+      87: goto          100
+      90: aload         5
+      92: aload         6
+      94: invokevirtual #18                 // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      97: ifne          102
+     100: iconst_0
+     101: ireturn
+     102: iconst_1
+     103: ireturn
+
+  protected boolean canEqual(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #15                 // class com/unclezs/novel/app/main/model/config/TTSConfig
+       4: ireturn
+
+  public int hashCode();
+    Code:
+       0: bipush        59
+       2: istore_1
+       3: iconst_1
+       4: istore_2
+       5: aload_0
+       6: invokevirtual #17                 // Method getParams:()Lcom/unclezs/novel/analyzer/request/RequestParams;
+       9: astore_3
+      10: iload_2
+      11: bipush        59
+      13: imul
+      14: aload_3
+      15: ifnonnull     23
+      18: bipush        43
+      20: goto          27
+      23: aload_3
+      24: invokevirtual #20                 // Method java/lang/Object.hashCode:()I
+      27: iadd
+      28: istore_2
+      29: aload_0
+      30: invokevirtual #19                 // Method getName:()Ljava/lang/String;
+      33: astore        4
+      35: iload_2
+      36: bipush        59
+      38: imul
+      39: aload         4
+      41: ifnonnull     49
+      44: bipush        43
+      46: goto          54
+      49: aload         4
+      51: invokevirtual #20                 // Method java/lang/Object.hashCode:()I
+      54: iadd
+      55: istore_2
+      56: iload_2
+      57: ireturn
+
+  public java.lang.String toString();
+    Code:
+       0: aload_0
+       1: invokevirtual #17                 // Method getParams:()Lcom/unclezs/novel/analyzer/request/RequestParams;
+       4: aload_0
+       5: invokevirtual #19                 // Method getName:()Ljava/lang/String;
+       8: invokedynamic #21,  0             // InvokeDynamic #0:makeConcatWithConstants:(Lcom/unclezs/novel/analyzer/request/RequestParams;Ljava/lang/String;)Ljava/lang/String;
+      13: areturn
+}

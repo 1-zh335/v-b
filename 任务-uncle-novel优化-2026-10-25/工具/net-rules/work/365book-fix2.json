@@ -1,0 +1,64 @@
+[
+  {
+    "name": "🎉 365小说网（修复）",
+    "site": "http://www.shukuge.com/",
+    "group": "联网书源-实测2026",
+    "enabled": true,
+    "audio": false,
+    "weight": 3,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    },
+    "search": {
+      "params": {
+        "url": "http://www.shukuge.com/Search?wd={{keyword}}",
+        "charset": "UTF-8",
+        "mediaType": "",
+        "dynamicDelayTime": 500
+      },
+      "list": "css:div.panel-body > div.listitem",
+      "detail": {
+        "url": {
+          "rule": "css:div.bookdesc > a@href",
+          "script": "result = result + (result.endsWith(\"/\") ? \"index.html\" : \"\");"
+        },
+        "title": "css:div.bookdesc > a > h2@text",
+        "author": {
+          "rule": "css:div.bookdesc > p.sp > span:nth-child(1)@text",
+          "replace": [
+            "作者：##"
+          ]
+        },
+        "category": {
+          "rule": "css:div.bookdesc > p.sp > span:nth-child(2)@text",
+          "replace": [
+            "分类：##"
+          ]
+        },
+        "state": {
+          "rule": "css:div.bookdesc > p.sp > span:nth-child(3)@text",
+          "replace": [
+            "状态：##"
+          ]
+        },
+        "latestChapterName": "css:div.bookdesc > p.desc > a@text",
+        "latestChapterUrl": "css:div.bookdesc > p.desc > a@href"
+      }
+    },
+    "detail": {},
+    "toc": {
+      "list": "css:div#list > dl > dd",
+      "name": "css:a@text",
+      "url": "css:a@href",
+      "filter": true,
+      "reverse": false,
+      "autoNext": false,
+      "enableNext": false
+    },
+    "content": {
+      "content": "auto:1",
+      "enableNext": true,
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    }
+  }
+]

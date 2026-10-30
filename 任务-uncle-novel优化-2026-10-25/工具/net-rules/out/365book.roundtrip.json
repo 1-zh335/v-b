@@ -1,0 +1,80 @@
+[
+  {
+    "name": "365book",
+    "site": "http://www.shukuge.com/",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "enableNext": true,
+      "content": "auto:1",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    },
+    "toc": {
+      "params": {
+        "dynamicDelayTime": 500
+      },
+      "list": "css:#list > dl >dd",
+      "name": "css:dd > a@text",
+      "url": "css:dd > a@href",
+      "detailPage": "css:body > div.container > ol > li:nth-child(3) > a@href",
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href",
+      "enableNext": false,
+      "filter": true,
+      "reverse": false,
+      "autoNext": false,
+      "forceNext": false
+    },
+    "detail": {
+      "title": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.bookd-title > h1@text",
+      "author": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(3) > a@text",
+      "category": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(1) > a@text",
+      "wordCount": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(5)@text",
+      "introduce": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.bookdtext > p:nth-child(2)@text",
+      "latestChapterName": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(7) > a@text",
+      "latestChapterUrl": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(7) > a@href",
+      "coverUrl": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdcover > img@src",
+      "state": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(4)@text",
+      "updateTime": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(8)@text"
+    },
+    "search": {
+      "params": {
+        "url": "http://www.shukuge.com/Search?wd={{keyword}}",
+        "charset": "",
+        "mediaType": "",
+        "dynamicDelayTime": 500
+      },
+      "list": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.panel-body > div.listitem",
+      "detailPage": "css:div > a@href",
+      "detail": {
+        "url": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.bookdtext > p:nth-child(8) > a@href",
+        "title": {
+          "rule": "css:div > a > h2@text",
+          "page": "search"
+        },
+        "author": "css:div > p.sp > span:nth-child(1)@text",
+        "category": "css:div > p.sp > span:nth-child(2)@text",
+        "wordCount": {
+          "rule": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(5)@text",
+          "page": "detail"
+        },
+        "introduce": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.bookdtext > p:nth-child(2)@text",
+        "latestChapterName": {
+          "rule": "css:div > p:nth-child(3) > a@text",
+          "page": "search"
+        },
+        "latestChapterUrl": "css:div > p:nth-child(3) > a@href",
+        "coverUrl": {
+          "rule": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdcover > img@src",
+          "page": "detail"
+        },
+        "state": "css:div > p.sp > span:nth-child(3)@text",
+        "updateTime": {
+          "rule": "css:body > div.container > div:nth-child(7) > div.col-md-9.leftbox > div > div.clearfix > div.bookdmore > p:nth-child(8)@text",
+          "page": "detail"
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,367 @@
+[
+  {
+    "name": "🎉 123文学MC",
+    "site": "https://m.123wenxue.com/",
+    "method": "GET",
+    "url": "https://m.123wenxue.com/search.php?keyword=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&p=1",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 13494,
+    "reason": "ReadTimeout: HTTPSConnectionPool(host='m.123wenxue.com', port=443): Read timed out. (read timeout=12)"
+  },
+  {
+    "name": "💰番茄小说",
+    "site": "https://novel.snssdk.com/",
+    "method": "GET",
+    "url": "https://novel.snssdk.com/api/novel/channel/homepage/search/search/v1/?aid=13&q=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Linux; Android 10; M2007J22C Build/QP1A.190711."
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "https://novel.snssdk.com/api/novel/channel/homepage/search/search/v1/?aid=13&q=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "ms": 871,
+    "bytes": 16917,
+    "contentType": "application/json; charset=utf-8",
+    "encodingUsed": "utf-8",
+    "keywordInPage": true,
+    "listHit": -1,
+    "listNote": "lxml 无法求值(Expected $ for variable reference)",
+    "antiBot": [],
+    "textLen": 14399
+  },
+  {
+    "name": "🎉西红柿小说",
+    "site": "https://www.fqxsw.org/",
+    "method": "POST",
+    "url": "https://www.fqxsw.org/modules/article/search.php",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "ok": false,
+    "status": 403,
+    "finalUrl": "https://www.fqxsw.org/modules/article/search.php",
+    "ms": 1243,
+    "bytes": 5855,
+    "contentType": "text/html; charset=UTF-8",
+    "encodingUsed": "utf-8",
+    "keywordInPage": false,
+    "listHit": 0,
+    "listNote": "xpath ok",
+    "antiBot": [
+      "Just a moment",
+      "Cloudflare",
+      "enable JavaScript"
+    ],
+    "textLen": 5855
+  },
+  {
+    "name": "🎉 快眼看书",
+    "site": "https://www.see023.com/",
+    "method": "GET",
+    "url": "https://www.see023.com?searchkey=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 5083,
+    "reason": "ConnectionError: HTTPSConnectionPool(host='www.see023.com', port=443): Max retries exceeded with url: /?searchkey=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB (Caused by NameResolutionError(\"HTTPSConnection(host='www.see023.c"
+  },
+  {
+    "name": "🎉 书趣阁",
+    "site": "https://www.shuquge.com/",
+    "method": "POST",
+    "url": "https://www.shuquge.com/search.php",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "http://www.xshuquge.net/search.php",
+    "ms": 1478,
+    "bytes": 2300,
+    "contentType": "text/html; charset=UTF-8",
+    "encodingUsed": "utf-8",
+    "keywordInPage": false,
+    "listHit": 0,
+    "listNote": "xpath ok",
+    "antiBot": [],
+    "textLen": 2084,
+    "bodyHead": "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n<meta http-equiv=\"Cache-Control\" content=\"no-transform\" />\n<meta http-equiv=\"Cache-Control\" content=\"no-siteapp\" />\n<meta http-equiv=\"mobile-agent\" content=\"format=html5; url=http://wap.xshuquge.net/s"
+  },
+  {
+    "name": "🎉 笔趣阁",
+    "site": "https://m.biqugeu.net/",
+    "method": "GET",
+    "url": "https://so.biqusoso.com/s.php?q=%B9%EE%C3%D8%D6%AE%D6%F7",
+    "declaredCharset": "GBK",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "https://www.aaawz.cc/#/search?q=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "ms": 4147,
+    "bytes": 1442,
+    "contentType": "text/html",
+    "encodingUsed": "gbk",
+    "keywordInPage": false,
+    "listHit": 0,
+    "listNote": "xpath ok",
+    "antiBot": [],
+    "textLen": 1435,
+    "bodyHead": "<!DOCTYPE html>\n<html lang=\"zh-CN\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0\">\n    <title>AAA灏忚�確3A灏忚�寸綉</title>\n    <script src=\"/static/js/vue.2.6.14.js\"></script>\n    <script "
+  },
+  {
+    "name": "🎉 锦绣文学",
+    "site": "http://www.580bk.com/",
+    "method": "POST",
+    "url": "http://www.qb5.co/home/search",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "http://www.qb5.co/home/search",
+    "ms": 1697,
+    "bytes": 5586,
+    "contentType": "text/html",
+    "encodingUsed": "utf-8",
+    "keywordInPage": false,
+    "listHit": 0,
+    "listNote": "xpath ok",
+    "antiBot": [],
+    "textLen": 5586,
+    "bodyHead": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Redirecting...</title><style>#loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Hel"
+  },
+  {
+    "name": "🎉 燃文",
+    "site": "https://www.ranwen.com/",
+    "method": "GET",
+    "url": "https://www.ranwen.com/ddfdw333.php?ie=gbk&q=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 1138,
+    "reason": "ConnectionError: ('Connection aborted.', ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None))"
+  },
+  {
+    "name": "🎉💰红袖",
+    "site": "https://appapi.hongxiu.com",
+    "method": "GET",
+    "url": "https://appapi.hongxiu.com/api/v3/search/getResult?origin=1&keyword=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&type=1&pageIndex=1&pageSize=20",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "deviceinfo": "JdxnqW0FkwVrnsScqzAw9KWBZG/yQ+PukPfJf6TZRfOfC+I+HWSUMvvyQbnR"
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "https://appapi.hongxiu.com/api/v3/search/getResult?origin=1&keyword=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&type=1&pageIndex=1&pageSize=20",
+    "ms": 970,
+    "bytes": 19685,
+    "contentType": "application/json",
+    "encodingUsed": "utf-8",
+    "keywordInPage": true,
+    "listHit": -1,
+    "listNote": "list 非字符串或为空（脚本型）",
+    "antiBot": [],
+    "textLen": 13014
+  },
+  {
+    "name": "🎉 喵酱MC",
+    "site": "https://m.miaojiang8.net/",
+    "method": "POST",
+    "url": "https://m.miaojiang8.net/s.php",
+    "declaredCharset": "GBK",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 12516,
+    "reason": "ConnectTimeout: HTTPSConnectionPool(host='m.miaojiang8.net', port=443): Max retries exceeded with url: /s.php (Caused by ConnectTimeoutError(<HTTPSConnection(host='m.miaojiang8.net', port=443) at 0x18d17ada270>, 'Con"
+  },
+  {
+    "name": "🎉 妙笔阁",
+    "site": "https://www.imiaobige.com/",
+    "method": "POST",
+    "url": "https://www.imiaobige.com/search.html",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 13045,
+    "reason": "ReadTimeout: HTTPSConnectionPool(host='www.imiaobige.com', port=443): Read timed out. (read timeout=12)"
+  },
+  {
+    "name": "💰番茄小说",
+    "site": "https://novel.snssdk.com/",
+    "method": "GET",
+    "url": "https://novel.snssdk.com/api/novel/channel/homepage/search/search/v1/?aid=13&q=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Linux; Android 10; M2007J22C Build/QP1A.190711."
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "https://novel.snssdk.com/api/novel/channel/homepage/search/search/v1/?aid=13&q=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "ms": 560,
+    "bytes": 16907,
+    "contentType": "application/json; charset=utf-8",
+    "encodingUsed": "utf-8",
+    "keywordInPage": true,
+    "listHit": -1,
+    "listNote": "lxml 无法求值(Expected $ for variable reference)",
+    "antiBot": [],
+    "textLen": 14389
+  },
+  {
+    "name": "🎉西红柿小说",
+    "site": "https://www.fqxsw.org/",
+    "method": "POST",
+    "url": "https://www.fqxsw.org/modules/article/search.php",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "ok": false,
+    "status": 403,
+    "finalUrl": "https://www.fqxsw.org/modules/article/search.php",
+    "ms": 948,
+    "bytes": 5855,
+    "contentType": "text/html; charset=UTF-8",
+    "encodingUsed": "utf-8",
+    "keywordInPage": false,
+    "listHit": 0,
+    "listNote": "xpath ok",
+    "antiBot": [
+      "Just a moment",
+      "Cloudflare",
+      "enable JavaScript"
+    ],
+    "textLen": 5855
+  },
+  {
+    "name": "🎉💰红袖",
+    "site": "https://appapi.hongxiu.com",
+    "method": "GET",
+    "url": "https://appapi.hongxiu.com/api/v3/search/getResult?origin=1&keyword=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&type=1&pageIndex=1&pageSize=20",
+    "declaredCharset": "UTF-8",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "deviceinfo": "JdxnqW0FkwVrnsScqzAw9KWBZG/yQ+PukPfJf6TZRfOfC+I+HWSUMvvyQbnR"
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "https://appapi.hongxiu.com/api/v3/search/getResult?origin=1&keyword=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&type=1&pageIndex=1&pageSize=20",
+    "ms": 733,
+    "bytes": 19685,
+    "contentType": "application/json",
+    "encodingUsed": "utf-8",
+    "keywordInPage": true,
+    "listHit": -1,
+    "listNote": "list 非字符串或为空（脚本型）",
+    "antiBot": [],
+    "textLen": 13014
+  },
+  {
+    "name": "🎉 乐文阁",
+    "site": "https://api.lewenapp.com",
+    "method": "GET",
+    "url": "https://api.lewenapp.com/api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 182,
+    "reason": "ConnectionError: HTTPSConnectionPool(host='api.lewenapp.com', port=443): Max retries exceeded with url: /api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1 (Caused by NameResolutionError(\"HTTPSCon"
+  },
+  {
+    "name": "🎉 阅民小说",
+    "site": "https://api.whcon.net",
+    "method": "GET",
+    "url": "https://api.whcon.net/api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 716,
+    "reason": "ConnectionError: HTTPSConnectionPool(host='api.whcon.net', port=443): Max retries exceeded with url: /api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1 (Caused by NameResolutionError(\"HTTPSConnec"
+  },
+  {
+    "name": "🎉 忽忽小说",
+    "site": "https://api.255zw.com",
+    "method": "GET",
+    "url": "https://api.255zw.com/api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 1180,
+    "reason": "ConnectionError: HTTPSConnectionPool(host='api.255zw.com', port=443): Max retries exceeded with url: /api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1 (Caused by NameResolutionError(\"HTTPSConnec"
+  },
+  {
+    "name": "🎉 宜阅小说",
+    "site": "https://api.cnkingjoys.cn",
+    "method": "GET",
+    "url": "https://api.cnkingjoys.cn/api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": false,
+    "status": null,
+    "ms": 72,
+    "reason": "ConnectionError: HTTPSConnectionPool(host='api.cnkingjoys.cn', port=443): Max retries exceeded with url: /api2/search_book/search?key=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB&page=1 (Caused by NameResolutionError(\"HTTPSCo"
+  },
+  {
+    "name": "365book",
+    "site": "http://www.shukuge.com/",
+    "method": "GET",
+    "url": "http://www.shukuge.com/Search?wd=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "declaredCharset": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "ok": true,
+    "status": 200,
+    "finalUrl": "http://www.shukuge.com/Search?wd=%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB",
+    "ms": 844,
+    "bytes": 96754,
+    "contentType": "text/html; charset=UTF-8",
+    "encodingUsed": "utf-8",
+    "keywordInPage": true,
+    "listHit": -1,
+    "listNote": "lxml 无法求值(Undefined namespace prefix)",
+    "antiBot": [],
+    "textLen": 67697
+  }
+]

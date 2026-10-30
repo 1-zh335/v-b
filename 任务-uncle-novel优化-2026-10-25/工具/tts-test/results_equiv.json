@@ -1,0 +1,140 @@
+{
+  "baidu_post_http": {
+    "A_app": {
+      "status": 200,
+      "ok": true,
+      "content_type": "audio/mp3",
+      "len": 11232,
+      "ms": 167,
+      "head_hex": "FF F3 88 C4 00 00 00 00 00 00 00 00 00 00 00 00",
+      "sniff": "MP3-FRAME",
+      "err": "",
+      "md5": "d50833e27c3c162a73031ff52888e75d",
+      "final_url": "http://tts.baidu.com/text2audio",
+      "mp3_frames": 39,
+      "mp3_duration": 1.4,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\baidu_post_http_A_app.mp3",
+      "req_url": "http://tts.baidu.com/text2audio"
+    },
+    "B_normal": {
+      "status": 200,
+      "ok": true,
+      "content_type": "audio/mp3",
+      "len": 11232,
+      "ms": 129,
+      "head_hex": "FF F3 88 C4 00 00 00 00 00 00 00 00 00 00 00 00",
+      "sniff": "MP3-FRAME",
+      "err": "",
+      "md5": "d50833e27c3c162a73031ff52888e75d",
+      "final_url": "http://tts.baidu.com/text2audio",
+      "mp3_frames": 39,
+      "mp3_duration": 1.4,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\baidu_post_http_B_normal.mp3",
+      "req_url": "http://tts.baidu.com/text2audio"
+    }
+  },
+  "baidu_fanyi_gettts": {
+    "A_app": {
+      "status": 200,
+      "ok": true,
+      "content_type": "audio/mpeg",
+      "len": 13536,
+      "ms": 364,
+      "head_hex": "FF F3 88 C4 00 00 00 00 00 00 00 00 00 00 00 00",
+      "sniff": "MP3-FRAME",
+      "err": "",
+      "md5": "03396e8598ad4cd2f06197aa074f55a7",
+      "final_url": "https://fanyi.baidu.com/gettts?lan=zh&text=%25%45%36%25%42%35%25%38%42%25%45%38%25%41%46%25%39%35%25%45%36%25%39%43%25%39%37%25%45%38%25%41%46%25%42%42&spd=5&source=web",
+      "mp3_frames": 47,
+      "mp3_duration": 1.69,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\baidu_fanyi_gettts_A_app.mp3",
+      "req_url": "https://fanyi.baidu.com/gettts?lan=zh&text=%25%45%36%25%42%35%25%38%42%25%45%38%25%41%46%25%39%35%25%45%36%25%39%43%25%39%37%25%45%38%25%41%46%25%42%42&spd=5&source=web"
+    },
+    "B_normal": {
+      "status": 200,
+      "ok": true,
+      "content_type": "audio/mpeg",
+      "len": 13536,
+      "ms": 291,
+      "head_hex": "FF F3 88 C4 00 00 00 00 00 00 00 00 00 00 00 00",
+      "sniff": "MP3-FRAME",
+      "err": "",
+      "md5": "03396e8598ad4cd2f06197aa074f55a7",
+      "final_url": "https://fanyi.baidu.com/gettts?lan=zh&text=%E6%B5%8B%E8%AF%95%E6%9C%97%E8%AF%BB&spd=5&source=web",
+      "mp3_frames": 47,
+      "mp3_duration": 1.69,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\baidu_fanyi_gettts_B_normal.mp3",
+      "req_url": "https://fanyi.baidu.com/gettts?lan=zh&text=%E6%B5%8B%E8%AF%95%E6%9C%97%E8%AF%BB&spd=5&source=web"
+    }
+  },
+  "dui_gdfanfp": {
+    "A_app": {
+      "status": 200,
+      "ok": true,
+      "content_type": "audio/mpeg",
+      "len": 4104,
+      "ms": 161,
+      "head_hex": "FF F3 38 C4 00 13 DA BE 24 01 41 10 00 F9 8D 90",
+      "sniff": "MP3-FRAME",
+      "err": "",
+      "md5": "79cc3ed7e8f37355aecb0d7f11d4410f",
+      "final_url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=gdfanfp&text=%25%45%36%25%42%35%25%38%42%25%45%38%25%41%46%25%39%35%25%45%36%25%39%43%25%39%37%25%45%38%25%41%46%25%42%42&speed=10&volume=100&audioType=mp3",
+      "mp3_frames": 38,
+      "mp3_duration": 1.37,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\dui_gdfanfp_A_app.mp3",
+      "req_url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=gdfanfp&text=%25%45%36%25%42%35%25%38%42%25%45%38%25%41%46%25%39%35%25%45%36%25%39%43%25%39%37%25%45%38%25%41%46%25%42%42&speed=10&volume=100&audioType=mp3"
+    },
+    "B_normal": {
+      "status": 200,
+      "ok": true,
+      "content_type": "audio/mpeg",
+      "len": 4104,
+      "ms": 134,
+      "head_hex": "FF F3 38 C4 00 13 DA BE 24 01 41 10 00 F9 8D 90",
+      "sniff": "MP3-FRAME",
+      "err": "",
+      "md5": "79cc3ed7e8f37355aecb0d7f11d4410f",
+      "final_url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=gdfanfp&text=%E6%B5%8B%E8%AF%95%E6%9C%97%E8%AF%BB&speed=10&volume=100&audioType=mp3",
+      "mp3_frames": 38,
+      "mp3_duration": 1.37,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\dui_gdfanfp_B_normal.mp3",
+      "req_url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=gdfanfp&text=%E6%B5%8B%E8%AF%95%E6%9C%97%E8%AF%BB&speed=10&volume=100&audioType=mp3"
+    }
+  },
+  "youdao_dictvoice": {
+    "A_app": {
+      "status": 500,
+      "ok": false,
+      "content_type": "application/json",
+      "len": 120,
+      "ms": 127,
+      "head_hex": "7B 22 74 69 6D 65 73 74 61 6D 70 22 3A 31 37 39",
+      "sniff": "TEXT",
+      "err": "HTTPError",
+      "md5": "5ddae7f8f4eef786953d82dae7023871",
+      "final_url": "https://dict.youdao.com/dictvoice?audio=%25%45%36%25%42%35%25%38%42%25%45%38%25%41%46%25%39%35%25%45%36%25%39%43%25%39%37%25%45%38%25%41%46%25%42%42&le=zh",
+      "mp3_frames": 0,
+      "mp3_duration": 0.0,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\youdao_dictvoice_A_app.bin",
+      "preview": "{\"timestamp\":1793058062051,\"status\":500,\"error\":\"Internal Server Error\",\"msg\":\"returned null audio\",\"path\":\"/dictvoice\"}",
+      "req_url": "https://dict.youdao.com/dictvoice?audio=%25%45%36%25%42%35%25%38%42%25%45%38%25%41%46%25%39%35%25%45%36%25%39%43%25%39%37%25%45%38%25%41%46%25%42%42&le=zh"
+    },
+    "B_normal": {
+      "status": 500,
+      "ok": false,
+      "content_type": "application/json",
+      "len": 120,
+      "ms": 131,
+      "head_hex": "7B 22 74 69 6D 65 73 74 61 6D 70 22 3A 31 37 39",
+      "sniff": "TEXT",
+      "err": "HTTPError",
+      "md5": "de3c03fd550743cf2e9f03ee33e1d29d",
+      "final_url": "https://dict.youdao.com/dictvoice?audio=%E6%B5%8B%E8%AF%95%E6%9C%97%E8%AF%BB&le=zh",
+      "mp3_frames": 0,
+      "mp3_duration": 0.0,
+      "saved": "C:\\Users\\31384\\Documents\\trae_projects\\v b\\任务-uncle-novel优化-2026-10-25\\工具\\tts-test\\samples\\youdao_dictvoice_B_normal.bin",
+      "preview": "{\"timestamp\":1793058062215,\"status\":500,\"error\":\"Internal Server Error\",\"msg\":\"returned null audio\",\"path\":\"/dictvoice\"}",
+      "req_url": "https://dict.youdao.com/dictvoice?audio=%E6%B5%8B%E8%AF%95%E6%9C%97%E8%AF%BB&le=zh"
+    }
+  }
+}

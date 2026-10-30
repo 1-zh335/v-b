@@ -1,0 +1,2447 @@
+﻿Compiled from "ReaderView.java"
+public class com.unclezs.novel.app.main.views.reader.ReaderView extends com.unclezs.novel.app.framework.appication.SceneView<com.unclezs.novel.app.framework.components.StageDecorator> {
+  private static final org.slf4j.Logger log;
+
+  public static final java.lang.String BUNDLE_READ_BOOK_KEY = "read-book-key";
+
+  public static final java.lang.String FONT_STYLE_FORMAT = "-fx-font-size: %spx;-fx-font-family: '%s'";
+
+  public static final double TOC_AREA = 0.05d;
+
+  public static final double PRE_PAGE_AREA = 0.25d;
+
+  public static final double NEXT_PAGE_AREA = 0.75d;
+
+  public static final java.lang.String DEFAULTS_TTS_CONFIG = "assets/defaults/tts.json";
+
+  private static final java.lang.String[] NO_SHADOW_STYLE_CLASS;
+
+  private static final java.lang.String PAGE_NAME = "\u9605\u8bfb\u5668";
+
+  private final java.lang.String[] contents;
+
+  private final java.util.List<java.lang.String> pages;
+
+  private final javafx.beans.property.IntegerProperty currentChapterIndex;
+
+  private final com.unclezs.novel.app.main.db.dao.BookDao bookDao;
+
+  private com.unclezs.novel.app.framework.components.SelectableButton speakButton;
+
+  private com.unclezs.novel.app.framework.components.SelectableButton playButton;
+
+  private javafx.scene.control.ComboBox<java.lang.String> speakerSelector;
+
+  private com.jfoenix.controls.JFXSlider ttsSpeedSlider;
+
+  private javafx.scene.control.ScrollPane settingView;
+
+  private javafx.scene.layout.VBox ttsSettingBox;
+
+  private javafx.scene.layout.VBox settingBox;
+
+  private com.jfoenix.controls.JFXCheckBox showShadow;
+
+  private com.jfoenix.controls.JFXCheckBox flipAnimation;
+
+  private javafx.scene.control.ListView<com.unclezs.novel.analyzer.model.Chapter> tocListView;
+
+  private javafx.scene.layout.StackPane container;
+
+  private javafx.scene.control.ComboBox<java.lang.String> fontSelector;
+
+  private com.jfoenix.controls.JFXSlider chapterSlider;
+
+  private com.unclezs.novel.app.main.views.reader.ReaderThemeView themeView;
+
+  private com.jfoenix.controls.JFXDrawer tocDrawer;
+
+  private com.jfoenix.controls.JFXDrawer settingDrawer;
+
+  private com.jfoenix.controls.JFXDrawersStack drawer;
+
+  private com.unclezs.novel.app.framework.components.TabGroup alignGroup;
+
+  private com.unclezs.novel.app.framework.components.TabGroup simpleTraditionalGroup;
+
+  private com.jfoenix.controls.JFXSlider fontSizeSlider;
+
+  private com.jfoenix.controls.JFXSlider lineSpaceSlider;
+
+  private com.jfoenix.controls.JFXSlider pageWidthSlider;
+
+  private com.unclezs.novel.app.main.views.reader.PageView currentPage;
+
+  private com.unclezs.novel.app.main.views.reader.PageView otherPage;
+
+  private com.unclezs.novel.app.main.db.beans.Book book;
+
+  private com.unclezs.novel.app.main.core.loader.AbstractBookLoader loader;
+
+  private com.unclezs.novel.app.main.model.config.ReaderConfig config;
+
+  private com.unclezs.novel.app.main.views.reader.player.TTSPlayer player;
+
+  private com.unclezs.novel.app.main.views.reader.widgets.ReaderContextMenu contextMenu;
+
+  private com.unclezs.novel.app.main.views.reader.ReaderView$DisplayPageTask displayPageTask;
+
+  private boolean turnPaging;
+
+  private int current;
+
+  public com.unclezs.novel.app.main.views.reader.ReaderView();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method com/unclezs/novel/app/framework/appication/SceneView."<init>":()V
+       4: aload_0
+       5: iconst_3
+       6: anewarray     #2                  // class java/lang/String
+       9: putfield      #3                  // Field contents:[Ljava/lang/String;
+      12: aload_0
+      13: new           #4                  // class java/util/ArrayList
+      16: dup
+      17: invokespecial #5                  // Method java/util/ArrayList."<init>":()V
+      20: putfield      #6                  // Field pages:Ljava/util/List;
+      23: aload_0
+      24: new           #7                  // class javafx/beans/property/SimpleIntegerProperty
+      27: dup
+      28: invokespecial #8                  // Method javafx/beans/property/SimpleIntegerProperty."<init>":()V
+      31: putfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+      34: aload_0
+      35: new           #10                 // class com/unclezs/novel/app/main/db/dao/BookDao
+      38: dup
+      39: invokespecial #11                 // Method com/unclezs/novel/app/main/db/dao/BookDao."<init>":()V
+      42: putfield      #12                 // Field bookDao:Lcom/unclezs/novel/app/main/db/dao/BookDao;
+      45: aload_0
+      46: iconst_m1
+      47: putfield      #13                 // Field current:I
+      50: return
+
+  public void onCreated();
+    Code:
+       0: aload_0
+       1: invokestatic  #14                 // Method com/unclezs/novel/app/main/manager/SettingManager.manager:()Lcom/unclezs/novel/app/main/manager/SettingManager;
+       4: invokevirtual #15                 // Method com/unclezs/novel/app/main/manager/SettingManager.getReader:()Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+       7: putfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      10: aload_0
+      11: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+      14: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+      17: invokevirtual #19                 // Method com/unclezs/novel/app/framework/components/StageDecorator.getScene:()Ljavafx/scene/Scene;
+      20: invokevirtual #20                 // Method javafx/scene/Scene.getStylesheets:()Ljavafx/collections/ObservableList;
+      23: ldc           #21                 // String css/reader/reader.css
+      25: invokeinterface #22,  2           // InterfaceMethod javafx/collections/ObservableList.add:(Ljava/lang/Object;)Z
+      30: pop
+      31: aload_0
+      32: new           #23                 // class com/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu
+      35: dup
+      36: invokespecial #24                 // Method com/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu."<init>":()V
+      39: putfield      #25                 // Field contextMenu:Lcom/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu;
+      42: aload_0
+      43: invokevirtual #26                 // Method initSetting:()V
+      46: aload_0
+      47: invokevirtual #27                 // Method initTTSPlayer:()V
+      50: aload_0
+      51: invokevirtual #28                 // Method initBehavior:()V
+      54: aload_0
+      55: invokevirtual #29                 // Method initHotkey:()V
+      58: aload_0
+      59: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+      62: aload_0
+      63: invokedynamic #31,  0             // InvokeDynamic #0:call:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/util/Callback;
+      68: invokevirtual #32                 // Method javafx/scene/control/ListView.setCellFactory:(Ljavafx/util/Callback;)V
+      71: aload_0
+      72: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+      75: aload_0
+      76: invokedynamic #33,  0             // InvokeDynamic #1:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+      81: invokestatic  #34                 // Method com/unclezs/novel/app/framework/util/EventUtils.setOnMousePrimaryClick:(Ljavafx/scene/Node;Ljava/util/function/Consumer;)V
+      84: invokestatic  #35                 // Method com/unclezs/novel/app/main/App.stage:()Ljavafx/stage/Stage;
+      87: aload_0
+      88: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      91: invokevirtual #36                 // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getStageWidth:()Ljavafx/beans/property/ObjectProperty;
+      94: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+      97: checkcast     #38                 // class java/lang/Double
+     100: invokevirtual #39                 // Method java/lang/Double.doubleValue:()D
+     103: invokevirtual #40                 // Method javafx/stage/Stage.setWidth:(D)V
+     106: invokestatic  #35                 // Method com/unclezs/novel/app/main/App.stage:()Ljavafx/stage/Stage;
+     109: aload_0
+     110: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     113: invokevirtual #41                 // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getStageHeight:()Ljavafx/beans/property/ObjectProperty;
+     116: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     119: checkcast     #38                 // class java/lang/Double
+     122: invokevirtual #39                 // Method java/lang/Double.doubleValue:()D
+     125: invokevirtual #42                 // Method javafx/stage/Stage.setHeight:(D)V
+     128: aload_0
+     129: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+     132: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+     135: aload_0
+     136: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     139: invokevirtual #41                 // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getStageHeight:()Ljavafx/beans/property/ObjectProperty;
+     142: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     145: checkcast     #38                 // class java/lang/Double
+     148: invokevirtual #39                 // Method java/lang/Double.doubleValue:()D
+     151: invokevirtual #43                 // Method com/unclezs/novel/app/framework/components/StageDecorator.setPrefHeight:(D)V
+     154: aload_0
+     155: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+     158: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+     161: aload_0
+     162: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     165: invokevirtual #36                 // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getStageWidth:()Ljavafx/beans/property/ObjectProperty;
+     168: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     171: checkcast     #38                 // class java/lang/Double
+     174: invokevirtual #39                 // Method java/lang/Double.doubleValue:()D
+     177: invokevirtual #44                 // Method com/unclezs/novel/app/framework/components/StageDecorator.setPrefWidth:(D)V
+     180: aload_0
+     181: iconst_0
+     182: invokevirtual #45                 // Method setSettingView:(Z)V
+     185: return
+
+  public void onShow(com.unclezs.novel.app.framework.appication.SceneNavigateBundle);
+    Code:
+       0: ldc           #47                 // String �Ķ���
+       2: invokestatic  #48                 // Method com/unclezs/novel/app/main/util/MixPanelHelper.event:(Ljava/lang/String;)V
+       5: aload_0
+       6: getfield      #25                 // Field contextMenu:Lcom/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu;
+       9: aload_0
+      10: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      13: invokevirtual #49                 // Method com/unclezs/novel/app/main/model/config/ReaderConfig.isWindowTop:()Z
+      16: invokevirtual #50                 // Method com/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu.toggleWindowTop:(Z)V
+      19: aload_1
+      20: ldc           #51                 // String read-book-key
+      22: invokevirtual #52                 // Method com/unclezs/novel/app/framework/appication/SceneNavigateBundle.get:(Ljava/lang/String;)Ljava/lang/Object;
+      25: checkcast     #53                 // class com/unclezs/novel/app/main/db/beans/Book
+      28: astore_2
+      29: aload_2
+      30: ifnull        172
+      33: aload_0
+      34: aload_2
+      35: putfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      38: aload_0
+      39: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+      42: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+      45: aload_0
+      46: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      49: invokevirtual #55                 // Method com/unclezs/novel/app/main/db/beans/Book.getName:()Ljava/lang/String;
+      52: invokevirtual #56                 // Method com/unclezs/novel/app/framework/components/StageDecorator.setTitle:(Ljava/lang/String;)V
+      55: aload_0
+      56: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      59: invokevirtual #57                 // Method com/unclezs/novel/app/main/db/beans/Book.isLocal:()Z
+      62: ifeq          79
+      65: aload_0
+      66: new           #58                 // class com/unclezs/novel/app/main/core/loader/TxtLoader
+      69: dup
+      70: invokespecial #59                 // Method com/unclezs/novel/app/main/core/loader/TxtLoader."<init>":()V
+      73: putfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+      76: goto          90
+      79: aload_0
+      80: new           #61                 // class com/unclezs/novel/app/main/core/loader/BookLoader
+      83: dup
+      84: invokespecial #62                 // Method com/unclezs/novel/app/main/core/loader/BookLoader."<init>":()V
+      87: putfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+      90: aload_0
+      91: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+      94: aload_0
+      95: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      98: invokevirtual #63                 // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.setBook:(Lcom/unclezs/novel/app/main/db/beans/Book;)V
+     101: aload_0
+     102: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+     105: invokevirtual #64                 // Method javafx/scene/control/ListView.getItems:()Ljavafx/collections/ObservableList;
+     108: aload_0
+     109: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+     112: invokevirtual #65                 // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.toc:()Ljava/util/List;
+     115: invokeinterface #66,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:(Ljava/util/Collection;)Z
+     120: pop
+     121: aload_0
+     122: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+     125: aload_0
+     126: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+     129: invokevirtual #65                 // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.toc:()Ljava/util/List;
+     132: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+     137: i2d
+     138: invokevirtual #69                 // Method com/jfoenix/controls/JFXSlider.setMax:(D)V
+     141: aload_0
+     142: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+     145: aload_0
+     146: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+     149: invokevirtual #70                 // Method com/unclezs/novel/app/main/db/beans/Book.getCurrentChapterIndex:()I
+     152: invokevirtual #71                 // Method javafx/beans/property/IntegerProperty.set:(I)V
+     155: aload_0
+     156: aload_0
+     157: invokedynamic #72,  0             // InvokeDynamic #2:run:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/lang/Runnable;
+     162: iconst_1
+     163: newarray       int
+     165: dup
+     166: iconst_0
+     167: iconst_1
+     168: iastore
+     169: invokevirtual #73                 // Method loadContent:(Ljava/lang/Runnable;[I)V
+     172: return
+
+  public void onClose(com.unclezs.novel.app.framework.components.StageDecorator, com.unclezs.novel.app.framework.components.icon.IconButton);
+    Code:
+       0: invokestatic  #35                 // Method com/unclezs/novel/app/main/App.stage:()Ljavafx/stage/Stage;
+       3: iconst_0
+       4: invokevirtual #74                 // Method javafx/stage/Stage.setAlwaysOnTop:(Z)V
+       7: aload_0
+       8: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      11: invokevirtual #36                 // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getStageWidth:()Ljavafx/beans/property/ObjectProperty;
+      14: invokestatic  #35                 // Method com/unclezs/novel/app/main/App.stage:()Ljavafx/stage/Stage;
+      17: invokevirtual #75                 // Method javafx/stage/Stage.getWidth:()D
+      20: invokestatic  #76                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      23: invokevirtual #77                 // Method javafx/beans/property/ObjectProperty.set:(Ljava/lang/Object;)V
+      26: aload_0
+      27: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      30: invokevirtual #41                 // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getStageHeight:()Ljavafx/beans/property/ObjectProperty;
+      33: invokestatic  #35                 // Method com/unclezs/novel/app/main/App.stage:()Ljavafx/stage/Stage;
+      36: invokevirtual #78                 // Method javafx/stage/Stage.getHeight:()D
+      39: invokestatic  #76                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      42: invokevirtual #77                 // Method javafx/beans/property/ObjectProperty.set:(Ljava/lang/Object;)V
+      45: aload_0
+      46: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      49: aload_0
+      50: getfield      #13                 // Field current:I
+      53: invokevirtual #79                 // Method com/unclezs/novel/app/main/db/beans/Book.setCurrentPage:(I)V
+      56: aload_0
+      57: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      60: aload_0
+      61: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      64: invokevirtual #81                 // Method com/unclezs/novel/app/main/db/beans/Book.setCurrentChapterIndex:(I)V
+      67: aload_0
+      68: getfield      #12                 // Field bookDao:Lcom/unclezs/novel/app/main/db/dao/BookDao;
+      71: aload_0
+      72: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      75: invokevirtual #82                 // Method com/unclezs/novel/app/main/db/dao/BookDao.update:(Ljava/lang/Object;)V
+      78: aload_0
+      79: iconst_m1
+      80: putfield      #13                 // Field current:I
+      83: aload_0
+      84: invokedynamic #83,  0             // InvokeDynamic #3:accept:()Ljava/util/function/Consumer;
+      89: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+      92: aload_0
+      93: invokevirtual #85                 // Method clearCaches:()V
+      96: aload_0
+      97: invokevirtual #86                 // Method stopSpeaking:()V
+     100: aload_0
+     101: getfield      #87                 // Field app:Lcom/unclezs/novel/app/framework/appication/BaseApplication;
+     104: ldc           #88                 // class com/unclezs/novel/app/main/views/home/HomeView
+     106: new           #89                 // class com/unclezs/novel/app/framework/appication/SceneNavigateBundle
+     109: dup
+     110: invokespecial #90                 // Method com/unclezs/novel/app/framework/appication/SceneNavigateBundle."<init>":()V
+     113: invokevirtual #91                 // Method com/unclezs/novel/app/framework/appication/BaseApplication.navigate:(Ljava/lang/Class;Lcom/unclezs/novel/app/framework/appication/SceneNavigateBundle;)V
+     116: return
+
+  public void onSetting(com.unclezs.novel.app.framework.components.StageDecorator, com.unclezs.novel.app.framework.components.icon.IconButton);
+    Code:
+       0: aload_0
+       1: invokevirtual #92                 // Method showOperationView:()V
+       4: return
+
+  private void initBehavior();
+    Code:
+       0: aload_0
+       1: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+       4: aload_0
+       5: invokedynamic #94,  0             // InvokeDynamic #4:handle:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/event/EventHandler;
+      10: invokevirtual #95                 // Method javafx/scene/layout/StackPane.setOnMouseClicked:(Ljavafx/event/EventHandler;)V
+      13: aload_0
+      14: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+      17: aload_0
+      18: invokedynamic #96,  0             // InvokeDynamic #5:handle:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/event/EventHandler;
+      23: invokevirtual #97                 // Method javafx/scene/layout/StackPane.setOnContextMenuRequested:(Ljavafx/event/EventHandler;)V
+      26: return
+
+  private void initHotkey();
+    Code:
+       0: invokestatic  #14                 // Method com/unclezs/novel/app/main/manager/SettingManager.manager:()Lcom/unclezs/novel/app/main/manager/SettingManager;
+       3: invokevirtual #98                 // Method com/unclezs/novel/app/main/manager/SettingManager.getHotkey:()Lcom/unclezs/novel/app/main/model/config/HotKeyConfig;
+       6: astore_1
+       7: aload_0
+       8: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+      11: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+      14: invokevirtual #19                 // Method com/unclezs/novel/app/framework/components/StageDecorator.getScene:()Ljavafx/scene/Scene;
+      17: getstatic     #99                 // Field javafx/scene/input/KeyEvent.KEY_PRESSED:Ljavafx/event/EventType;
+      20: aload_0
+      21: aload_1
+      22: invokedynamic #100,  0            // InvokeDynamic #6:handle:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;Lcom/unclezs/novel/app/main/model/config/HotKeyConfig;)Ljavafx/event/EventHandler;
+      27: invokevirtual #101                // Method javafx/scene/Scene.addEventFilter:(Ljavafx/event/EventType;Ljavafx/event/EventHandler;)V
+      30: new           #102                // class java/util/concurrent/atomic/AtomicBoolean
+      33: dup
+      34: iconst_0
+      35: invokespecial #103                // Method java/util/concurrent/atomic/AtomicBoolean."<init>":(Z)V
+      38: astore_2
+      39: aload_0
+      40: aload_2
+      41: invokedynamic #104,  0            // InvokeDynamic #7:run:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;Ljava/util/concurrent/atomic/AtomicBoolean;)Ljava/lang/Runnable;
+      46: ldc2_w        #105                // long 100l
+      49: invokestatic  #107                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+      52: iconst_1
+      53: invokestatic  #108                // Method com/unclezs/novel/app/framework/executor/DebounceTask.build:(Ljava/lang/Runnable;Ljava/lang/Long;Z)Lcom/unclezs/novel/app/framework/executor/DebounceTask;
+      56: astore_3
+      57: aload_0
+      58: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+      61: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+      64: invokevirtual #19                 // Method com/unclezs/novel/app/framework/components/StageDecorator.getScene:()Ljavafx/scene/Scene;
+      67: aload_2
+      68: aload_3
+      69: invokedynamic #109,  0            // InvokeDynamic #8:handle:(Ljava/util/concurrent/atomic/AtomicBoolean;Lcom/unclezs/novel/app/framework/executor/DebounceTask;)Ljavafx/event/EventHandler;
+      74: invokevirtual #110                // Method javafx/scene/Scene.setOnScroll:(Ljavafx/event/EventHandler;)V
+      77: return
+
+  private void initSetting();
+    Code:
+       0: aload_0
+       1: getfield      #111                // Field themeView:Lcom/unclezs/novel/app/main/views/reader/ReaderThemeView;
+       4: aload_0
+       5: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+       8: invokevirtual #112                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getThemeName:()Ljavafx/beans/property/ObjectProperty;
+      11: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+      14: checkcast     #2                  // class java/lang/String
+      17: invokevirtual #113                // Method com/unclezs/novel/app/main/views/reader/ReaderThemeView.changeTheme:(Ljava/lang/String;)V
+      20: aload_0
+      21: getfield      #25                 // Field contextMenu:Lcom/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu;
+      24: aload_0
+      25: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      28: invokevirtual #114                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.isShowHeader:()Z
+      31: ifne          38
+      34: iconst_1
+      35: goto          39
+      38: iconst_0
+      39: invokevirtual #115                // Method com/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu.toggleHeader:(Z)V
+      42: aload_0
+      43: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+      46: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+      49: aload_0
+      50: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+      53: invokevirtual #117                // Method javafx/beans/property/DoubleProperty.bindBidirectional:(Ljavafx/beans/property/Property;)V
+      56: aload_0
+      57: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+      60: invokevirtual #118                // Method com/jfoenix/controls/JFXSlider.valueChangingProperty:()Ljavafx/beans/property/BooleanProperty;
+      63: aload_0
+      64: invokedynamic #119,  0            // InvokeDynamic #9:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+      69: invokevirtual #120                // Method javafx/beans/property/BooleanProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+      72: aload_0
+      73: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+      76: invokedynamic #121,  0            // InvokeDynamic #10:call:()Ljavafx/util/Callback;
+      81: invokevirtual #122                // Method com/jfoenix/controls/JFXSlider.setValueFactory:(Ljavafx/util/Callback;)V
+      84: aload_0
+      85: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+      88: aload_0
+      89: invokedynamic #123,  0            // InvokeDynamic #11:handle:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/event/EventHandler;
+      94: invokevirtual #124                // Method com/jfoenix/controls/JFXSlider.setOnMouseClicked:(Ljavafx/event/EventHandler;)V
+      97: aload_0
+      98: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+     101: invokevirtual #125                // Method javafx/scene/layout/StackPane.widthProperty:()Ljavafx/beans/property/ReadOnlyDoubleProperty;
+     104: aload_0
+     105: invokedynamic #126,  0            // InvokeDynamic #12:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+     110: invokevirtual #127                // Method javafx/beans/property/ReadOnlyDoubleProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+     113: aload_0
+     114: aload_0
+     115: invokedynamic #128,  0            // InvokeDynamic #13:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+     120: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+     123: aload_0
+     124: getfield      #129                // Field pageWidthSlider:Lcom/jfoenix/controls/JFXSlider;
+     127: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+     130: aload_0
+     131: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     134: invokevirtual #130                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getPageWidth:()Ljavafx/beans/property/ObjectProperty;
+     137: invokevirtual #117                // Method javafx/beans/property/DoubleProperty.bindBidirectional:(Ljavafx/beans/property/Property;)V
+     140: aload_0
+     141: getfield      #129                // Field pageWidthSlider:Lcom/jfoenix/controls/JFXSlider;
+     144: invokedynamic #131,  0            // InvokeDynamic #14:call:()Ljavafx/util/Callback;
+     149: invokevirtual #122                // Method com/jfoenix/controls/JFXSlider.setValueFactory:(Ljavafx/util/Callback;)V
+     152: aload_0
+     153: getfield      #132                // Field simpleTraditionalGroup:Lcom/unclezs/novel/app/framework/components/TabGroup;
+     156: aload_0
+     157: invokedynamic #133,  0            // InvokeDynamic #15:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+     162: invokevirtual #134                // Method com/unclezs/novel/app/framework/components/TabGroup.setOnSelected:(Ljava/util/function/Consumer;)V
+     165: aload_0
+     166: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     169: invokevirtual #135                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSimpleTraditional:()Ljavafx/beans/property/ObjectProperty;
+     172: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     175: checkcast     #136                // class java/lang/Integer
+     178: astore_1
+     179: aload_0
+     180: getfield      #132                // Field simpleTraditionalGroup:Lcom/unclezs/novel/app/framework/components/TabGroup;
+     183: invokevirtual #137                // Method com/unclezs/novel/app/framework/components/TabGroup.getTabs:()Ljava/util/List;
+     186: aload_1
+     187: ifnonnull     194
+     190: iconst_0
+     191: goto          198
+     194: aload_1
+     195: invokevirtual #138                // Method java/lang/Integer.intValue:()I
+     198: invokeinterface #139,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+     203: checkcast     #140                // class com/unclezs/novel/app/framework/components/TabButton
+     206: iconst_1
+     207: invokevirtual #141                // Method com/unclezs/novel/app/framework/components/TabButton.setSelected:(Z)V
+     210: aload_0
+     211: getfield      #142                // Field alignGroup:Lcom/unclezs/novel/app/framework/components/TabGroup;
+     214: aload_0
+     215: invokedynamic #143,  0            // InvokeDynamic #16:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+     220: invokevirtual #134                // Method com/unclezs/novel/app/framework/components/TabGroup.setOnSelected:(Ljava/util/function/Consumer;)V
+     223: aload_0
+     224: getfield      #142                // Field alignGroup:Lcom/unclezs/novel/app/framework/components/TabGroup;
+     227: aload_0
+     228: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     231: invokevirtual #144                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getAlign:()Ljavafx/beans/property/ObjectProperty;
+     234: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     237: invokevirtual #145                // Method com/unclezs/novel/app/framework/components/TabGroup.findTab:(Ljava/lang/Object;)Lcom/unclezs/novel/app/framework/components/TabButton;
+     240: iconst_1
+     241: invokevirtual #141                // Method com/unclezs/novel/app/framework/components/TabButton.setSelected:(Z)V
+     244: aload_0
+     245: getfield      #146                // Field fontSelector:Ljavafx/scene/control/ComboBox;
+     248: invokevirtual #147                // Method javafx/scene/control/ComboBox.getItems:()Ljavafx/collections/ObservableList;
+     251: invokestatic  #148                // Method com/unclezs/novel/app/framework/util/FontUtils.getAllFontFamilies:()Ljava/util/List;
+     254: invokeinterface #66,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:(Ljava/util/Collection;)Z
+     259: pop
+     260: aload_0
+     261: getfield      #146                // Field fontSelector:Ljavafx/scene/control/ComboBox;
+     264: invokevirtual #149                // Method javafx/scene/control/ComboBox.valueProperty:()Ljavafx/beans/property/ObjectProperty;
+     267: aload_0
+     268: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     271: invokevirtual #150                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getFontFamily:()Ljavafx/beans/property/ObjectProperty;
+     274: invokevirtual #151                // Method javafx/beans/property/ObjectProperty.bindBidirectional:(Ljavafx/beans/property/Property;)V
+     277: aload_0
+     278: getfield      #146                // Field fontSelector:Ljavafx/scene/control/ComboBox;
+     281: invokevirtual #149                // Method javafx/scene/control/ComboBox.valueProperty:()Ljavafx/beans/property/ObjectProperty;
+     284: aload_0
+     285: invokedynamic #152,  0            // InvokeDynamic #17:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+     290: invokevirtual #153                // Method javafx/beans/property/ObjectProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+     293: aload_0
+     294: getfield      #154                // Field fontSizeSlider:Lcom/jfoenix/controls/JFXSlider;
+     297: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+     300: aload_0
+     301: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     304: invokevirtual #155                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getFontSize:()Ljavafx/beans/property/ObjectProperty;
+     307: invokevirtual #117                // Method javafx/beans/property/DoubleProperty.bindBidirectional:(Ljavafx/beans/property/Property;)V
+     310: aload_0
+     311: getfield      #154                // Field fontSizeSlider:Lcom/jfoenix/controls/JFXSlider;
+     314: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+     317: aload_0
+     318: invokedynamic #152,  0            // InvokeDynamic #17:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+     323: invokevirtual #156                // Method javafx/beans/property/DoubleProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+     326: aload_0
+     327: invokevirtual #157                // Method updateFont:()V
+     330: aload_0
+     331: getfield      #158                // Field lineSpaceSlider:Lcom/jfoenix/controls/JFXSlider;
+     334: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+     337: aload_0
+     338: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     341: invokevirtual #159                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getLineSpacing:()Ljavafx/beans/property/ObjectProperty;
+     344: invokevirtual #117                // Method javafx/beans/property/DoubleProperty.bindBidirectional:(Ljavafx/beans/property/Property;)V
+     347: aload_0
+     348: getfield      #158                // Field lineSpaceSlider:Lcom/jfoenix/controls/JFXSlider;
+     351: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+     354: aload_0
+     355: invokedynamic #160,  0            // InvokeDynamic #18:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+     360: invokevirtual #156                // Method javafx/beans/property/DoubleProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+     363: aload_0
+     364: aload_0
+     365: invokedynamic #161,  0            // InvokeDynamic #19:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+     370: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+     373: aload_0
+     374: getfield      #162                // Field showShadow:Lcom/jfoenix/controls/JFXCheckBox;
+     377: aload_0
+     378: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     381: invokevirtual #163                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.isShowShadow:()Z
+     384: invokevirtual #164                // Method com/jfoenix/controls/JFXCheckBox.setSelected:(Z)V
+     387: aload_0
+     388: getfield      #162                // Field showShadow:Lcom/jfoenix/controls/JFXCheckBox;
+     391: invokevirtual #165                // Method com/jfoenix/controls/JFXCheckBox.selectedProperty:()Ljavafx/beans/property/BooleanProperty;
+     394: aload_0
+     395: invokedynamic #166,  0            // InvokeDynamic #20:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+     400: invokevirtual #120                // Method javafx/beans/property/BooleanProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+     403: aload_0
+     404: invokevirtual #167                // Method updateShadow:()V
+     407: aload_0
+     408: getfield      #168                // Field flipAnimation:Lcom/jfoenix/controls/JFXCheckBox;
+     411: aload_0
+     412: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     415: invokevirtual #169                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getFlipAnimation:()Ljavafx/beans/property/ObjectProperty;
+     418: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     421: checkcast     #170                // class java/lang/Boolean
+     424: invokevirtual #171                // Method java/lang/Boolean.booleanValue:()Z
+     427: invokevirtual #164                // Method com/jfoenix/controls/JFXCheckBox.setSelected:(Z)V
+     430: aload_0
+     431: getfield      #168                // Field flipAnimation:Lcom/jfoenix/controls/JFXCheckBox;
+     434: invokevirtual #165                // Method com/jfoenix/controls/JFXCheckBox.selectedProperty:()Ljavafx/beans/property/BooleanProperty;
+     437: aload_0
+     438: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     441: invokevirtual #169                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getFlipAnimation:()Ljavafx/beans/property/ObjectProperty;
+     444: invokevirtual #172                // Method javafx/beans/property/BooleanProperty.bindBidirectional:(Ljavafx/beans/property/Property;)V
+     447: return
+
+  private void initTTSPlayer();
+    Code:
+       0: invokestatic  #173                // Method com/unclezs/novel/analyzer/util/GsonUtils.me:()Lcom/google/gson/Gson;
+       3: ldc           #174                // String assets/defaults/tts.json
+       5: invokestatic  #175                // Method com/unclezs/novel/app/framework/util/ResourceUtils.stream:(Ljava/lang/String;)Ljava/io/InputStream;
+       8: invokestatic  #176                // Method cn/hutool/core/io/IoUtil.readUtf8:(Ljava/io/InputStream;)Ljava/lang/String;
+      11: new           #177                // class com/unclezs/novel/app/main/views/reader/ReaderView$1
+      14: dup
+      15: aload_0
+      16: invokespecial #178                // Method com/unclezs/novel/app/main/views/reader/ReaderView$1."<init>":(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)V
+      19: invokevirtual #179                // Method com/unclezs/novel/app/main/views/reader/ReaderView$1.getType:()Ljava/lang/reflect/Type;
+      22: invokevirtual #180                // Method com/google/gson/Gson.fromJson:(Ljava/lang/String;Ljava/lang/reflect/Type;)Ljava/lang/Object;
+      25: checkcast     #181                // class java/util/List
+      28: astore_1
+      29: aload_0
+      30: getfield      #182                // Field speakerSelector:Ljavafx/scene/control/ComboBox;
+      33: invokevirtual #147                // Method javafx/scene/control/ComboBox.getItems:()Ljavafx/collections/ObservableList;
+      36: aload_1
+      37: invokeinterface #183,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      42: invokedynamic #184,  0            // InvokeDynamic #21:apply:()Ljava/util/function/Function;
+      47: invokeinterface #185,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      52: invokestatic  #186                // Method java/util/stream/Collectors.toList:()Ljava/util/stream/Collector;
+      55: invokeinterface #187,  2          // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+      60: checkcast     #188                // class java/util/Collection
+      63: invokeinterface #66,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:(Ljava/util/Collection;)Z
+      68: pop
+      69: aload_0
+      70: getfield      #182                // Field speakerSelector:Ljavafx/scene/control/ComboBox;
+      73: invokevirtual #189                // Method javafx/scene/control/ComboBox.getSelectionModel:()Ljavafx/scene/control/SingleSelectionModel;
+      76: aload_0
+      77: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      80: invokevirtual #190                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSpeaker:()Ljavafx/beans/property/ObjectProperty;
+      83: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+      86: checkcast     #136                // class java/lang/Integer
+      89: invokevirtual #138                // Method java/lang/Integer.intValue:()I
+      92: invokevirtual #191                // Method javafx/scene/control/SingleSelectionModel.select:(I)V
+      95: aload_0
+      96: getfield      #182                // Field speakerSelector:Ljavafx/scene/control/ComboBox;
+      99: invokevirtual #149                // Method javafx/scene/control/ComboBox.valueProperty:()Ljavafx/beans/property/ObjectProperty;
+     102: aload_0
+     103: aload_1
+     104: invokedynamic #192,  0            // InvokeDynamic #22:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;Ljava/util/List;)Ljavafx/beans/InvalidationListener;
+     109: invokevirtual #153                // Method javafx/beans/property/ObjectProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+     112: aload_0
+     113: getfield      #193                // Field ttsSpeedSlider:Lcom/jfoenix/controls/JFXSlider;
+     116: invokedynamic #194,  0            // InvokeDynamic #23:call:()Ljavafx/util/Callback;
+     121: invokevirtual #122                // Method com/jfoenix/controls/JFXSlider.setValueFactory:(Ljavafx/util/Callback;)V
+     124: aload_0
+     125: getfield      #193                // Field ttsSpeedSlider:Lcom/jfoenix/controls/JFXSlider;
+     128: aload_0
+     129: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     132: invokevirtual #195                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSpeed:()Ljavafx/beans/property/ObjectProperty;
+     135: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     138: checkcast     #38                 // class java/lang/Double
+     141: invokevirtual #39                 // Method java/lang/Double.doubleValue:()D
+     144: invokevirtual #196                // Method com/jfoenix/controls/JFXSlider.setValue:(D)V
+     147: aload_0
+     148: getfield      #193                // Field ttsSpeedSlider:Lcom/jfoenix/controls/JFXSlider;
+     151: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+     154: aload_0
+     155: invokedynamic #197,  0            // InvokeDynamic #24:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+     160: invokevirtual #156                // Method javafx/beans/property/DoubleProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+     163: aload_0
+     164: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+     167: invokevirtual #190                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSpeaker:()Ljavafx/beans/property/ObjectProperty;
+     170: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+     173: checkcast     #136                // class java/lang/Integer
+     176: invokevirtual #138                // Method java/lang/Integer.intValue:()I
+     179: istore_2
+     180: iload_2
+     181: iflt          194
+     184: iload_2
+     185: aload_1
+     186: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+     191: if_icmplt     196
+     194: iconst_0
+     195: istore_2
+     196: aload_0
+     197: new           #198                // class com/unclezs/novel/app/main/views/reader/player/TTSPlayer
+     200: dup
+     201: aload_1
+     202: iload_2
+     203: invokeinterface #139,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+     208: checkcast     #199                // class com/unclezs/novel/app/main/model/config/TTSConfig
+     211: aload_0
+     212: invokedynamic #200,  0            // InvokeDynamic #25:run:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/lang/Runnable;
+     217: invokespecial #201                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer."<init>":(Lcom/unclezs/novel/app/main/model/config/TTSConfig;Ljava/lang/Runnable;)V
+     220: putfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+     223: return
+
+  private void forEachPageView(java.util.function.Consumer<com.unclezs.novel.app.main.views.reader.PageView>);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+       5: invokeinterface #204,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+      10: aload_1
+      11: aload_0
+      12: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      15: invokeinterface #204,  2          // InterfaceMethod java/util/function/Consumer.accept:(Ljava/lang/Object;)V
+      20: return
+
+  private void updateFont();
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokedynamic #206,  0            // InvokeDynamic #26:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+       7: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+      10: aload_0
+      11: invokevirtual #207                // Method updateDisplayText:()V
+      14: return
+
+  private void updateShadow();
+    Code:
+       0: aload_0
+       1: getfield      #162                // Field showShadow:Lcom/jfoenix/controls/JFXCheckBox;
+       4: invokevirtual #208                // Method com/jfoenix/controls/JFXCheckBox.isSelected:()Z
+       7: ifeq          32
+      10: aload_0
+      11: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+      14: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+      17: invokevirtual #209                // Method com/unclezs/novel/app/framework/components/StageDecorator.getStyleClass:()Ljavafx/collections/ObservableList;
+      20: getstatic     #210                // Field NO_SHADOW_STYLE_CLASS:[Ljava/lang/String;
+      23: invokeinterface #211,  2          // InterfaceMethod javafx/collections/ObservableList.removeAll:([Ljava/lang/Object;)Z
+      28: pop
+      29: goto          51
+      32: aload_0
+      33: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+      36: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+      39: invokevirtual #209                // Method com/unclezs/novel/app/framework/components/StageDecorator.getStyleClass:()Ljavafx/collections/ObservableList;
+      42: getstatic     #210                // Field NO_SHADOW_STYLE_CLASS:[Ljava/lang/String;
+      45: invokeinterface #212,  2          // InterfaceMethod javafx/collections/ObservableList.addAll:([Ljava/lang/Object;)Z
+      50: pop
+      51: aload_0
+      52: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      55: aload_0
+      56: getfield      #162                // Field showShadow:Lcom/jfoenix/controls/JFXCheckBox;
+      59: invokevirtual #208                // Method com/jfoenix/controls/JFXCheckBox.isSelected:()Z
+      62: invokevirtual #213                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.setShowShadow:(Z)V
+      65: return
+
+  private void updateDisplayText();
+    Code:
+       0: aload_0
+       1: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+       4: invokevirtual #214                // Method com/unclezs/novel/app/main/views/reader/PageView.getWidth:()D
+       7: dconst_0
+       8: dcmpl
+       9: ifle          52
+      12: aload_0
+      13: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      16: invokevirtual #215                // Method com/unclezs/novel/app/main/views/reader/PageView.getHeight:()D
+      19: dconst_0
+      20: dcmpl
+      21: ifle          52
+      24: aload_0
+      25: getfield      #13                 // Field current:I
+      28: iflt          52
+      31: aload_0
+      32: aload_0
+      33: getfield      #3                  // Field contents:[Ljava/lang/String;
+      36: iconst_1
+      37: aaload
+      38: invokevirtual #216                // Method computePages:(Ljava/lang/String;)V
+      41: aload_0
+      42: aload_0
+      43: getfield      #13                 // Field current:I
+      46: getstatic     #217                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.NONE:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      49: invokevirtual #218                // Method displayPage:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      52: return
+
+  private void displayPage(int, com.unclezs.novel.app.main.views.reader.ReaderView$TurnPageType);
+    Code:
+       0: aload_0
+       1: getfield      #219                // Field displayPageTask:Lcom/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask;
+       4: ifnonnull     30
+       7: aload_0
+       8: new           #220                // class com/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask
+      11: dup
+      12: aload_0
+      13: invokedynamic #221,  0            // InvokeDynamic #27:run:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/lang/Runnable;
+      18: ldc2_w        #105                // long 100l
+      21: invokestatic  #107                // Method java/lang/Long.valueOf:(J)Ljava/lang/Long;
+      24: invokespecial #222                // Method com/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask."<init>":(Ljava/lang/Runnable;Ljava/lang/Long;)V
+      27: putfield      #219                // Field displayPageTask:Lcom/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask;
+      30: aload_0
+      31: getfield      #219                // Field displayPageTask:Lcom/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask;
+      34: iload_1
+      35: aload_2
+      36: invokevirtual #223                // Method com/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask.init:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      39: aload_0
+      40: getfield      #219                // Field displayPageTask:Lcom/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask;
+      43: invokevirtual #224                // Method com/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask.run:()V
+      46: return
+
+  private void displayPageByDebounce(int, com.unclezs.novel.app.main.views.reader.ReaderView$TurnPageType);
+    Code:
+       0: aload_0
+       1: getfield      #225                // Field turnPaging:Z
+       4: ifeq          8
+       7: return
+       8: aload_0
+       9: iconst_1
+      10: putfield      #225                // Field turnPaging:Z
+      13: iload_1
+      14: aload_0
+      15: getfield      #6                  // Field pages:Ljava/util/List;
+      18: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+      23: if_icmplt     36
+      26: iload_1
+      27: ifeq          36
+      30: iinc          1, -1
+      33: goto          13
+      36: aload_0
+      37: iload_1
+      38: putfield      #13                 // Field current:I
+      41: aload_0
+      42: invokevirtual #226                // Method updatePageTitle:()V
+      45: aload_0
+      46: getfield      #168                // Field flipAnimation:Lcom/jfoenix/controls/JFXCheckBox;
+      49: invokevirtual #208                // Method com/jfoenix/controls/JFXCheckBox.isSelected:()Z
+      52: ifne          59
+      55: getstatic     #217                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.NONE:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      58: astore_2
+      59: aload_2
+      60: getstatic     #217                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.NONE:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      63: if_acmpeq     217
+      66: aload_0
+      67: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      70: astore_3
+      71: aload_0
+      72: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+      75: invokevirtual #227                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+      78: aload_0
+      79: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      82: invokeinterface #228,  2          // InterfaceMethod javafx/collections/ObservableList.remove:(Ljava/lang/Object;)Z
+      87: pop
+      88: aload_2
+      89: getstatic     #229                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.NEXT:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      92: if_acmpne     137
+      95: aload_0
+      96: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      99: dconst_0
+     100: invokevirtual #230                // Method com/unclezs/novel/app/main/views/reader/PageView.setTranslateX:(D)V
+     103: aload_0
+     104: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     107: invokevirtual #231                // Method com/unclezs/novel/app/main/views/reader/PageView.getNextTransition:()Ljavafx/animation/Transition;
+     110: astore        4
+     112: aload         4
+     114: invokevirtual #232                // Method javafx/animation/Transition.play:()V
+     117: aload_0
+     118: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+     121: invokevirtual #227                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+     124: iconst_0
+     125: aload_0
+     126: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     129: invokeinterface #233,  3          // InterfaceMethod javafx/collections/ObservableList.add:(ILjava/lang/Object;)V
+     134: goto          183
+     137: aload_0
+     138: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     141: aload_0
+     142: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+     145: invokevirtual #234                // Method javafx/scene/layout/StackPane.getWidth:()D
+     148: dneg
+     149: invokevirtual #230                // Method com/unclezs/novel/app/main/views/reader/PageView.setTranslateX:(D)V
+     152: aload_0
+     153: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     156: invokevirtual #235                // Method com/unclezs/novel/app/main/views/reader/PageView.getPreTransition:()Ljavafx/animation/Transition;
+     159: astore        4
+     161: aload         4
+     163: invokevirtual #232                // Method javafx/animation/Transition.play:()V
+     166: aload_0
+     167: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+     170: invokevirtual #227                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+     173: iconst_1
+     174: aload_0
+     175: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     178: invokeinterface #233,  3          // InterfaceMethod javafx/collections/ObservableList.add:(ILjava/lang/Object;)V
+     183: aload_0
+     184: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     187: astore        5
+     189: aload_0
+     190: aload_0
+     191: getfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     194: putfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     197: aload_0
+     198: aload         5
+     200: putfield      #205                // Field otherPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     203: aload         4
+     205: aload_0
+     206: invokedynamic #236,  0            // InvokeDynamic #28:handle:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/event/EventHandler;
+     211: invokevirtual #237                // Method javafx/animation/Transition.setOnFinished:(Ljavafx/event/EventHandler;)V
+     214: goto          227
+     217: aload_0
+     218: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     221: astore_3
+     222: aload_0
+     223: iconst_0
+     224: putfield      #225                // Field turnPaging:Z
+     227: aload_3
+     228: aload_0
+     229: invokevirtual #238                // Method currentPageText:()Ljava/lang/String;
+     232: invokevirtual #239                // Method com/unclezs/novel/app/main/views/reader/PageView.setText:(Ljava/lang/String;)V
+     235: iload_1
+     236: ifne          272
+     239: aload_0
+     240: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+     243: invokevirtual #65                 // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.toc:()Ljava/util/List;
+     246: aload_0
+     247: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+     250: invokeinterface #139,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+     255: checkcast     #240                // class com/unclezs/novel/analyzer/model/Chapter
+     258: invokevirtual #241                // Method com/unclezs/novel/analyzer/model/Chapter.getName:()Ljava/lang/String;
+     261: astore        4
+     263: aload_3
+     264: aload         4
+     266: invokevirtual #242                // Method com/unclezs/novel/app/main/views/reader/PageView.setTitle:(Ljava/lang/String;)V
+     269: goto          277
+     272: aload_3
+     273: aconst_null
+     274: invokevirtual #242                // Method com/unclezs/novel/app/main/views/reader/PageView.setTitle:(Ljava/lang/String;)V
+     277: aload_0
+     278: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+     281: invokevirtual #244                // Method com/unclezs/novel/app/framework/components/SelectableButton.isSelected:()Z
+     284: ifeq          292
+     287: aload_0
+     288: iconst_1
+     289: invokevirtual #245                // Method playTTS:(Z)V
+     292: return
+
+  private void updatePageTitle();
+    Code:
+       0: aload_0
+       1: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+       4: ifnull        14
+       7: aload_0
+       8: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+      11: ifnonnull     15
+      14: return
+      15: aload_0
+      16: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+      19: invokevirtual #64                 // Method javafx/scene/control/ListView.getItems:()Ljavafx/collections/ObservableList;
+      22: astore_1
+      23: aload_0
+      24: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      27: istore_2
+      28: aconst_null
+      29: astore_3
+      30: aload_1
+      31: ifnull        71
+      34: iload_2
+      35: iflt          71
+      38: iload_2
+      39: aload_1
+      40: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+      45: if_icmpge     71
+      48: aload_1
+      49: iload_2
+      50: invokeinterface #139,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      55: checkcast     #240                // class com/unclezs/novel/analyzer/model/Chapter
+      58: astore        4
+      60: aload         4
+      62: ifnull        71
+      65: aload         4
+      67: invokevirtual #241                // Method com/unclezs/novel/analyzer/model/Chapter.getName:()Ljava/lang/String;
+      70: astore_3
+      71: new           #246                // class java/lang/StringBuilder
+      74: dup
+      75: invokespecial #247                // Method java/lang/StringBuilder."<init>":()V
+      78: astore        4
+      80: aload_0
+      81: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      84: invokevirtual #55                 // Method com/unclezs/novel/app/main/db/beans/Book.getName:()Ljava/lang/String;
+      87: invokestatic  #248                // Method com/unclezs/novel/analyzer/util/StringUtils.isNotBlank:(Ljava/lang/CharSequence;)Z
+      90: ifeq          106
+      93: aload         4
+      95: aload_0
+      96: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      99: invokevirtual #55                 // Method com/unclezs/novel/app/main/db/beans/Book.getName:()Ljava/lang/String;
+     102: invokevirtual #249                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     105: pop
+     106: aload_3
+     107: invokestatic  #248                // Method com/unclezs/novel/analyzer/util/StringUtils.isNotBlank:(Ljava/lang/CharSequence;)Z
+     110: ifeq          136
+     113: aload         4
+     115: invokevirtual #250                // Method java/lang/StringBuilder.length:()I
+     118: ifle          129
+     121: aload         4
+     123: ldc           #251                // String  ��
+     125: invokevirtual #249                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     128: pop
+     129: aload         4
+     131: aload_3
+     132: invokevirtual #249                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     135: pop
+     136: aload_0
+     137: getfield      #6                  // Field pages:Ljava/util/List;
+     140: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+     145: istore        5
+     147: aload_0
+     148: getfield      #13                 // Field current:I
+     151: iflt          246
+     154: iload         5
+     156: ifle          246
+     159: aload         4
+     161: ldc           #252                // String ����
+     163: invokevirtual #249                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     166: aload_0
+     167: getfield      #13                 // Field current:I
+     170: iconst_1
+     171: iadd
+     172: invokevirtual #253                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+     175: bipush        47
+     177: invokevirtual #254                // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;
+     180: iload         5
+     182: invokevirtual #253                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+     185: ldc           #255                // String  ҳ
+     187: invokevirtual #249                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     190: pop
+     191: aload_1
+     192: ifnull        237
+     195: aload_1
+     196: invokeinterface #256,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+     201: ifne          237
+     204: iload_2
+     205: iflt          237
+     208: aload         4
+     210: ldc_w         #257                // String  �� ��
+     213: invokevirtual #249                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     216: iload_2
+     217: iconst_1
+     218: iadd
+     219: invokevirtual #253                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+     222: bipush        47
+     224: invokevirtual #254                // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;
+     227: aload_1
+     228: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+     233: invokevirtual #253                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+     236: pop
+     237: aload         4
+     239: ldc_w         #258                // String ��
+     242: invokevirtual #249                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     245: pop
+     246: aload_0
+     247: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+     250: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+     253: aload         4
+     255: invokevirtual #259                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+     258: invokevirtual #56                 // Method com/unclezs/novel/app/framework/components/StageDecorator.setTitle:(Ljava/lang/String;)V
+     261: return
+
+  private void showOperationView();
+    Code:
+       0: aload_0
+       1: getfield      #260                // Field drawer:Lcom/jfoenix/controls/JFXDrawersStack;
+       4: aload_0
+       5: getfield      #261                // Field settingDrawer:Lcom/jfoenix/controls/JFXDrawer;
+       8: invokevirtual #262                // Method com/jfoenix/controls/JFXDrawersStack.toggle:(Lcom/jfoenix/controls/JFXDrawer;)V
+      11: return
+
+  private void setSettingView(boolean);
+    Code:
+       0: aload_0
+       1: getfield      #263                // Field settingView:Ljavafx/scene/control/ScrollPane;
+       4: iload_1
+       5: ifeq          15
+       8: aload_0
+       9: getfield      #264                // Field ttsSettingBox:Ljavafx/scene/layout/VBox;
+      12: goto          19
+      15: aload_0
+      16: getfield      #265                // Field settingBox:Ljavafx/scene/layout/VBox;
+      19: invokevirtual #266                // Method javafx/scene/control/ScrollPane.setContent:(Ljavafx/scene/Node;)V
+      22: aload_0
+      23: getfield      #261                // Field settingDrawer:Lcom/jfoenix/controls/JFXDrawer;
+      26: iload_1
+      27: ifeq          36
+      30: ldc2_w        #267                // double 150.0d
+      33: goto          39
+      36: ldc2_w        #269                // double 320.0d
+      39: invokevirtual #271                // Method com/jfoenix/controls/JFXDrawer.setDefaultDrawerSize:(D)V
+      42: return
+
+  private void showToc();
+    Code:
+       0: aload_0
+       1: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+       4: invokevirtual #272                // Method javafx/scene/control/ListView.getSelectionModel:()Ljavafx/scene/control/MultipleSelectionModel;
+       7: aload_0
+       8: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      11: invokevirtual #273                // Method javafx/scene/control/MultipleSelectionModel.select:(I)V
+      14: aload_0
+      15: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+      18: invokevirtual #274                // Method javafx/scene/control/ListView.refresh:()V
+      21: aload_0
+      22: getfield      #260                // Field drawer:Lcom/jfoenix/controls/JFXDrawersStack;
+      25: aload_0
+      26: getfield      #275                // Field tocDrawer:Lcom/jfoenix/controls/JFXDrawer;
+      29: invokevirtual #262                // Method com/jfoenix/controls/JFXDrawersStack.toggle:(Lcom/jfoenix/controls/JFXDrawer;)V
+      32: return
+
+  private void prePage();
+    Code:
+       0: aload_0
+       1: getfield      #13                 // Field current:I
+       4: ifle          23
+       7: aload_0
+       8: aload_0
+       9: getfield      #13                 // Field current:I
+      12: iconst_1
+      13: isub
+      14: getstatic     #276                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.PRE:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      17: invokevirtual #218                // Method displayPage:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      20: goto          28
+      23: aload_0
+      24: iconst_1
+      25: invokevirtual #277                // Method preChapter:(Z)V
+      28: return
+
+  private void nextPage();
+    Code:
+       0: aload_0
+       1: getfield      #13                 // Field current:I
+       4: aload_0
+       5: getfield      #6                  // Field pages:Ljava/util/List;
+       8: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+      13: iconst_1
+      14: isub
+      15: if_icmpge     34
+      18: aload_0
+      19: aload_0
+      20: getfield      #13                 // Field current:I
+      23: iconst_1
+      24: iadd
+      25: getstatic     #229                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.NEXT:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      28: invokevirtual #218                // Method displayPage:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      31: goto          38
+      34: aload_0
+      35: invokevirtual #278                // Method nextChapter:()V
+      38: return
+
+  public void preChapter();
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: invokevirtual #277                // Method preChapter:(Z)V
+       5: return
+
+  private void preChapter(boolean);
+    Code:
+       0: aload_0
+       1: getfield      #225                // Field turnPaging:Z
+       4: ifeq          8
+       7: return
+       8: aload_0
+       9: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      12: ifne          22
+      15: ldc_w         #279                // String û����һҳ��~
+      18: invokestatic  #280                // Method com/unclezs/novel/app/framework/components/Toast.success:(Ljava/lang/String;)V
+      21: return
+      22: aload_0
+      23: getfield      #3                  // Field contents:[Ljava/lang/String;
+      26: iconst_2
+      27: aload_0
+      28: getfield      #3                  // Field contents:[Ljava/lang/String;
+      31: iconst_1
+      32: aaload
+      33: aastore
+      34: aload_0
+      35: aload_0
+      36: iload_1
+      37: invokedynamic #281,  0            // InvokeDynamic #29:run:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;Z)Ljava/lang/Runnable;
+      42: iconst_1
+      43: newarray       int
+      45: dup
+      46: iconst_0
+      47: iconst_0
+      48: iastore
+      49: invokevirtual #73                 // Method loadContent:(Ljava/lang/Runnable;[I)V
+      52: return
+
+  public void nextChapter();
+    Code:
+       0: aload_0
+       1: getfield      #225                // Field turnPaging:Z
+       4: ifeq          8
+       7: return
+       8: aload_0
+       9: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      12: aload_0
+      13: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+      16: invokevirtual #65                 // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.toc:()Ljava/util/List;
+      19: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+      24: iconst_1
+      25: isub
+      26: if_icmpne     36
+      29: ldc_w         #282                // String û����һҳ��~
+      32: invokestatic  #280                // Method com/unclezs/novel/app/framework/components/Toast.success:(Ljava/lang/String;)V
+      35: return
+      36: aload_0
+      37: getfield      #3                  // Field contents:[Ljava/lang/String;
+      40: iconst_0
+      41: aload_0
+      42: getfield      #3                  // Field contents:[Ljava/lang/String;
+      45: iconst_1
+      46: aaload
+      47: aastore
+      48: aload_0
+      49: getfield      #3                  // Field contents:[Ljava/lang/String;
+      52: iconst_2
+      53: aconst_null
+      54: aastore
+      55: aload_0
+      56: aload_0
+      57: invokedynamic #283,  0            // InvokeDynamic #30:run:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/lang/Runnable;
+      62: iconst_1
+      63: newarray       int
+      65: dup
+      66: iconst_0
+      67: iconst_2
+      68: iastore
+      69: invokevirtual #73                 // Method loadContent:(Ljava/lang/Runnable;[I)V
+      72: return
+
+  private void toChapter(int);
+    Code:
+       0: aload_0
+       1: invokevirtual #85                 // Method clearCaches:()V
+       4: aload_0
+       5: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+       8: iload_1
+       9: invokevirtual #71                 // Method javafx/beans/property/IntegerProperty.set:(I)V
+      12: aload_0
+      13: aload_0
+      14: invokedynamic #284,  0            // InvokeDynamic #31:run:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/lang/Runnable;
+      19: iconst_1
+      20: newarray       int
+      22: dup
+      23: iconst_0
+      24: iconst_1
+      25: iastore
+      26: invokevirtual #73                 // Method loadContent:(Ljava/lang/Runnable;[I)V
+      29: return
+
+  public java.lang.String contents(int);
+    Code:
+       0: aload_0
+       1: getfield      #3                  // Field contents:[Ljava/lang/String;
+       4: iload_1
+       5: aaload
+       6: ifnonnull     30
+       9: aload_0
+      10: getfield      #3                  // Field contents:[Ljava/lang/String;
+      13: iload_1
+      14: aload_0
+      15: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+      18: aload_0
+      19: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      22: iload_1
+      23: iadd
+      24: iconst_1
+      25: isub
+      26: invokevirtual #285                // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.loadContent:(I)Ljava/lang/String;
+      29: aastore
+      30: aload_0
+      31: getfield      #3                  // Field contents:[Ljava/lang/String;
+      34: iload_1
+      35: aaload
+      36: areturn
+
+  public void loadContent(java.lang.Runnable, int...);
+    Code:
+       0: iconst_0
+       1: istore_3
+       2: aload_2
+       3: astore        4
+       5: aload         4
+       7: arraylength
+       8: istore        5
+      10: iconst_0
+      11: istore        6
+      13: iload         6
+      15: iload         5
+      17: if_icmpge     57
+      20: aload         4
+      22: iload         6
+      24: iaload
+      25: istore        7
+      27: aload_0
+      28: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+      31: aload_0
+      32: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      35: iload         7
+      37: iadd
+      38: iconst_1
+      39: isub
+      40: invokevirtual #286                // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.isCached:(I)Z
+      43: ifne          51
+      46: iconst_1
+      47: istore_3
+      48: goto          57
+      51: iinc          6, 1
+      54: goto          13
+      57: iload_3
+      58: ifeq          95
+      61: aload_0
+      62: aload_2
+      63: invokedynamic #287,  0            // InvokeDynamic #32:call:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;[I)Ljava/util/concurrent/Callable;
+      68: invokestatic  #288                // Method com/unclezs/novel/app/framework/executor/TaskFactory.create:(Ljava/util/concurrent/Callable;)Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      71: aload_1
+      72: invokedynamic #289,  0            // InvokeDynamic #33:accept:(Ljava/lang/Runnable;)Ljava/util/function/Consumer;
+      77: invokevirtual #290                // Method com/unclezs/novel/app/framework/executor/FluentTask.onSuccess:(Ljava/util/function/Consumer;)Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      80: aload_0
+      81: invokedynamic #291,  0            // InvokeDynamic #34:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+      86: invokevirtual #292                // Method com/unclezs/novel/app/framework/executor/FluentTask.onFailed:(Ljava/util/function/Consumer;)Lcom/unclezs/novel/app/framework/executor/FluentTask;
+      89: invokevirtual #293                // Method com/unclezs/novel/app/framework/executor/FluentTask.start:()V
+      92: goto          101
+      95: aload_1
+      96: invokeinterface #294,  1          // InterfaceMethod java/lang/Runnable.run:()V
+     101: return
+
+  public void computePages(java.lang.String);
+    Code:
+       0: aload_1
+       1: ifnonnull     5
+       4: return
+       5: new           #4                  // class java/util/ArrayList
+       8: dup
+       9: invokespecial #5                  // Method java/util/ArrayList."<init>":()V
+      12: astore_2
+      13: aload_0
+      14: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      17: invokevirtual #159                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getLineSpacing:()Ljavafx/beans/property/ObjectProperty;
+      20: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+      23: checkcast     #38                 // class java/lang/Double
+      26: invokevirtual #39                 // Method java/lang/Double.doubleValue:()D
+      29: dstore_3
+      30: aload_0
+      31: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      34: invokevirtual #155                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getFontSize:()Ljavafx/beans/property/ObjectProperty;
+      37: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+      40: checkcast     #38                 // class java/lang/Double
+      43: invokevirtual #39                 // Method java/lang/Double.doubleValue:()D
+      46: dstore        5
+      48: aload_0
+      49: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      52: invokevirtual #150                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getFontFamily:()Ljavafx/beans/property/ObjectProperty;
+      55: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+      58: checkcast     #2                  // class java/lang/String
+      61: astore        7
+      63: aload         7
+      65: dload         5
+      67: invokestatic  #295                // Method javafx/scene/text/Font.font:(Ljava/lang/String;D)Ljavafx/scene/text/Font;
+      70: astore        8
+      72: aload_0
+      73: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      76: invokevirtual #214                // Method com/unclezs/novel/app/main/views/reader/PageView.getWidth:()D
+      79: dstore        9
+      81: aload_0
+      82: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      85: invokevirtual #296                // Method com/unclezs/novel/app/main/views/reader/PageView.getLabelPadding:()Ljavafx/geometry/Insets;
+      88: astore        11
+      90: aload_0
+      91: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+      94: invokevirtual #215                // Method com/unclezs/novel/app/main/views/reader/PageView.getHeight:()D
+      97: aload_0
+      98: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     101: invokevirtual #297                // Method com/unclezs/novel/app/main/views/reader/PageView.snappedBottomInset:()D
+     104: dsub
+     105: aload_0
+     106: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     109: invokevirtual #298                // Method com/unclezs/novel/app/main/views/reader/PageView.snappedTopInset:()D
+     112: dsub
+     113: aload_0
+     114: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     117: aload         11
+     119: invokevirtual #299                // Method javafx/geometry/Insets.getTop:()D
+     122: invokevirtual #300                // Method com/unclezs/novel/app/main/views/reader/PageView.snapSizeY:(D)D
+     125: dsub
+     126: aload_0
+     127: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     130: aload         11
+     132: invokevirtual #301                // Method javafx/geometry/Insets.getBottom:()D
+     135: invokevirtual #300                // Method com/unclezs/novel/app/main/views/reader/PageView.snapSizeY:(D)D
+     138: dsub
+     139: dstore        12
+     141: dload         12
+     143: aload_0
+     144: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     147: invokevirtual #302                // Method com/unclezs/novel/app/main/views/reader/PageView.getTitle:()Ljavafx/scene/control/Label;
+     150: invokevirtual #303                // Method javafx/scene/control/Label.getLayoutBounds:()Ljavafx/geometry/Bounds;
+     153: invokevirtual #304                // Method javafx/geometry/Bounds.getHeight:()D
+     156: dsub
+     157: aload_0
+     158: getfield      #203                // Field currentPage:Lcom/unclezs/novel/app/main/views/reader/PageView;
+     161: invokevirtual #302                // Method com/unclezs/novel/app/main/views/reader/PageView.getTitle:()Ljavafx/scene/control/Label;
+     164: invokevirtual #305                // Method javafx/scene/control/Label.getGraphicTextGap:()D
+     167: dsub
+     168: dstore        14
+     170: aload_2
+     171: invokeinterface #256,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+     176: ifeq          184
+     179: dload         14
+     181: goto          186
+     184: dload         12
+     186: dstore        16
+     188: aload         8
+     190: aload_1
+     191: dload         9
+     193: dload         16
+     195: dload_3
+     196: getstatic     #306                // Field javafx/scene/control/OverrunStyle.CLIP:Ljavafx/scene/control/OverrunStyle;
+     199: ldc_w         #308                // String
+     202: getstatic     #309                // Field javafx/scene/text/TextBoundsType.LOGICAL_VERTICAL_CENTER:Ljavafx/scene/text/TextBoundsType;
+     205: invokestatic  #310                // Method com/sun/javafx/scene/control/skin/Utils.computeClippedWrappedText:(Ljavafx/scene/text/Font;Ljava/lang/String;DDDLjavafx/scene/control/OverrunStyle;Ljava/lang/String;Ljavafx/scene/text/TextBoundsType;)Ljava/lang/String;
+     208: astore        18
+     210: aload_2
+     211: aload         18
+     213: invokeinterface #311,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     218: pop
+     219: aload_1
+     220: aload         18
+     222: invokevirtual #312                // Method java/lang/String.length:()I
+     225: invokevirtual #313                // Method java/lang/String.substring:(I)Ljava/lang/String;
+     228: invokevirtual #314                // Method java/lang/String.trim:()Ljava/lang/String;
+     231: astore_1
+     232: aload_1
+     233: invokevirtual #312                // Method java/lang/String.length:()I
+     236: ifgt          170
+     239: aload_0
+     240: getfield      #6                  // Field pages:Ljava/util/List;
+     243: invokeinterface #315,  1          // InterfaceMethod java/util/List.clear:()V
+     248: aload_0
+     249: getfield      #6                  // Field pages:Ljava/util/List;
+     252: aload_2
+     253: invokeinterface #316,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+     258: pop
+     259: return
+
+  public int getCurrentChapterIndex();
+    Code:
+       0: aload_0
+       1: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+       4: invokevirtual #317                // Method javafx/beans/property/IntegerProperty.get:()I
+       7: ireturn
+
+  private java.lang.String currentPageText();
+    Code:
+       0: aload_0
+       1: getfield      #13                 // Field current:I
+       4: iflt          46
+       7: aload_0
+       8: getfield      #13                 // Field current:I
+      11: aload_0
+      12: getfield      #6                  // Field pages:Ljava/util/List;
+      15: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+      20: if_icmpge     46
+      23: aload_0
+      24: getfield      #6                  // Field pages:Ljava/util/List;
+      27: aload_0
+      28: getfield      #13                 // Field current:I
+      31: invokeinterface #139,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      36: checkcast     #2                  // class java/lang/String
+      39: astore_1
+      40: aload_0
+      41: aload_1
+      42: invokevirtual #318                // Method transformationSimpleTraditional:(Ljava/lang/String;)Ljava/lang/String;
+      45: areturn
+      46: aconst_null
+      47: areturn
+
+  private java.lang.String transformationSimpleTraditional(java.lang.String);
+    Code:
+       0: aload_1
+       1: invokestatic  #319                // Method com/unclezs/novel/analyzer/util/StringUtils.isBlank:(Ljava/lang/CharSequence;)Z
+       4: ifeq          9
+       7: aload_1
+       8: areturn
+       9: aload_0
+      10: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      13: invokevirtual #135                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSimpleTraditional:()Ljavafx/beans/property/ObjectProperty;
+      16: invokevirtual #37                 // Method javafx/beans/property/ObjectProperty.get:()Ljava/lang/Object;
+      19: checkcast     #136                // class java/lang/Integer
+      22: astore_2
+      23: aload_2
+      24: ifnonnull     31
+      27: iconst_0
+      28: goto          35
+      31: aload_2
+      32: invokevirtual #138                // Method java/lang/Integer.intValue:()I
+      35: invokestatic  #320                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      38: astore_2
+      39: aload_2
+      40: invokevirtual #138                // Method java/lang/Integer.intValue:()I
+      43: iconst_1
+      44: if_icmpne     55
+      47: aload_1
+      48: invokestatic  #321                // Method com/github/houbb/opencc4j/util/ZhConverterUtil.toSimple:(Ljava/lang/String;)Ljava/lang/String;
+      51: astore_1
+      52: goto          68
+      55: aload_2
+      56: invokevirtual #138                // Method java/lang/Integer.intValue:()I
+      59: iconst_2
+      60: if_icmpne     68
+      63: aload_1
+      64: invokestatic  #322                // Method com/github/houbb/opencc4j/util/ZhConverterUtil.toTraditional:(Ljava/lang/String;)Ljava/lang/String;
+      67: astore_1
+      68: aload_1
+      69: areturn
+
+  private void clearCaches();
+    Code:
+       0: aload_0
+       1: getfield      #6                  // Field pages:Ljava/util/List;
+       4: invokeinterface #315,  1          // InterfaceMethod java/util/List.clear:()V
+       9: aload_0
+      10: getfield      #3                  // Field contents:[Ljava/lang/String;
+      13: aconst_null
+      14: invokestatic  #323                // Method java/util/Arrays.fill:([Ljava/lang/Object;Ljava/lang/Object;)V
+      17: return
+
+  public void closeSetting();
+    Code:
+       0: aload_0
+       1: getfield      #261                // Field settingDrawer:Lcom/jfoenix/controls/JFXDrawer;
+       4: invokevirtual #324                // Method com/jfoenix/controls/JFXDrawer.close:()V
+       7: return
+
+  private void onSpeakClicked();
+    Code:
+       0: aload_0
+       1: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+       4: invokevirtual #244                // Method com/unclezs/novel/app/framework/components/SelectableButton.isSelected:()Z
+       7: ifeq          17
+      10: aload_0
+      11: invokevirtual #86                 // Method stopSpeaking:()V
+      14: goto          21
+      17: aload_0
+      18: invokevirtual #325                // Method startSpeaking:()V
+      21: aload_0
+      22: getfield      #261                // Field settingDrawer:Lcom/jfoenix/controls/JFXDrawer;
+      25: invokevirtual #324                // Method com/jfoenix/controls/JFXDrawer.close:()V
+      28: return
+
+  private void onPlayClicked();
+    Code:
+       0: aload_0
+       1: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+       4: invokevirtual #244                // Method com/unclezs/novel/app/framework/components/SelectableButton.isSelected:()Z
+       7: ifeq          17
+      10: aload_0
+      11: invokevirtual #327                // Method pauseTTS:()V
+      14: goto          22
+      17: aload_0
+      18: iconst_0
+      19: invokevirtual #245                // Method playTTS:(Z)V
+      22: aload_0
+      23: getfield      #261                // Field settingDrawer:Lcom/jfoenix/controls/JFXDrawer;
+      26: invokevirtual #324                // Method com/jfoenix/controls/JFXDrawer.close:()V
+      29: return
+
+  private void startSpeaking();
+    Code:
+       0: aload_0
+       1: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+       4: iconst_1
+       5: invokevirtual #328                // Method com/unclezs/novel/app/framework/components/SelectableButton.setSelected:(Z)V
+       8: aload_0
+       9: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      12: ldc_w         #329                // String ֹͣ
+      15: invokevirtual #330                // Method com/unclezs/novel/app/framework/components/SelectableButton.setText:(Ljava/lang/String;)V
+      18: aload_0
+      19: iconst_1
+      20: invokevirtual #245                // Method playTTS:(Z)V
+      23: aload_0
+      24: iconst_1
+      25: invokevirtual #45                 // Method setSettingView:(Z)V
+      28: aload_0
+      29: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      32: iconst_1
+      33: invokevirtual #331                // Method com/unclezs/novel/app/framework/components/SelectableButton.setVisible:(Z)V
+      36: aload_0
+      37: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      40: iconst_1
+      41: invokevirtual #332                // Method com/unclezs/novel/app/framework/components/SelectableButton.setManaged:(Z)V
+      44: return
+
+  private void stopSpeaking();
+    Code:
+       0: aload_0
+       1: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+       4: invokevirtual #244                // Method com/unclezs/novel/app/framework/components/SelectableButton.isSelected:()Z
+       7: ifne          11
+      10: return
+      11: aload_0
+      12: invokevirtual #327                // Method pauseTTS:()V
+      15: aload_0
+      16: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      19: iconst_0
+      20: invokevirtual #328                // Method com/unclezs/novel/app/framework/components/SelectableButton.setSelected:(Z)V
+      23: aload_0
+      24: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      27: ldc_w         #333                // String �ʶ�
+      30: invokevirtual #330                // Method com/unclezs/novel/app/framework/components/SelectableButton.setText:(Ljava/lang/String;)V
+      33: aload_0
+      34: getfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+      37: invokevirtual #334                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.dispose:()V
+      40: aload_0
+      41: iconst_0
+      42: invokevirtual #45                 // Method setSettingView:(Z)V
+      45: aload_0
+      46: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      49: iconst_0
+      50: invokevirtual #331                // Method com/unclezs/novel/app/framework/components/SelectableButton.setVisible:(Z)V
+      53: aload_0
+      54: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      57: iconst_0
+      58: invokevirtual #332                // Method com/unclezs/novel/app/framework/components/SelectableButton.setManaged:(Z)V
+      61: return
+
+  private void playTTS(boolean);
+    Code:
+       0: aload_0
+       1: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+       4: invokevirtual #244                // Method com/unclezs/novel/app/framework/components/SelectableButton.isSelected:()Z
+       7: ifeq          100
+      10: aload_0
+      11: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      14: iconst_1
+      15: invokevirtual #328                // Method com/unclezs/novel/app/framework/components/SelectableButton.setSelected:(Z)V
+      18: aload_0
+      19: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      22: ldc_w         #335                // String ��ͣ
+      25: invokevirtual #330                // Method com/unclezs/novel/app/framework/components/SelectableButton.setText:(Ljava/lang/String;)V
+      28: iload_1
+      29: ifeq          93
+      32: aload_0
+      33: invokevirtual #238                // Method currentPageText:()Ljava/lang/String;
+      36: astore_2
+      37: aload_0
+      38: getfield      #13                 // Field current:I
+      41: ifne          75
+      44: aload_0
+      45: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+      48: invokevirtual #65                 // Method com/unclezs/novel/app/main/core/loader/AbstractBookLoader.toc:()Ljava/util/List;
+      51: aload_0
+      52: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      55: invokeinterface #139,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      60: checkcast     #240                // class com/unclezs/novel/analyzer/model/Chapter
+      63: invokevirtual #241                // Method com/unclezs/novel/analyzer/model/Chapter.getName:()Ljava/lang/String;
+      66: astore_3
+      67: aload_3
+      68: aload_2
+      69: invokedynamic #336,  0            // InvokeDynamic #35:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      74: astore_2
+      75: aload_0
+      76: getfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+      79: aload_2
+      80: invokevirtual #337                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.setText:(Ljava/lang/String;)V
+      83: aload_0
+      84: getfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+      87: invokevirtual #338                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.speak:()V
+      90: goto          100
+      93: aload_0
+      94: getfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+      97: invokevirtual #339                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.play:()V
+     100: return
+
+  private void pauseTTS();
+    Code:
+       0: aload_0
+       1: getfield      #243                // Field speakButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+       4: invokevirtual #244                // Method com/unclezs/novel/app/framework/components/SelectableButton.isSelected:()Z
+       7: ifeq          56
+      10: aload_0
+      11: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      14: invokevirtual #244                // Method com/unclezs/novel/app/framework/components/SelectableButton.isSelected:()Z
+      17: ifeq          56
+      20: aload_0
+      21: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      24: iconst_0
+      25: invokevirtual #328                // Method com/unclezs/novel/app/framework/components/SelectableButton.setSelected:(Z)V
+      28: getstatic     #340                // Field log:Lorg/slf4j/Logger;
+      31: ldc_w         #341                // String ��ͣ����
+      34: invokeinterface #342,  2          // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;)V
+      39: aload_0
+      40: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      43: ldc_w         #343                // String ����
+      46: invokevirtual #330                // Method com/unclezs/novel/app/framework/components/SelectableButton.setText:(Ljava/lang/String;)V
+      49: aload_0
+      50: getfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+      53: invokevirtual #344                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.pause:()V
+      56: return
+
+  private void lambda$loadContent$43(java.lang.Throwable);
+    Code:
+       0: aload_0
+       1: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+       4: checkcast     #345                // class javafx/scene/layout/StackPane
+       7: ldc_w         #346                // String ����ʧ��
+      10: invokestatic  #347                // Method com/unclezs/novel/app/framework/components/Toast.error:(Ljavafx/scene/layout/StackPane;Ljava/lang/String;)V
+      13: return
+
+  private static void lambda$loadContent$42(java.lang.Runnable, java.lang.Object);
+    Code:
+       0: aload_0
+       1: invokeinterface #294,  1          // InterfaceMethod java/lang/Runnable.run:()V
+       6: return
+
+  private java.lang.Object lambda$loadContent$41(int[]) throws java.lang.Exception;
+    Code:
+       0: aload_1
+       1: astore_2
+       2: aload_2
+       3: arraylength
+       4: istore_3
+       5: iconst_0
+       6: istore        4
+       8: iload         4
+      10: iload_3
+      11: if_icmpge     33
+      14: aload_2
+      15: iload         4
+      17: iaload
+      18: istore        5
+      20: aload_0
+      21: iload         5
+      23: invokevirtual #348                // Method contents:(I)Ljava/lang/String;
+      26: pop
+      27: iinc          4, 1
+      30: goto          8
+      33: aconst_null
+      34: areturn
+
+  private void lambda$toChapter$40();
+    Code:
+       0: aload_0
+       1: getfield      #3                  // Field contents:[Ljava/lang/String;
+       4: iconst_1
+       5: aload_0
+       6: iconst_1
+       7: invokevirtual #348                // Method contents:(I)Ljava/lang/String;
+      10: aastore
+      11: aload_0
+      12: aload_0
+      13: getfield      #3                  // Field contents:[Ljava/lang/String;
+      16: iconst_1
+      17: aaload
+      18: invokevirtual #216                // Method computePages:(Ljava/lang/String;)V
+      21: aload_0
+      22: iconst_0
+      23: getstatic     #217                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.NONE:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      26: invokevirtual #218                // Method displayPage:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      29: aload_0
+      30: invokevirtual #226                // Method updatePageTitle:()V
+      33: return
+
+  private void lambda$nextChapter$39();
+    Code:
+       0: aload_0
+       1: getfield      #3                  // Field contents:[Ljava/lang/String;
+       4: iconst_1
+       5: aload_0
+       6: iconst_2
+       7: invokevirtual #348                // Method contents:(I)Ljava/lang/String;
+      10: aastore
+      11: aload_0
+      12: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+      15: aload_0
+      16: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      19: iconst_1
+      20: iadd
+      21: invokevirtual #71                 // Method javafx/beans/property/IntegerProperty.set:(I)V
+      24: aload_0
+      25: aload_0
+      26: getfield      #3                  // Field contents:[Ljava/lang/String;
+      29: iconst_1
+      30: aaload
+      31: invokevirtual #216                // Method computePages:(Ljava/lang/String;)V
+      34: aload_0
+      35: iconst_0
+      36: getstatic     #229                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.NEXT:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      39: invokevirtual #218                // Method displayPage:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      42: aload_0
+      43: invokevirtual #226                // Method updatePageTitle:()V
+      46: return
+
+  private void lambda$preChapter$38(boolean);
+    Code:
+       0: aload_0
+       1: getfield      #3                  // Field contents:[Ljava/lang/String;
+       4: iconst_1
+       5: aload_0
+       6: iconst_0
+       7: invokevirtual #348                // Method contents:(I)Ljava/lang/String;
+      10: aastore
+      11: aload_0
+      12: getfield      #3                  // Field contents:[Ljava/lang/String;
+      15: iconst_0
+      16: aconst_null
+      17: aastore
+      18: aload_0
+      19: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+      22: aload_0
+      23: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      26: iconst_1
+      27: isub
+      28: invokevirtual #71                 // Method javafx/beans/property/IntegerProperty.set:(I)V
+      31: aload_0
+      32: aload_0
+      33: getfield      #3                  // Field contents:[Ljava/lang/String;
+      36: iconst_1
+      37: aaload
+      38: invokevirtual #216                // Method computePages:(Ljava/lang/String;)V
+      41: iload_1
+      42: ifeq          66
+      45: aload_0
+      46: aload_0
+      47: getfield      #6                  // Field pages:Ljava/util/List;
+      50: invokeinterface #68,  1           // InterfaceMethod java/util/List.size:()I
+      55: iconst_1
+      56: isub
+      57: getstatic     #276                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.PRE:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      60: invokevirtual #218                // Method displayPage:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      63: goto          74
+      66: aload_0
+      67: iconst_0
+      68: getstatic     #276                // Field com/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType.PRE:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      71: invokevirtual #218                // Method displayPage:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      74: aload_0
+      75: invokevirtual #226                // Method updatePageTitle:()V
+      78: return
+
+  private void lambda$displayPageByDebounce$37(javafx.event.ActionEvent);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: putfield      #225                // Field turnPaging:Z
+       5: return
+
+  private void lambda$displayPage$36();
+    Code:
+       0: aload_0
+       1: aload_0
+       2: getfield      #219                // Field displayPageTask:Lcom/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask;
+       5: getfield      #349                // Field com/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask.page:I
+       8: aload_0
+       9: getfield      #219                // Field displayPageTask:Lcom/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask;
+      12: getfield      #350                // Field com/unclezs/novel/app/main/views/reader/ReaderView$DisplayPageTask.type:Lcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;
+      15: invokevirtual #351                // Method displayPageByDebounce:(ILcom/unclezs/novel/app/main/views/reader/ReaderView$TurnPageType;)V
+      18: return
+
+  private void lambda$updateFont$35(com.unclezs.novel.app.main.views.reader.PageView);
+    Code:
+       0: aload_1
+       1: ldc_w         #352                // String -fx-font-size: %spx;-fx-font-family: \'%s\'
+       4: iconst_2
+       5: anewarray     #353                // class java/lang/Object
+       8: dup
+       9: iconst_0
+      10: aload_0
+      11: getfield      #154                // Field fontSizeSlider:Lcom/jfoenix/controls/JFXSlider;
+      14: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+      17: invokestatic  #76                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      20: aastore
+      21: dup
+      22: iconst_1
+      23: aload_0
+      24: getfield      #146                // Field fontSelector:Ljavafx/scene/control/ComboBox;
+      27: invokevirtual #355                // Method javafx/scene/control/ComboBox.getValue:()Ljava/lang/Object;
+      30: aastore
+      31: invokestatic  #356                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      34: invokevirtual #357                // Method com/unclezs/novel/app/main/views/reader/PageView.setStyle:(Ljava/lang/String;)V
+      37: aload_1
+      38: invokevirtual #302                // Method com/unclezs/novel/app/main/views/reader/PageView.getTitle:()Ljavafx/scene/control/Label;
+      41: ldc_w         #352                // String -fx-font-size: %spx;-fx-font-family: \'%s\'
+      44: iconst_2
+      45: anewarray     #353                // class java/lang/Object
+      48: dup
+      49: iconst_0
+      50: aload_0
+      51: getfield      #154                // Field fontSizeSlider:Lcom/jfoenix/controls/JFXSlider;
+      54: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+      57: ldc2_w        #358                // double 12.0d
+      60: dadd
+      61: invokestatic  #76                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      64: aastore
+      65: dup
+      66: iconst_1
+      67: aload_0
+      68: getfield      #146                // Field fontSelector:Ljavafx/scene/control/ComboBox;
+      71: invokevirtual #355                // Method javafx/scene/control/ComboBox.getValue:()Ljava/lang/Object;
+      74: aastore
+      75: invokestatic  #356                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      78: invokevirtual #360                // Method javafx/scene/control/Label.setStyle:(Ljava/lang/String;)V
+      81: return
+
+  private void lambda$initTTSPlayer$34(javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: getfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+       4: aload_0
+       5: getfield      #193                // Field ttsSpeedSlider:Lcom/jfoenix/controls/JFXSlider;
+       8: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+      11: invokevirtual #361                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.setSpeed:(D)V
+      14: aload_0
+      15: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      18: invokevirtual #195                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSpeed:()Ljavafx/beans/property/ObjectProperty;
+      21: aload_0
+      22: getfield      #193                // Field ttsSpeedSlider:Lcom/jfoenix/controls/JFXSlider;
+      25: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+      28: invokestatic  #76                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      31: invokevirtual #77                 // Method javafx/beans/property/ObjectProperty.set:(Ljava/lang/Object;)V
+      34: return
+
+  private static javafx.beans.binding.StringBinding lambda$initTTSPlayer$33(com.jfoenix.controls.JFXSlider);
+    Code:
+       0: aload_0
+       1: invokedynamic #362,  0            // InvokeDynamic #36:call:(Lcom/jfoenix/controls/JFXSlider;)Ljava/util/concurrent/Callable;
+       6: iconst_1
+       7: anewarray     #363                // class javafx/beans/Observable
+      10: dup
+      11: iconst_0
+      12: aload_0
+      13: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+      16: aastore
+      17: invokestatic  #364                // Method javafx/beans/binding/Bindings.createStringBinding:(Ljava/util/concurrent/Callable;[Ljavafx/beans/Observable;)Ljavafx/beans/binding/StringBinding;
+      20: areturn
+
+  private static java.lang.String lambda$initTTSPlayer$32(com.jfoenix.controls.JFXSlider) throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+       4: ldc2_w        #365                // double 10.0d
+       7: dmul
+       8: d2i
+       9: invokestatic  #367                // Method java/lang/String.valueOf:(I)Ljava/lang/String;
+      12: areturn
+
+  private void lambda$initTTSPlayer$31(java.util.List, javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field speakerSelector:Ljavafx/scene/control/ComboBox;
+       4: invokevirtual #189                // Method javafx/scene/control/ComboBox.getSelectionModel:()Ljavafx/scene/control/SingleSelectionModel;
+       7: invokevirtual #368                // Method javafx/scene/control/SingleSelectionModel.getSelectedIndex:()I
+      10: istore_3
+      11: aload_0
+      12: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      15: invokevirtual #190                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSpeaker:()Ljavafx/beans/property/ObjectProperty;
+      18: iload_3
+      19: invokestatic  #320                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      22: invokevirtual #77                 // Method javafx/beans/property/ObjectProperty.set:(Ljava/lang/Object;)V
+      25: aload_0
+      26: getfield      #202                // Field player:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+      29: aload_1
+      30: iload_3
+      31: invokeinterface #139,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+      36: checkcast     #199                // class com/unclezs/novel/app/main/model/config/TTSConfig
+      39: invokevirtual #369                // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.setConfig:(Lcom/unclezs/novel/app/main/model/config/TTSConfig;)V
+      42: aload_0
+      43: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      46: ldc_w         #335                // String ��ͣ
+      49: invokevirtual #330                // Method com/unclezs/novel/app/framework/components/SelectableButton.setText:(Ljava/lang/String;)V
+      52: aload_0
+      53: getfield      #326                // Field playButton:Lcom/unclezs/novel/app/framework/components/SelectableButton;
+      56: iconst_1
+      57: invokevirtual #328                // Method com/unclezs/novel/app/framework/components/SelectableButton.setSelected:(Z)V
+      60: return
+
+  private void lambda$initSetting$30(javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: invokevirtual #167                // Method updateShadow:()V
+       4: return
+
+  private void lambda$initSetting$28(javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokedynamic #161,  0            // InvokeDynamic #19:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+       7: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+      10: aload_0
+      11: invokevirtual #207                // Method updateDisplayText:()V
+      14: return
+
+  private void lambda$initSetting$27(com.unclezs.novel.app.main.views.reader.PageView);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: getfield      #158                // Field lineSpaceSlider:Lcom/jfoenix/controls/JFXSlider;
+       5: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+       8: invokevirtual #370                // Method com/unclezs/novel/app/main/views/reader/PageView.setLineSpacing:(D)V
+      11: return
+
+  private void lambda$initSetting$25(javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: invokevirtual #157                // Method updateFont:()V
+       4: return
+
+  private void lambda$initSetting$24(com.unclezs.novel.app.framework.components.TabButton);
+    Code:
+       0: aload_1
+       1: invokevirtual #371                // Method com/unclezs/novel/app/framework/components/TabButton.getUserData:()Ljava/lang/Object;
+       4: invokevirtual #372                // Method java/lang/Object.toString:()Ljava/lang/String;
+       7: astore_2
+       8: aload_0
+       9: aload_2
+      10: invokedynamic #373,  0            // InvokeDynamic #37:accept:(Ljava/lang/String;)Ljava/util/function/Consumer;
+      15: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+      18: aload_0
+      19: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      22: invokevirtual #144                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getAlign:()Ljavafx/beans/property/ObjectProperty;
+      25: aload_2
+      26: invokevirtual #77                 // Method javafx/beans/property/ObjectProperty.set:(Ljava/lang/Object;)V
+      29: return
+
+  private static void lambda$initSetting$23(java.lang.String, com.unclezs.novel.app.main.views.reader.PageView);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: invokestatic  #374                // Method javafx/scene/text/TextAlignment.valueOf:(Ljava/lang/String;)Ljavafx/scene/text/TextAlignment;
+       5: invokevirtual #375                // Method com/unclezs/novel/app/main/views/reader/PageView.setTextAlignment:(Ljavafx/scene/text/TextAlignment;)V
+       8: return
+
+  private void lambda$initSetting$22(com.unclezs.novel.app.framework.components.TabButton);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokedynamic #376,  0            // InvokeDynamic #38:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+       7: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+      10: aload_0
+      11: getfield      #16                 // Field config:Lcom/unclezs/novel/app/main/model/config/ReaderConfig;
+      14: invokevirtual #135                // Method com/unclezs/novel/app/main/model/config/ReaderConfig.getSimpleTraditional:()Ljavafx/beans/property/ObjectProperty;
+      17: aload_0
+      18: getfield      #132                // Field simpleTraditionalGroup:Lcom/unclezs/novel/app/framework/components/TabGroup;
+      21: invokevirtual #137                // Method com/unclezs/novel/app/framework/components/TabGroup.getTabs:()Ljava/util/List;
+      24: aload_1
+      25: invokeinterface #377,  2          // InterfaceMethod java/util/List.indexOf:(Ljava/lang/Object;)I
+      30: invokestatic  #320                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      33: invokevirtual #77                 // Method javafx/beans/property/ObjectProperty.set:(Ljava/lang/Object;)V
+      36: return
+
+  private void lambda$initSetting$21(com.unclezs.novel.app.main.views.reader.PageView);
+    Code:
+       0: aload_0
+       1: invokevirtual #207                // Method updateDisplayText:()V
+       4: return
+
+  private static javafx.beans.binding.StringBinding lambda$initSetting$20(com.jfoenix.controls.JFXSlider);
+    Code:
+       0: aload_0
+       1: invokedynamic #378,  0            // InvokeDynamic #39:call:(Lcom/jfoenix/controls/JFXSlider;)Ljava/util/concurrent/Callable;
+       6: iconst_1
+       7: anewarray     #363                // class javafx/beans/Observable
+      10: dup
+      11: iconst_0
+      12: aload_0
+      13: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+      16: aastore
+      17: invokestatic  #364                // Method javafx/beans/binding/Bindings.createStringBinding:(Ljava/util/concurrent/Callable;[Ljavafx/beans/Observable;)Ljavafx/beans/binding/StringBinding;
+      20: areturn
+
+  private static java.lang.String lambda$initSetting$19(com.jfoenix.controls.JFXSlider) throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+       4: ldc2_w        #379                // double 100.0d
+       7: dmul
+       8: d2i
+       9: invokedynamic #381,  0            // InvokeDynamic #40:makeConcatWithConstants:(I)Ljava/lang/String;
+      14: areturn
+
+  private void lambda$initSetting$18(com.unclezs.novel.app.main.views.reader.PageView);
+    Code:
+       0: aload_1
+       1: invokevirtual #382                // Method com/unclezs/novel/app/main/views/reader/PageView.widthProperty:()Ljavafx/beans/property/ReadOnlyDoubleProperty;
+       4: aload_0
+       5: invokedynamic #383,  0            // InvokeDynamic #41:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+      10: invokevirtual #127                // Method javafx/beans/property/ReadOnlyDoubleProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+      13: aload_1
+      14: invokevirtual #384                // Method com/unclezs/novel/app/main/views/reader/PageView.heightProperty:()Ljavafx/beans/property/ReadOnlyDoubleProperty;
+      17: aload_0
+      18: invokedynamic #383,  0            // InvokeDynamic #41:invalidated:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljavafx/beans/InvalidationListener;
+      23: invokevirtual #127                // Method javafx/beans/property/ReadOnlyDoubleProperty.addListener:(Ljavafx/beans/InvalidationListener;)V
+      26: aload_1
+      27: invokevirtual #385                // Method com/unclezs/novel/app/main/views/reader/PageView.prefWidthProperty:()Ljavafx/beans/property/DoubleProperty;
+      30: aload_0
+      31: invokedynamic #386,  0            // InvokeDynamic #42:call:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/concurrent/Callable;
+      36: iconst_2
+      37: anewarray     #363                // class javafx/beans/Observable
+      40: dup
+      41: iconst_0
+      42: aload_0
+      43: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+      46: invokevirtual #125                // Method javafx/scene/layout/StackPane.widthProperty:()Ljavafx/beans/property/ReadOnlyDoubleProperty;
+      49: aastore
+      50: dup
+      51: iconst_1
+      52: aload_0
+      53: getfield      #129                // Field pageWidthSlider:Lcom/jfoenix/controls/JFXSlider;
+      56: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+      59: aastore
+      60: invokestatic  #387                // Method javafx/beans/binding/Bindings.createDoubleBinding:(Ljava/util/concurrent/Callable;[Ljavafx/beans/Observable;)Ljavafx/beans/binding/DoubleBinding;
+      63: invokevirtual #388                // Method javafx/beans/property/DoubleProperty.bind:(Ljavafx/beans/value/ObservableValue;)V
+      66: return
+
+  private java.lang.Double lambda$initSetting$17() throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+       4: invokevirtual #234                // Method javafx/scene/layout/StackPane.getWidth:()D
+       7: aload_0
+       8: getfield      #129                // Field pageWidthSlider:Lcom/jfoenix/controls/JFXSlider;
+      11: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+      14: dmul
+      15: invokestatic  #76                 // Method java/lang/Double.valueOf:(D)Ljava/lang/Double;
+      18: areturn
+
+  private void lambda$initSetting$15(javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: invokevirtual #207                // Method updateDisplayText:()V
+       4: return
+
+  private void lambda$initSetting$14(javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: aload_0
+       2: invokedynamic #389,  0            // InvokeDynamic #43:accept:(Lcom/unclezs/novel/app/main/views/reader/ReaderView;)Ljava/util/function/Consumer;
+       7: invokevirtual #84                 // Method forEachPageView:(Ljava/util/function/Consumer;)V
+      10: return
+
+  private void lambda$initSetting$13(com.unclezs.novel.app.main.views.reader.PageView);
+    Code:
+       0: aload_1
+       1: invokevirtual #390                // Method com/unclezs/novel/app/main/views/reader/PageView.getTranslateX:()D
+       4: dconst_0
+       5: dcmpg
+       6: ifge          21
+       9: aload_1
+      10: aload_0
+      11: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+      14: invokevirtual #234                // Method javafx/scene/layout/StackPane.getWidth:()D
+      17: dneg
+      18: invokevirtual #230                // Method com/unclezs/novel/app/main/views/reader/PageView.setTranslateX:(D)V
+      21: return
+
+  private void lambda$initSetting$12(javafx.scene.input.MouseEvent);
+    Code:
+       0: aload_0
+       1: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+       4: aload_0
+       5: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+       8: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+      11: d2i
+      12: invokevirtual #71                 // Method javafx/beans/property/IntegerProperty.set:(I)V
+      15: aload_0
+      16: aload_0
+      17: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      20: invokevirtual #391                // Method toChapter:(I)V
+      23: return
+
+  private static javafx.beans.binding.StringBinding lambda$initSetting$11(com.jfoenix.controls.JFXSlider);
+    Code:
+       0: aload_0
+       1: invokedynamic #392,  0            // InvokeDynamic #44:call:(Lcom/jfoenix/controls/JFXSlider;)Ljava/util/concurrent/Callable;
+       6: iconst_1
+       7: anewarray     #363                // class javafx/beans/Observable
+      10: dup
+      11: iconst_0
+      12: aload_0
+      13: invokevirtual #116                // Method com/jfoenix/controls/JFXSlider.valueProperty:()Ljavafx/beans/property/DoubleProperty;
+      16: aastore
+      17: invokestatic  #364                // Method javafx/beans/binding/Bindings.createStringBinding:(Ljava/util/concurrent/Callable;[Ljavafx/beans/Observable;)Ljavafx/beans/binding/StringBinding;
+      20: areturn
+
+  private static java.lang.String lambda$initSetting$10(com.jfoenix.controls.JFXSlider) throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+       4: d2i
+       5: iconst_1
+       6: iadd
+       7: aload_0
+       8: invokevirtual #393                // Method com/jfoenix/controls/JFXSlider.getMax:()D
+      11: d2i
+      12: iconst_1
+      13: iadd
+      14: invokedynamic #394,  0            // InvokeDynamic #45:makeConcatWithConstants:(II)Ljava/lang/String;
+      19: areturn
+
+  private void lambda$initSetting$9(javafx.beans.Observable);
+    Code:
+       0: aload_0
+       1: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+       4: invokevirtual #395                // Method com/jfoenix/controls/JFXSlider.isValueChanging:()Z
+       7: ifne          33
+      10: aload_0
+      11: getfield      #9                  // Field currentChapterIndex:Ljavafx/beans/property/IntegerProperty;
+      14: aload_0
+      15: getfield      #67                 // Field chapterSlider:Lcom/jfoenix/controls/JFXSlider;
+      18: invokevirtual #354                // Method com/jfoenix/controls/JFXSlider.getValue:()D
+      21: d2i
+      22: invokevirtual #71                 // Method javafx/beans/property/IntegerProperty.set:(I)V
+      25: aload_0
+      26: aload_0
+      27: invokevirtual #80                 // Method getCurrentChapterIndex:()I
+      30: invokevirtual #391                // Method toChapter:(I)V
+      33: return
+
+  private static void lambda$initHotkey$8(java.util.concurrent.atomic.AtomicBoolean, com.unclezs.novel.app.framework.executor.DebounceTask, javafx.scene.input.ScrollEvent);
+    Code:
+       0: aload_0
+       1: aload_2
+       2: invokevirtual #396                // Method javafx/scene/input/ScrollEvent.getDeltaY:()D
+       5: dconst_0
+       6: dcmpg
+       7: ifge          14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: invokevirtual #397                // Method java/util/concurrent/atomic/AtomicBoolean.set:(Z)V
+      18: aload_1
+      19: invokevirtual #398                // Method com/unclezs/novel/app/framework/executor/DebounceTask.run:()V
+      22: return
+
+  private void lambda$initHotkey$7(java.util.concurrent.atomic.AtomicBoolean);
+    Code:
+       0: aload_0
+       1: getfield      #261                // Field settingDrawer:Lcom/jfoenix/controls/JFXDrawer;
+       4: invokevirtual #399                // Method com/jfoenix/controls/JFXDrawer.isOpened:()Z
+       7: ifne          20
+      10: aload_0
+      11: getfield      #275                // Field tocDrawer:Lcom/jfoenix/controls/JFXDrawer;
+      14: invokevirtual #399                // Method com/jfoenix/controls/JFXDrawer.isOpened:()Z
+      17: ifeq          21
+      20: return
+      21: aload_1
+      22: invokevirtual #400                // Method java/util/concurrent/atomic/AtomicBoolean.get:()Z
+      25: ifeq          35
+      28: aload_0
+      29: invokevirtual #401                // Method nextPage:()V
+      32: goto          39
+      35: aload_0
+      36: invokevirtual #402                // Method prePage:()V
+      39: return
+
+  private void lambda$initHotkey$6(com.unclezs.novel.app.main.model.config.HotKeyConfig, javafx.scene.input.KeyEvent);
+    Code:
+       0: aload_1
+       1: invokevirtual #403                // Method com/unclezs/novel/app/main/model/config/HotKeyConfig.getReaderNextChapter:()Ljava/lang/String;
+       4: aload_2
+       5: invokestatic  #404                // Method com/unclezs/novel/app/framework/support/hotkey/HotKeyManager.windowHotKeyMatch:(Ljava/lang/String;Ljavafx/scene/input/KeyEvent;)Z
+       8: ifeq          18
+      11: aload_0
+      12: invokevirtual #278                // Method nextChapter:()V
+      15: goto          112
+      18: aload_1
+      19: invokevirtual #405                // Method com/unclezs/novel/app/main/model/config/HotKeyConfig.getReaderPreChapter:()Ljava/lang/String;
+      22: aload_2
+      23: invokestatic  #404                // Method com/unclezs/novel/app/framework/support/hotkey/HotKeyManager.windowHotKeyMatch:(Ljava/lang/String;Ljavafx/scene/input/KeyEvent;)Z
+      26: ifeq          36
+      29: aload_0
+      30: invokevirtual #406                // Method preChapter:()V
+      33: goto          112
+      36: aload_1
+      37: invokevirtual #407                // Method com/unclezs/novel/app/main/model/config/HotKeyConfig.getReaderNextPage:()Ljava/lang/String;
+      40: aload_2
+      41: invokestatic  #404                // Method com/unclezs/novel/app/framework/support/hotkey/HotKeyManager.windowHotKeyMatch:(Ljava/lang/String;Ljavafx/scene/input/KeyEvent;)Z
+      44: ifeq          54
+      47: aload_0
+      48: invokevirtual #401                // Method nextPage:()V
+      51: goto          112
+      54: aload_1
+      55: invokevirtual #408                // Method com/unclezs/novel/app/main/model/config/HotKeyConfig.getReaderPrePage:()Ljava/lang/String;
+      58: aload_2
+      59: invokestatic  #404                // Method com/unclezs/novel/app/framework/support/hotkey/HotKeyManager.windowHotKeyMatch:(Ljava/lang/String;Ljavafx/scene/input/KeyEvent;)Z
+      62: ifeq          72
+      65: aload_0
+      66: invokevirtual #402                // Method prePage:()V
+      69: goto          112
+      72: aload_1
+      73: invokevirtual #409                // Method com/unclezs/novel/app/main/model/config/HotKeyConfig.getReaderToc:()Ljava/lang/String;
+      76: aload_2
+      77: invokestatic  #404                // Method com/unclezs/novel/app/framework/support/hotkey/HotKeyManager.windowHotKeyMatch:(Ljava/lang/String;Ljavafx/scene/input/KeyEvent;)Z
+      80: ifeq          90
+      83: aload_0
+      84: invokevirtual #410                // Method showToc:()V
+      87: goto          112
+      90: aload_2
+      91: invokevirtual #411                // Method javafx/scene/input/KeyEvent.getCode:()Ljavafx/scene/input/KeyCode;
+      94: getstatic     #412                // Field javafx/scene/input/KeyCode.ESCAPE:Ljavafx/scene/input/KeyCode;
+      97: if_acmpne     112
+     100: aload_0
+     101: aload_0
+     102: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+     105: checkcast     #18                 // class com/unclezs/novel/app/framework/components/StageDecorator
+     108: aconst_null
+     109: invokevirtual #413                // Method onClose:(Lcom/unclezs/novel/app/framework/components/StageDecorator;Lcom/unclezs/novel/app/framework/components/icon/IconButton;)V
+     112: return
+
+  private void lambda$initBehavior$5(javafx.scene.input.ContextMenuEvent);
+    Code:
+       0: aload_0
+       1: getfield      #25                 // Field contextMenu:Lcom/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu;
+       4: aload_0
+       5: invokevirtual #17                 // Method getRoot:()Ljava/lang/Object;
+       8: checkcast     #414                // class javafx/scene/Node
+      11: aload_1
+      12: invokevirtual #415                // Method javafx/scene/input/ContextMenuEvent.getScreenX:()D
+      15: aload_1
+      16: invokevirtual #416                // Method javafx/scene/input/ContextMenuEvent.getScreenY:()D
+      19: invokevirtual #417                // Method com/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu.show:(Ljavafx/scene/Node;DD)V
+      22: return
+
+  private void lambda$initBehavior$4(javafx.scene.input.MouseEvent);
+    Code:
+       0: aload_1
+       1: invokevirtual #418                // Method javafx/scene/input/MouseEvent.getButton:()Ljavafx/scene/input/MouseButton;
+       4: getstatic     #419                // Field javafx/scene/input/MouseButton.PRIMARY:Ljavafx/scene/input/MouseButton;
+       7: if_acmpne     164
+      10: aload_1
+      11: invokevirtual #420                // Method javafx/scene/input/MouseEvent.getX:()D
+      14: dstore_2
+      15: aload_1
+      16: invokevirtual #421                // Method javafx/scene/input/MouseEvent.getY:()D
+      19: dstore        4
+      21: aload_0
+      22: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+      25: invokevirtual #234                // Method javafx/scene/layout/StackPane.getWidth:()D
+      28: dstore        6
+      30: aload_0
+      31: getfield      #93                 // Field container:Ljavafx/scene/layout/StackPane;
+      34: invokevirtual #422                // Method javafx/scene/layout/StackPane.getHeight:()D
+      37: dstore        8
+      39: dload_2
+      40: dload         6
+      42: ldc2_w        #423                // double 0.05d
+      45: dmul
+      46: dcmpg
+      47: ifge          57
+      50: aload_0
+      51: invokevirtual #410                // Method showToc:()V
+      54: goto          143
+      57: dload_2
+      58: dload         6
+      60: ldc2_w        #425                // double 0.25d
+      63: dmul
+      64: dcmpg
+      65: iflt          91
+      68: dload         4
+      70: dload         8
+      72: ldc2_w        #425                // double 0.25d
+      75: dmul
+      76: dcmpg
+      77: ifge          98
+      80: dload_2
+      81: dload         6
+      83: ldc2_w        #427                // double 0.75d
+      86: dmul
+      87: dcmpg
+      88: ifge          98
+      91: aload_0
+      92: invokevirtual #402                // Method prePage:()V
+      95: goto          143
+      98: dload_2
+      99: dload         6
+     101: ldc2_w        #427                // double 0.75d
+     104: dmul
+     105: dcmpl
+     106: ifgt          132
+     109: dload         4
+     111: dload         8
+     113: ldc2_w        #427                // double 0.75d
+     116: dmul
+     117: dcmpl
+     118: ifle          139
+     121: dload_2
+     122: dload         6
+     124: ldc2_w        #425                // double 0.25d
+     127: dmul
+     128: dcmpl
+     129: ifle          139
+     132: aload_0
+     133: invokevirtual #401                // Method nextPage:()V
+     136: goto          143
+     139: aload_0
+     140: invokevirtual #92                 // Method showOperationView:()V
+     143: aload_0
+     144: getfield      #25                 // Field contextMenu:Lcom/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu;
+     147: invokevirtual #429                // Method com/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu.isShowing:()Z
+     150: ifeq          160
+     153: aload_0
+     154: getfield      #25                 // Field contextMenu:Lcom/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu;
+     157: invokevirtual #430                // Method com/unclezs/novel/app/main/views/reader/widgets/ReaderContextMenu.hide:()V
+     160: aload_1
+     161: invokevirtual #431                // Method javafx/scene/input/MouseEvent.consume:()V
+     164: return
+
+  private static void lambda$onClose$3(com.unclezs.novel.app.main.views.reader.PageView);
+    Code:
+       0: aload_0
+       1: aconst_null
+       2: invokevirtual #239                // Method com/unclezs/novel/app/main/views/reader/PageView.setText:(Ljava/lang/String;)V
+       5: return
+
+  private void lambda$onShow$2();
+    Code:
+       0: aload_0
+       1: getfield      #3                  // Field contents:[Ljava/lang/String;
+       4: iconst_1
+       5: aload_0
+       6: iconst_1
+       7: invokevirtual #348                // Method contents:(I)Ljava/lang/String;
+      10: aastore
+      11: aload_0
+      12: aload_0
+      13: getfield      #54                 // Field book:Lcom/unclezs/novel/app/main/db/beans/Book;
+      16: invokevirtual #432                // Method com/unclezs/novel/app/main/db/beans/Book.getCurrentPage:()I
+      19: putfield      #13                 // Field current:I
+      22: aload_0
+      23: invokevirtual #207                // Method updateDisplayText:()V
+      26: return
+
+  private void lambda$onCreated$1(javafx.scene.input.MouseEvent);
+    Code:
+       0: aload_0
+       1: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+       4: invokevirtual #272                // Method javafx/scene/control/ListView.getSelectionModel:()Ljavafx/scene/control/MultipleSelectionModel;
+       7: invokevirtual #433                // Method javafx/scene/control/MultipleSelectionModel.isEmpty:()Z
+      10: ifne          38
+      13: aload_0
+      14: aload_0
+      15: getfield      #30                 // Field tocListView:Ljavafx/scene/control/ListView;
+      18: invokevirtual #272                // Method javafx/scene/control/ListView.getSelectionModel:()Ljavafx/scene/control/MultipleSelectionModel;
+      21: invokevirtual #434                // Method javafx/scene/control/MultipleSelectionModel.getSelectedIndex:()I
+      24: invokevirtual #391                // Method toChapter:(I)V
+      27: aload_0
+      28: getfield      #260                // Field drawer:Lcom/jfoenix/controls/JFXDrawersStack;
+      31: aload_0
+      32: getfield      #275                // Field tocDrawer:Lcom/jfoenix/controls/JFXDrawer;
+      35: invokevirtual #262                // Method com/jfoenix/controls/JFXDrawersStack.toggle:(Lcom/jfoenix/controls/JFXDrawer;)V
+      38: return
+
+  private javafx.scene.control.ListCell lambda$onCreated$0(javafx.scene.control.ListView);
+    Code:
+       0: new           #435                // class com/unclezs/novel/app/main/views/components/cell/TocListCell
+       3: dup
+       4: aload_0
+       5: getfield      #60                 // Field loader:Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;
+       8: dup
+       9: invokestatic  #436                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+      12: pop
+      13: invokedynamic #437,  0            // InvokeDynamic #46:apply:(Lcom/unclezs/novel/app/main/core/loader/AbstractBookLoader;)Ljava/util/function/Function;
+      18: invokespecial #438                // Method com/unclezs/novel/app/main/views/components/cell/TocListCell."<init>":(Ljava/util/function/Function;)V
+      21: areturn
+
+  static {};
+    Code:
+       0: ldc_w         #439                // String ReaderView
+       3: invokestatic  #440                // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+       6: putstatic     #340                // Field log:Lorg/slf4j/Logger;
+       9: iconst_2
+      10: anewarray     #2                  // class java/lang/String
+      13: dup
+      14: iconst_0
+      15: ldc_w         #441                // String no-window-shadow
+      18: aastore
+      19: dup
+      20: iconst_1
+      21: ldc_w         #442                // String no-header-shadow
+      24: aastore
+      25: putstatic     #210                // Field NO_SHADOW_STYLE_CLASS:[Ljava/lang/String;
+      28: return
+}

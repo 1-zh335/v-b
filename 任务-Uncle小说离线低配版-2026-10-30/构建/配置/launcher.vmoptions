@@ -1,0 +1,13 @@
+-Djava.net.useSystemProxies=true
+-Xms64m
+-Xmx512m
+-XX:MaxMetaspaceSize=192m
+-XX:ReservedCodeCacheSize=96m
+-XX:+UseSerialGC
+-Dprism.order=sw
+-Dprism.forceGPU=false
+-Dprism.lcdtext=false
+-Duncle.target.profile=true
+-Duncle.analytics.disabled=true
+-Duncle.update.check=false
+-Dfile.encoding=UTF-8
