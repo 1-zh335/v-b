@@ -1,7 +1,7 @@
 # v b — 本地工作区
 
 > 本机任务工作区（Windows 11 / DeepSeek Harness + Trae）。
-> 所有工程规范以根目录 `AGENTS.md` 为**唯一来源**：Trae 与 DSH 都直接自动加载同一文件；`.trae/rules/` 已清空、`C:\Users\31384\.dsh\AGENTS.md` 与 Trae 个人规则仅保留指针。
+> 所有工程规范以根目录 `AGENTS.md` 为**唯一来源**：Trae 与 DSH 都直接自动加载同一文件；`.trae/` 已删除、`C:\Users\31384\.dsh\AGENTS.md` 与 Trae 个人规则仅保留指针。
 
 ## 目录内容
 
