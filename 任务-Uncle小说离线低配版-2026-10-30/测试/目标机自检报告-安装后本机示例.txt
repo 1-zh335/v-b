@@ -1,0 +1,34 @@
+﻿==================================================
+  Uncle小说 离线低配版 · 目标机环境自检
+  生成时间: 2026-10-30 00:51:04
+  计算机名: MOSS
+==================================================
+
+---- 系统 ----
+操作系统: Microsoft Windows 11 Home Insider Preview China / 版本 10.0.26340 / Build 26340
+系统型号: HP HP Laptop 14s-dr2xxx
+处理器: 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz / 4 核 8 线程
+物理内存: 15.65 GB
+显示适配器: wjIddDriver Device / 驱动 14.50.11.381 / 显存 0 MB
+显示适配器: Intel(R) Iris(R) Xe Graphics / 驱动 31.0.101.5186 / 显存 128 MB
+音频设备: Steam Streaming Microphone [OK]
+音频设备: Realtek High Definition Audio [OK]
+音频设备: Steam Streaming Speakers [OK]
+音频设备: 适用于数字麦克风的英特尔® 智音技术 [OK]
+C 盘剩余: 862.36 GB / 总 952.23 GB
+屏幕: 1920x1080
+网络适配器(已启用): Realtek RTL8821CE 802.11ac PCIe Adapter
+
+---- 适配检查 ----
+[OK]   操作系统: Microsoft Windows 11 Home Insider Preview China Build 26340
+[OK]   CPU 核心数: 4C/8T
+[OK]   物理内存: 15.65 GB（建议 4GB）
+[OK]   显示适配器: wjIddDriver Device（有硬件驱动，软件渲染参数仍可兼容）
+[OK]   音频设备: 检测到音频设备
+[OK]   磁盘空间: 862.36 GB 可用（需 ≥10GB）
+[OK]   网络: 已启用的网络适配器存在（本机为间歇联网环境，离线时联网功能会显示提示）
+
+---- 结论 ----
+[OK]   全部关键项通过：本机满足 Uncle小说 离线低配版运行条件
+
+报告已保存: C:\Users\31384\Documents\trae_projects\v b\任务-Uncle小说离线低配版-2026-10-30\测试\目标机自检报告-安装后本机示例.txt

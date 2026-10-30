@@ -1,0 +1,597 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Uncle小说 离线低配版 使用说明书</title><style>
+@page { size: A4; margin: 16mm 14mm; }
+body { font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif; font-size: 10.5pt;
+       color: #222; line-height: 1.55; }
+h1 { font-size: 20pt; color: #1f3a2e; border-bottom: 2px solid #6aa47f; padding-bottom: 6px; }
+h2 { font-size: 14pt; color: #24503a; margin-top: 18px; border-left: 4px solid #6aa47f; padding-left: 8px; }
+h3 { font-size: 12pt; color: #2f5d43; margin-top: 14px; }
+code { font-family: Consolas, monospace; background: #f2f5f2; padding: 1px 4px; border-radius: 3px; font-size: 9.5pt; }
+pre { background: #f6f8f6; border: 1px solid #dbe4dc; padding: 8px; white-space: pre-wrap; word-break: break-all; font-size: 9pt; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.5pt; page-break-inside: avoid; }
+th, td { border: 1px solid #cfd8d0; padding: 5px 7px; text-align: left; vertical-align: top; }
+th { background: #e6efe8; }
+blockquote { border-left: 3px solid #b7cbbd; margin: 8px 0; padding: 4px 10px; color: #38513f; background: #f4f8f4; }
+figure { margin: 14px 0; page-break-inside: avoid; text-align: center; }
+figure img { max-width: 100%; max-height: 155mm; border: 1px solid #b9c9bd; border-radius: 3px; }
+figcaption { font-size: 9.5pt; color: #4a6453; margin-top: 4px; }
+.gallery-title { page-break-before: always; }
+</style></head><body><h1>Uncle小说 离线低配版 · 使用说明书（目标机 DTPC953）</h1>
+<blockquote>
+<p>版本：v5.0.44 离线低配版（基于官方 5.0.44 + 增强补丁制作）
+适用系统：Windows 10 1809 x64（目标机 DTPC953：ASUS PN40 / Celeron J4005 / 4GB / 无独显 / 无声卡）
+安装位置：<code>%LOCALAPPDATA%\Programs\UncleNovel</code>（当前用户目录，<strong>无需管理员权限、无需另装 Java、无需联网</strong>）
+配套文档：<a href="目标设备适配报告.md">目标设备适配报告.md</a> ｜ <a href="离线部署指南.md">离线部署指南.md</a></p>
+</blockquote>
+<hr />
+<h2>1. 这个版本有什么不同</h2>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>本版做法</th>
+<th>对使用的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可离线安装运行</td>
+<td>安装包内嵌 Java 运行时与全部程序文件</td>
+<td>断网也能装、能读本地 TXT</td>
+</tr>
+<tr>
+<td>低配优化</td>
+<td>JVM 收紧、软件渲染、关动画/阴影、下载线程降为 1</td>
+<td>启动与翻页比普通电脑慢一些，但更省内存、不卡死</td>
+</tr>
+<tr>
+<td>离线/联网感知</td>
+<td>后台检测网络，标题加「（离线）」，联网功能点击有统一提示</td>
+<td>断网时不会长时间转圈/报错</td>
+</tr>
+<tr>
+<td>全局老板键</td>
+<td>默认 <code>Alt+U</code>，完整版与本地 TXT 快速阅读都有效</td>
+<td>一键隐藏全部窗口，再按恢复</td>
+</tr>
+<tr>
+<td>无 GPU 适配</td>
+<td>强制软件渲染（<code>prism.order=sw</code>）</td>
+<td>首次打开可能有短暂白屏，属正常</td>
+</tr>
+<tr>
+<td>无声卡适配</td>
+<td>朗读/有声播放入口先检测音频设备</td>
+<td>点了会提示「音频不可用」，不报错</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 安装（离线、免管理员）</h2>
+<ol>
+<li>把 <code>Uncle小说-离线低配版-DTPC953.zip</code> 拷到目标机（U 盘或网盘），<strong>解压到本地盘纯英文路径</strong>（例如 <code>D:\Uncle离线版</code>）。
+   - 不要直接双击压缩包里的程序运行；不要解压到 <code>C:\Program Files</code> 或网络盘。</li>
+<li>双击解压目录里的 <strong><code>安装到本机.bat</code></strong>，等待出现多条 <code>[OK]</code>（正常安装约 10 条；快捷方式会因<strong>桌面</strong>和<strong>开始菜单</strong>各建一套而重复出现）。</li>
+<li>安装成功的标志（文案以脚本实际输出为准）：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>预期输出</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>[OK] 程序文件已复制到: ...\UncleNovel</code></td>
+<td>程序与内嵌运行时已复制完成</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>[OK] 已生成目标机调优配置: ...\conf\conf.json</code></td>
+<td>已写入低配档默认设置（字号/行距/关动画等）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>[OK] 完整版快捷方式: ...\Uncle小说.lnk</code></td>
+<td>桌面与开始菜单出现「Uncle小说」（约 2 条）</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>[OK] 本地TXT快速阅读快捷方式: ...\Uncle小说 · 本地TXT快速阅读.lnk</code></td>
+<td>快速阅读入口（约 2 条）</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>[OK] 已加入右键『发送到』菜单: ...\SendTo\Uncle小说快速阅读.lnk</code></td>
+<td>右键 TXT 可直接"发送到"本软件</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>[OK] 目标机环境自检脚本已放入安装目录</code></td>
+<td>安装目录出现 <code>目标机环境自检.ps1</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>[OK] 离线/老板键说明已放入安装目录</code></td>
+<td>说明文件已就位</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>[OK] 卸载脚本与使用说明已放入安装目录</code></td>
+<td>可正常卸载</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li>覆盖安装（升级）时：程序文件会更新，<strong><code>conf\core.db</code>（书架）与 <code>conf\conf.json</code>（设置）会保留</strong>；仍建议先备份整个 <code>conf\</code> 目录。</li>
+<li>若脚本提示复制失败：检查磁盘空间、是否被杀毒软件拦截、压缩包是否解压完整。</li>
+</ol>
+<hr />
+<h2>3. 两种启动方式</h2>
+<h3>3.1 完整功能版：桌面「Uncle小说」</h3>
+<p>用于书架管理、书源搜索、解析下载、听书等完整界面。联网功能需要网络；离线时仍可看书架与已下载/导入的书。</p>
+<h3>3.2 本地 TXT 快速阅读（离线首选）：桌面「Uncle小说 · 本地TXT快速阅读」</h3>
+<p>打开本机 TXT 即读，不需要联网。三种打开方式：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件选择框</td>
+<td>双击桌面「Uncle小说 · 本地TXT快速阅读」→ 在文件选择框里选 TXT（标题「选择要阅读的 TXT 文件」）</td>
+</tr>
+<tr>
+<td>拖拽</td>
+<td>把 TXT 文件直接拖到安装目录下的 <code>本地TXT快速阅读.bat</code> 上（或拖到该快捷方式图标上）</td>
+</tr>
+<tr>
+<td>右键发送到</td>
+<td>右键 TXT 文件 → 发送到 → 「Uncle小说快速阅读」</td>
+</tr>
+</tbody>
+</table>
+<p>打开过程：识别编码（UTF-8 / GBK / GB18030）→ 识别章节（支持 <code>第X章</code>、<code>=== 标题 ===</code>、《书名》第X章 等；识别不到按每 10KB 虚拟分章）→ 后台建章节索引（大文件首次较慢）→ 进入阅读器。</p>
+<hr />
+<h2>4. 阅读器操作</h2>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>翻下一页 / 上一页</td>
+<td>键盘 <code>→</code> / <code>←</code>；或点击页面右侧 3/4 区域 / 左侧 1/4 区域</td>
+</tr>
+<tr>
+<td>打开章节目录</td>
+<td>点击页面<strong>最左侧边缘</strong>（约 2% 宽）；或点顶部目录按钮</td>
+</tr>
+<tr>
+<td>调整阅读效果</td>
+<td>阅读页「设置」面板：字体、字号、行距、页面宽度、对齐、简繁互转、主题背景、翻页动画</td>
+</tr>
+<tr>
+<td>标题栏分页信息</td>
+<td>形如 <code>书名 · 章节名（第 2/7 页 · 章 1/331）</code>；离线时末尾追加 <code>· 离线</code></td>
+</tr>
+<tr>
+<td>阅读进度</td>
+<td>自动保存；下次打开回到上次章节/页</td>
+</tr>
+<tr>
+<td>书架</td>
+<td>用快速阅读打开过的书会自动进入「小说书架」（完整版可见）；首次打开会按书名生成封面</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>本版默认档：阅读窗口 1120×760、字号 22、行距 0.25、关闭翻页动画与页面阴影（可在设置面板按喜好微调，但低配机不建议重新开动画）。</p>
+</blockquote>
+<hr />
+<h2>5. 老板键（隐藏 / 恢复）</h2>
+<p><strong>默认热键：<code>Alt+U</code></strong>（可在完整版设置里改，见 5.3）。两种启动模式都有效：</p>
+<ul>
+<li>完整版：按 <code>Alt+U</code> → 隐藏全部窗口，<strong>任务栏与托盘图标一起消失</strong>；再按 <code>Alt+U</code> → 全部窗口恢复并回到前台。</li>
+<li>本地 TXT 快速阅读：按 <code>Alt+U</code> → 隐藏阅读窗口；再按 <code>Alt+U</code> → 恢复。该模式<strong>没有托盘图标</strong>，隐藏后只能靠热键恢复。</li>
+<li>隐藏期间应用不退出、阅读进度不丢；启动画面会提示「离线可用 · 老板键 alt U 隐藏/恢复」。</li>
+</ul>
+<h3>5.1 重要提示（无托盘时）</h3>
+<blockquote>
+<p><strong>快速阅读模式没有托盘/任务栏入口，隐藏后唯一恢复方式就是再按一次老板键。</strong>
+因此请务必记住快捷键；若热键被其他软件占用，请先改键再使用隐藏功能。</p>
+</blockquote>
+<h3>5.2 若按了没反应 / 找不到窗口</h3>
+<ol>
+<li>先确认不是输入法/远程工具占用组合键（换一个组合键试试）。</li>
+<li>恢复窗口：再按一次 <code>Alt+U</code>（若已隐藏）。</li>
+<li>实在无法恢复时，可在任务管理器结束 <code>javaw.exe</code> / <code>Uncle小说.exe</code> 后重新打开（阅读进度已自动保存，但<strong>不建议把强杀当常规操作</strong>）。</li>
+<li>程序启动日志 <code>logs\log-system.log</code> 中会记录「老板键已注册: …」或「老板键注册失败」，可据此判断。</li>
+</ol>
+<h3>5.3 修改老板键</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>修改方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完整版</td>
+<td>左侧边栏「设置」→「软件设置」→「热键设置」→「老板键」输入框：点输入框后直接按新组合键（如 <code>Ctrl+Alt+H</code>），显示「快捷键修改成功」即生效；按 <code>Backspace</code> 可清除。下方还有「启用全局快捷键」勾选框（切换后若老板键失效，重启程序即可恢复；<strong>待 Lead 实测确认</strong>）</td>
+</tr>
+<tr>
+<td>快速阅读模式</td>
+<td>用记事本打开安装目录 <code>conf\conf.json</code>，把 <code>hotkey.globalBossKey</code> 的值改为新组合（如 <code>"alt H"</code>），保存后重新启动快速阅读窗口生效</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>修改后建议重启一次程序确认；若新组合键与系统/其他软件冲突，程序会回退默认 <code>alt U</code>（<strong>待 Lead 实测确认</strong>回退细节）。</p>
+</blockquote>
+<hr />
+<h2>6. 离线 / 联网</h2>
+<h3>6.1 怎么判断当前状态</h3>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>在线</th>
+<th>离线</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完整版主窗口标题</td>
+<td><code>Uncle小说</code></td>
+<td><code>Uncle小说（离线）</code></td>
+</tr>
+<tr>
+<td>快速阅读窗口标题</td>
+<td><code>Uncle小说 · 本地TXT快速阅读</code></td>
+<td><code>Uncle小说 · 本地TXT快速阅读（离线）</code></td>
+</tr>
+<tr>
+<td>阅读器标题</td>
+<td><code>书名 · 章节名（第 x/y 页 · 章 n/m）</code></td>
+<td>同上，末尾追加 <code>· 离线</code></td>
+</tr>
+</tbody>
+</table>
+<p>后台每 15 秒（离线时）/60 秒（在线时）自动复检一次，不阻塞界面；状态变化时右下角会弹 Toast 提示。若启动瞬间就已判定为离线（探测很快失败且窗口尚未显示），可能不会重复弹「离线模式」Toast，此时以标题的「（离线）」和点击联网功能时的提示框为准（<strong>待 Lead 实测确认</strong>）。</p>
+<h3>6.2 点了联网功能会看到什么</h3>
+<p>离线时点击「搜索小说」（书源搜索）、「全网搜书」、「寻找有声」、「解析下载」、下载任务的开始/续传、有声小说播放、阅读器「朗读」、书源网络导入、搜索/更换封面等功能，会弹出统一提示框：</p>
+<ul>
+<li>标题：<strong>离线模式</strong>；副标题：「功能名」需要网络连接</li>
+<li>正文说明：当前未检测到可用网络（本机为间歇联网环境）；<strong>可继续使用</strong>：本地 TXT 快速阅读 / 导入本地小说 / 书架与阅读进度；网络恢复后在线功能自动启用，无需重启</li>
+<li>按钮：<strong>「重试联网」</strong>（后台重新探测，结果用 Toast 提示）、<strong>「继续离线」</strong>（关闭提示）</li>
+</ul>
+<h3>6.3 联网恢复后</h3>
+<ul>
+<li>网络恢复后自动切回在线：标题去掉「（离线）」，并用 Toast 提示「网络已恢复，在线功能已启用」，无需重启。</li>
+<li>也可以点提示框里的「重试联网」立即复测：成功提示「网络已连接，在线功能已恢复」；失败提示「仍未检测到网络，本地阅读不受影响」。</li>
+<li>离线期间的差异行为：书架自动更新、封面网络下载、软件更新检查、使用数据上报都会跳过（均为正常设计）。</li>
+</ul>
+<h3>6.4 联网功能与本地功能对照</h3>
+<table>
+<thead>
+<tr>
+<th>需要网络</th>
+<th>本地随时可用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「搜索小说」（书源搜索）、「全网搜书」、「寻找有声」、「解析下载」、下载任务</td>
+<td>本地 TXT 快速阅读</td>
+</tr>
+<tr>
+<td>有声播放、TTS 朗读（另需音频设备）</td>
+<td>导入本地小说、书架阅读、阅读进度</td>
+</tr>
+<tr>
+<td>书籍自动更新、搜索/更换封面、书源网络导入</td>
+<td>阅读设置、主题、简繁互转、卸载</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. 无声卡 / 无 GPU 时的表现</h2>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>你会看到</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>点阅读器「朗读」/「播放」</td>
+<td>弹框「音频不可用」：<code>「朗读」需要音频设备</code>；正文说明未检测到音频设备；按钮「知道了」</td>
+<td>目标机无可用音频输出设备（未装声卡驱动）。<strong>本地阅读、书架、下载都不受影响</strong>，不会弹异常堆栈</td>
+</tr>
+<tr>
+<td>点有声小说播放</td>
+<td>同样给出音频/网络提示</td>
+<td>目标机无声卡，有声播放不可用属预期</td>
+</tr>
+<tr>
+<td>首次启动 / 打开窗口</td>
+<td>可能有 1–3 秒白屏后出现界面</td>
+<td>无显卡驱动，已强制软件渲染（软渲染比硬件加速慢，属正常）</td>
+</tr>
+<tr>
+<td>翻页 / 拖动窗口</td>
+<td>略慢、无阴影动画</td>
+<td>已关闭阴影与翻页动画以换流畅度</td>
+</tr>
+<tr>
+<td>文字清晰度</td>
+<td>关闭了 LCD 次像素渲染，个别字号下边缘略软</td>
+<td>可在阅读设置里换字号/换主题改善观感</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>8. 数据与备份</h2>
+<ul>
+<li>所有数据都在<strong>安装目录内</strong>：<code>conf\</code>（<code>conf.json</code> 设置、<code>core.db</code> 书架/书源）、<code>downloads\</code>（下载的书）、<code>caches\</code>（章节索引、封面、TTS 缓存）、<code>logs\</code>（日志）、<code>backup\</code>。</li>
+<li><strong>备份</strong> = 直接复制整个安装目录；<strong>迁移</strong> = 整目录拷走（快捷方式需重建或改路径）。</li>
+<li>不要从其它目录直接运行 <code>Uncle小说.exe</code>，否则会在那个目录生成一套新数据（书架/设置看起来"丢失"）。</li>
+<li>升级覆盖安装会保留 <code>conf\core.db</code> 与 <code>conf\conf.json</code>，但升级前仍建议先备份 <code>conf\</code>。</li>
+</ul>
+<hr />
+<h2>9. 卸载</h2>
+<p>运行安装目录下的 <strong><code>卸载.bat</code></strong>（或解压包内的同名脚本），按提示确认两次：</p>
+<ol>
+<li>「确认卸载 Uncle小说」→ 选 <code>Y</code>：删除桌面/开始菜单快捷方式与右键"发送到"项（脚本对每个删除项打印 <code>[OK] 已删除 …</code>）。</li>
+<li>「是否同时删除安装目录（含书架/设置/下载，不可恢复）」→ 选 <code>Y</code> 才会删除安装目录；选 <code>N</code> 只卸快捷方式、保留数据。</li>
+</ol>
+<blockquote>
+<p>删除安装目录前请先备份 <code>conf\core.db</code>（书架）、<code>conf\conf.json</code>（设置）与 <code>downloads\</code>（下载的书）。若提示"部分文件被占用"，请先退出软件再手动删除。</p>
+</blockquote>
+<hr />
+<h2>10. 常见问题（FAQ）</h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>双击图标没反应</td>
+<td>先结束任务管理器里的 <code>Uncle小说.exe</code> / <code>javaw.exe</code>（程序单实例）再试；仍不行看 <code>logs\log-error.log</code></td>
+</tr>
+<tr>
+<td>启动慢、先白屏</td>
+<td>目标机无 GPU 驱动，软件渲染较慢；首次 1–3 秒白屏正常，第二次启动更快</td>
+</tr>
+<tr>
+<td>老板键按了没反应</td>
+<td>组合键被占用/输入法拦截；按 5.3 改键后重启；查 <code>logs\log-system.log</code> 中「老板键已注册」</td>
+</tr>
+<tr>
+<td>隐藏后找不到窗口</td>
+<td>再按一次老板键恢复；快速阅读模式无托盘，只能靠热键</td>
+</tr>
+<tr>
+<td>一直显示「（离线）」</td>
+<td>确认网络是否连通；域网可能需代理；点联网功能→「重试联网」，或等 15–60 秒自动复检</td>
+</tr>
+<tr>
+<td>网络已恢复但仍提示离线</td>
+<td>点「重试联网」，或等待在线复检；仍不行请让维护人员查代理/防火墙</td>
+</tr>
+<tr>
+<td>点朗读提示「音频不可用」</td>
+<td>目标机无声卡，正常现象；阅读/下载不受影响</td>
+</tr>
+<tr>
+<td>朗读/播放没有声音</td>
+<td>同上（无音频设备），不是软件故障</td>
+</tr>
+<tr>
+<td>提示字体加载失败 / 中文界面异常</td>
+<td>安装目录含中文或空格；把整个目录移到纯英文路径后重开</td>
+</tr>
+<tr>
+<td>书架或设置"丢失"</td>
+<td>确认从快捷方式启动（起始位置=安装目录）；不要从别处运行 exe</td>
+</tr>
+<tr>
+<td>章节数偏少/偏多</td>
+<td>取决于 TXT 内章节标题格式；识别不到时会按 10KB 虚拟分章，仍可正常阅读</td>
+</tr>
+<tr>
+<td>打开 TXT 乱码</td>
+<td>程序自动识别 UTF-8/GBK/GB18030；仍乱码请保留样本文件反馈</td>
+</tr>
+<tr>
+<td>安装脚本一闪而过/失败</td>
+<td>检查是否被杀毒软件拦截、磁盘空间是否足够、压缩包是否解压完整</td>
+</tr>
+<tr>
+<td>覆盖安装会不会丢书</td>
+<td>不会丢 <code>conf\core.db</code>/<code>conf\conf.json</code>；但升级前仍请备份 <code>conf\</code></td>
+</tr>
+<tr>
+<td>联网功能一点就弹提示</td>
+<td>当前离线（预期行为）；恢复网络后自动可用</td>
+</tr>
+<tr>
+<td>网页搜索页打不开</td>
+<td>需联网且受目标机网络环境限制；离线时不可用属正常</td>
+</tr>
+<tr>
+<td>想彻底删除</td>
+<td>先备份数据，再执行 <code>卸载.bat</code> 并手动删除安装目录</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>11. 版本与校验</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>交付压缩包</td>
+<td><code>Uncle小说-离线低配版-DTPC953.zip</code></td>
+</tr>
+<tr>
+<td>SHA256</td>
+<td>见 <a href="../交付/SHA256.txt"><code>../交付/SHA256.txt</code></a>（打包后更新）</td>
+</tr>
+<tr>
+<td>基础版本</td>
+<td>官方 uncle-novel v5.0.44（MIT，上游已停更；本版只做离线/低配适配，不改联网业务逻辑）</td>
+</tr>
+<tr>
+<td>合规提示</td>
+<td>书源与下载内容来自第三方网站，可能失效或涉及版权，请按单位规定使用</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>12. 验证状态（待 Lead 实测确认）</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>当前状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安装约 10 条 <code>[OK]</code> 与快捷方式生成</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>完整版/快速阅读启动与显示</td>
+<td>待 Lead 实测确认（本机模拟截图：<a href="../截图/离线模式/完整版/01-启动后.png"><code>../截图/离线模式/完整版/01-启动后.png</code></a>、<a href="../截图/离线模式/QuickApp/01-启动后.png"><code>../截图/离线模式/QuickApp/01-启动后.png</code></a>）</td>
+</tr>
+<tr>
+<td>离线标题、离线提示框、恢复 Toast</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>老板键（完整版 / 快速阅读）</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>无声卡「音频不可用」提示框</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>修改老板键流程（设置页 / conf.json）</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>首次启动耗时 / 内存占用</td>
+<td>待 Lead 实测确认</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>相关截图将归档到：<code>../截图/离线模式/</code>、<code>../截图/老板键/</code>、<code>../截图/低配运行/</code>、<code>../截图/安装验证/</code>（文件名 <code>NN-说明.png</code>，以 Lead 最终归档为准；本机模拟已生成 <code>../截图/离线模式/完整版/01-启动后.png</code> 与 <code>../截图/离线模式/QuickApp/01-启动后.png</code>）。</p>
+</blockquote>
+<h2>---</h2>
+<h2>附：Lead 实测回填（2026-10-30）</h2>
+<blockquote>
+<p>环境：开发机 Windows 11 / i5-1135G7 / 16GB（目标机 DTPC953 为 Celeron J4005/4GB，本机数据仅作量级参考）。
+全部测试使用目标档 JVM 参数：<code>-Xmx512m</code>（快速阅读 448m）、<code>-XX:+UseSerialGC</code>、<code>-Dprism.order=sw</code>、<code>-Duncle.target.profile=true</code>。</p>
+</blockquote>
+<h3>1. UI/功能证据（截图见任务目录 <code>截图/</code>）</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>结果</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完整版离线标题</td>
+<td>✅ 标题栏显示「Uncle小说（离线）」</td>
+<td><code>截图\离线模式\完整版\离线主页与提示框-1410x990.png</code></td>
+</tr>
+<tr>
+<td>离线拦截弹窗（书源搜索）</td>
+<td>✅ 标题「离线模式」，正文说明可继续使用本地功能，按钮「重试联网 / 继续离线」</td>
+<td><code>截图\离线模式\完整版\离线主页与提示框-712x411.png</code>；日志「离线提示框已弹出: 书源搜索」</td>
+</tr>
+<tr>
+<td>快速阅读离线标题</td>
+<td>✅ 阅读器标题尾部显示「· 离线」</td>
+<td><code>截图\音频与恢复\快速阅读与音频提示-1680x1140.png</code></td>
+</tr>
+<tr>
+<td>无声卡朗读提示</td>
+<td>✅ 「音频不可用 / 「朗读」需要音频设备 / 知道了」</td>
+<td><code>截图\音频与恢复\快速阅读与音频提示-652x284.png</code>；日志「音频提示框已弹出: 朗读」</td>
+</tr>
+<tr>
+<td>老板键（快速阅读/完整版）</td>
+<td>✅ Alt+U 隐藏后无可见窗口，再按恢复；完整版连托盘一起隐藏</td>
+<td>日志「老板键：已隐藏 1 个窗口」「老板键：已恢复窗口」；<code>截图\离线模式\完整版\03-老板键恢复后.png</code></td>
+</tr>
+<tr>
+<td>间歇联网自动恢复</td>
+<td>✅ 本机起本地 HTTP 服务模拟网络恢复：日志 <code>CHECKING -&gt; OFFLINE</code> → <code>OFFLINE -&gt; ONLINE</code>，标题从「（离线）」恢复为「Uncle小说」</td>
+<td><code>截图\音频与恢复\联网前-1410x990.png</code>、<code>联网恢复后-1410x990.png</code></td>
+</tr>
+<tr>
+<td>安装端到端</td>
+<td>✅ 全新/覆盖安装退出码 0，输出 <strong>10 条 [OK]</strong>（含自检/离线说明落位）</td>
+<td>安装输出记录；<code>测试\目标机自检报告-安装后本机示例.txt</code></td>
+</tr>
+<tr>
+<td>安装后配置</td>
+<td>✅ 字号 22、窗口 1120×760、动画/阴影关闭、下载单线程；vmoptions 含 <code>-Xmx512m</code>、<code>prism.order=sw</code>、<code>uncle.target.profile=true</code></td>
+<td><code>conf\conf.json</code>、<code>conf\launcher.vmoptions</code></td>
+</tr>
+<tr>
+<td>低配基准（本机）</td>
+<td>快速阅读：窗口 <strong>1.23s</strong> / RSS <strong>258MB</strong>；完整版：窗口 <strong>3.58s</strong> / RSS <strong>525MB</strong>；章节索引 18ms（331 章，缓存）</td>
+<td><code>测试\低配基准-本机测量.json</code></td>
+</tr>
+<tr>
+<td>交付 zip</td>
+<td>121.2 MB / 224 条目，SHA256 见 <code>交付\SHA256.txt</code></td>
+<td><code>交付\SHA256.txt</code></td>
+</tr>
+</tbody>
+</table>
+<h3>2. 已知限制（如实说明）</h3>
+<ul>
+<li>本机数据不代表 DTPC953 实测；目标机首次数据请用包内 <code>benchmark.ps1</code> 采样并回填本表。</li>
+<li>目标机无显卡驱动 → 已强制软件渲染，界面可能略慢；无音频设备 → 朗读/有声播放弹提示，本地阅读不受影响。</li>
+<li>老板键默认 <code>Alt+U</code>；完整版设置页关闭「启用全局快捷键」会停用，重新勾选即恢复（已修复原实现不重注册的问题）。</li>
+<li>阅读窗口实际为 1120×760（部分早期文档写 1100×760，以本节为准）；<code>launcher.vmoptions</code> 含 <code>-Djava.net.useSystemProxies=true</code>（离线无害）。</li>
+</ul><div class="gallery-title"><h1>附：关键验收截图（内嵌）</h1>
+<blockquote>以下截图均由本机模拟目标档参数实测生成（Windows 11 开发机，i5-1135G7/16GB；目标机 DTPC953 为 Celeron J4005/4GB，界面同样按此逻辑显示）。</blockquote>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/离线主页与提示框-1410x990.png"/><figcaption>完整版离线标题：窗口标题显示「Uncle小说（离线）」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/离线主页与提示框-712x411.png"/><figcaption>离线拦截弹窗：标题「离线模式」，正文说明可继续使用本地功能，按钮「重试联网 / 继续离线」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/快速阅读与音频提示-1680x1140.png"/><figcaption>本地TXT快速阅读：阅读器标题尾部显示「· 离线」，字号 22 / 窗口 1120×760</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/快速阅读与音频提示-652x284.png"/><figcaption>无声卡提示：「音频不可用 | 「朗读」需要音频设备」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/03-老板键恢复后.png"/><figcaption>老板键 Alt+U：隐藏全部窗口后再按一次恢复（完整版与快速阅读均支持）</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/联网前-1410x990.png"/><figcaption>间歇联网模拟：网络未连通时的离线状态（标题含「离线」）</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/联网恢复后-1410x990.png"/><figcaption>网络恢复后：软件自动切回在线状态，标题恢复为「Uncle小说」，无需重启</figcaption></figure>
+</div></body></html>

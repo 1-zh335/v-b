@@ -1,0 +1,9 @@
+{
+  "name": "dsh-edge-automation",
+  "private": true,
+  "type": "module",
+  "description": "Edge remote-debugging + Playwright-core CDP driver for DSH/Trae agents",
+  "dependencies": {
+    "playwright-core": "1.64.1"
+  }
+}

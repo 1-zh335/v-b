@@ -1,0 +1,371 @@
+﻿Compiled from "Http.java"
+public final class com.unclezs.novel.analyzer.request.Http {
+  private static final org.slf4j.Logger LOG;
+
+  private static final com.unclezs.novel.analyzer.request.spi.ProxyProvider PROXY_PROVIDER;
+
+  private static com.unclezs.novel.analyzer.request.spi.HttpProvider dynamicHttpClient;
+
+  private static com.unclezs.novel.analyzer.request.spi.HttpProvider staticHttpClient;
+
+  public static java.lang.String content(com.unclezs.novel.analyzer.request.RequestParams) throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: invokestatic  #1                  // Method initDefaultRequestParams:(Lcom/unclezs/novel/analyzer/request/RequestParams;)V
+       4: aload_0
+       5: invokestatic  #2                  // Method client:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+       8: aload_0
+       9: invokeinterface #3,  2            // InterfaceMethod com/unclezs/novel/analyzer/request/spi/HttpProvider.content:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Ljava/lang/String;
+      14: astore_1
+      15: aload_0
+      16: aload_1
+      17: invokestatic  #4                  // Method scriptPreHandle:(Lcom/unclezs/novel/analyzer/request/RequestParams;Ljava/lang/String;)Ljava/lang/String;
+      20: areturn
+      21: astore_1
+      22: aload_0
+      23: invokestatic  #6                  // Method proxyFailed:(Lcom/unclezs/novel/analyzer/request/RequestParams;)V
+      26: new           #5                  // class java/io/IOException
+      29: dup
+      30: aload_1
+      31: invokespecial #7                  // Method java/io/IOException."<init>":(Ljava/lang/Throwable;)V
+      34: athrow
+    Exception table:
+       from    to  target type
+           4    20    21   Class java/io/IOException
+
+  public static java.lang.String get(java.lang.String, boolean);
+    Code:
+       0: invokestatic  #8                  // Method com/unclezs/novel/analyzer/request/RequestParams.builder:()Lcom/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder;
+       3: iload_1
+       4: invokestatic  #9                  // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+       7: invokevirtual #10                 // Method com/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder.dynamic:(Ljava/lang/Boolean;)Lcom/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder;
+      10: aload_0
+      11: invokevirtual #11                 // Method com/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder.url:(Ljava/lang/String;)Lcom/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder;
+      14: invokevirtual #12                 // Method com/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder.build:()Lcom/unclezs/novel/analyzer/request/RequestParams;
+      17: astore_2
+      18: aload_2
+      19: invokestatic  #13                 // Method content:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Ljava/lang/String;
+      22: areturn
+      23: astore_3
+      24: aload_3
+      25: invokevirtual #14                 // Method java/io/IOException.printStackTrace:()V
+      28: ldc           #16                 // String
+      30: areturn
+    Exception table:
+       from    to  target type
+          18    22    23   Class java/io/IOException
+
+  public static java.lang.String get(java.lang.String);
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: invokestatic  #17                 // Method get:(Ljava/lang/String;Z)Ljava/lang/String;
+       5: areturn
+
+  public static byte[] bytes(com.unclezs.novel.analyzer.request.RequestParams) throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: invokestatic  #1                  // Method initDefaultRequestParams:(Lcom/unclezs/novel/analyzer/request/RequestParams;)V
+       4: aload_0
+       5: invokestatic  #2                  // Method client:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+       8: aload_0
+       9: invokeinterface #18,  2           // InterfaceMethod com/unclezs/novel/analyzer/request/spi/HttpProvider.bytes:(Lcom/unclezs/novel/analyzer/request/RequestParams;)[B
+      14: areturn
+      15: astore_1
+      16: aload_0
+      17: invokestatic  #6                  // Method proxyFailed:(Lcom/unclezs/novel/analyzer/request/RequestParams;)V
+      20: new           #5                  // class java/io/IOException
+      23: dup
+      24: aload_1
+      25: invokespecial #7                  // Method java/io/IOException."<init>":(Ljava/lang/Throwable;)V
+      28: athrow
+    Exception table:
+       from    to  target type
+           4    14    15   Class java/io/IOException
+
+  public static boolean validate(com.unclezs.novel.analyzer.request.RequestParams) throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: invokestatic  #1                  // Method initDefaultRequestParams:(Lcom/unclezs/novel/analyzer/request/RequestParams;)V
+       4: aload_0
+       5: invokestatic  #2                  // Method client:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+       8: aload_0
+       9: invokeinterface #19,  2           // InterfaceMethod com/unclezs/novel/analyzer/request/spi/HttpProvider.validate:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Z
+      14: ireturn
+      15: astore_1
+      16: aload_0
+      17: invokestatic  #6                  // Method proxyFailed:(Lcom/unclezs/novel/analyzer/request/RequestParams;)V
+      20: new           #5                  // class java/io/IOException
+      23: dup
+      24: aload_1
+      25: invokespecial #7                  // Method java/io/IOException."<init>":(Ljava/lang/Throwable;)V
+      28: athrow
+    Exception table:
+       from    to  target type
+           4    14    15   Class java/io/IOException
+
+  private static com.unclezs.novel.analyzer.request.spi.HttpProvider client(com.unclezs.novel.analyzer.request.RequestParams);
+    Code:
+       0: getstatic     #20                 // Field java/lang/Boolean.TRUE:Ljava/lang/Boolean;
+       3: aload_0
+       4: invokevirtual #21                 // Method com/unclezs/novel/analyzer/request/RequestParams.getDynamic:()Ljava/lang/Boolean;
+       7: invokevirtual #22                 // Method java/lang/Boolean.equals:(Ljava/lang/Object;)Z
+      10: ifeq          17
+      13: getstatic     #23                 // Field dynamicHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+      16: areturn
+      17: getstatic     #24                 // Field staticHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+      20: areturn
+
+  private static void proxyFailed(com.unclezs.novel.analyzer.request.RequestParams);
+    Code:
+       0: getstatic     #20                 // Field java/lang/Boolean.TRUE:Ljava/lang/Boolean;
+       3: aload_0
+       4: invokevirtual #25                 // Method com/unclezs/novel/analyzer/request/RequestParams.getAutoProxy:()Ljava/lang/Boolean;
+       7: invokevirtual #22                 // Method java/lang/Boolean.equals:(Ljava/lang/Object;)Z
+      10: ifeq          25
+      13: getstatic     #26                 // Field PROXY_PROVIDER:Lcom/unclezs/novel/analyzer/request/spi/ProxyProvider;
+      16: aload_0
+      17: invokevirtual #27                 // Method com/unclezs/novel/analyzer/request/RequestParams.getProxy:()Lcom/unclezs/novel/analyzer/request/proxy/HttpProxy;
+      20: invokeinterface #28,  2           // InterfaceMethod com/unclezs/novel/analyzer/request/spi/ProxyProvider.removeProxy:(Lcom/unclezs/novel/analyzer/request/proxy/HttpProxy;)V
+      25: return
+
+  private static void initDefaultRequestParams(com.unclezs.novel.analyzer.request.RequestParams);
+    Code:
+       0: getstatic     #20                 // Field java/lang/Boolean.TRUE:Ljava/lang/Boolean;
+       3: aload_0
+       4: invokevirtual #25                 // Method com/unclezs/novel/analyzer/request/RequestParams.getAutoProxy:()Ljava/lang/Boolean;
+       7: invokevirtual #22                 // Method java/lang/Boolean.equals:(Ljava/lang/Object;)Z
+      10: ifeq          34
+      13: invokestatic  #29                 // Method com/unclezs/novel/analyzer/AnalyzerManager.me:()Lcom/unclezs/novel/analyzer/AnalyzerManager;
+      16: invokevirtual #30                 // Method com/unclezs/novel/analyzer/AnalyzerManager.isAutoProxy:()Z
+      19: ifeq          34
+      22: aload_0
+      23: getstatic     #26                 // Field PROXY_PROVIDER:Lcom/unclezs/novel/analyzer/request/spi/ProxyProvider;
+      26: invokeinterface #31,  1           // InterfaceMethod com/unclezs/novel/analyzer/request/spi/ProxyProvider.getProxy:()Lcom/unclezs/novel/analyzer/request/proxy/HttpProxy;
+      31: invokevirtual #32                 // Method com/unclezs/novel/analyzer/request/RequestParams.setProxy:(Lcom/unclezs/novel/analyzer/request/proxy/HttpProxy;)V
+      34: aload_0
+      35: invokevirtual #33                 // Method com/unclezs/novel/analyzer/request/RequestParams.getMediaType:()Ljava/lang/String;
+      38: ifnonnull     51
+      41: aload_0
+      42: getstatic     #34                 // Field com/unclezs/novel/analyzer/request/MediaType.NONE:Lcom/unclezs/novel/analyzer/request/MediaType;
+      45: invokevirtual #35                 // Method com/unclezs/novel/analyzer/request/MediaType.getMediaType:()Ljava/lang/String;
+      48: invokevirtual #36                 // Method com/unclezs/novel/analyzer/request/RequestParams.setMediaType:(Ljava/lang/String;)V
+      51: ldc           #38                 // String auto
+      53: aload_0
+      54: ldc           #39                 // String Referer
+      56: invokevirtual #40                 // Method com/unclezs/novel/analyzer/request/RequestParams.getHeader:(Ljava/lang/String;)Ljava/lang/String;
+      59: invokevirtual #41                 // Method java/lang/String.equals:(Ljava/lang/Object;)Z
+      62: ifeq          75
+      65: aload_0
+      66: ldc           #39                 // String Referer
+      68: aload_0
+      69: invokevirtual #42                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrl:()Ljava/lang/String;
+      72: invokevirtual #43                 // Method com/unclezs/novel/analyzer/request/RequestParams.setHeader:(Ljava/lang/String;Ljava/lang/String;)V
+      75: aload_0
+      76: ldc           #44                 // String User-Agent
+      78: ldc           #45                 // String Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36
+      80: invokevirtual #46                 // Method com/unclezs/novel/analyzer/request/RequestParams.addHeader:(Ljava/lang/String;Ljava/lang/String;)V
+      83: return
+
+  private static java.lang.String scriptPreHandle(com.unclezs.novel.analyzer.request.RequestParams, java.lang.String);
+    Code:
+       0: getstatic     #47                 // Field java/lang/Boolean.FALSE:Ljava/lang/Boolean;
+       3: aload_0
+       4: invokevirtual #21                 // Method com/unclezs/novel/analyzer/request/RequestParams.getDynamic:()Ljava/lang/Boolean;
+       7: invokevirtual #22                 // Method java/lang/Boolean.equals:(Ljava/lang/Object;)Z
+      10: ifeq          162
+      13: aload_0
+      14: invokevirtual #48                 // Method com/unclezs/novel/analyzer/request/RequestParams.getScript:()Ljava/lang/String;
+      17: invokestatic  #49                 // Method com/unclezs/novel/analyzer/util/StringUtils.isNotBlank:(Ljava/lang/CharSequence;)Z
+      20: ifeq          162
+      23: ldc           #51                 // String source
+      25: aload_1
+      26: invokestatic  #52                 // Method com/unclezs/novel/analyzer/script/ScriptContext.put:(Ljava/lang/String;Ljava/lang/Object;)V
+      29: ldc           #53                 // String url
+      31: aload_0
+      32: invokevirtual #42                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrl:()Ljava/lang/String;
+      35: invokestatic  #52                 // Method com/unclezs/novel/analyzer/script/ScriptContext.put:(Ljava/lang/String;Ljava/lang/Object;)V
+      38: ldc           #54                 // String params
+      40: aload_0
+      41: invokestatic  #52                 // Method com/unclezs/novel/analyzer/script/ScriptContext.put:(Ljava/lang/String;Ljava/lang/Object;)V
+      44: aload_0
+      45: invokevirtual #48                 // Method com/unclezs/novel/analyzer/request/RequestParams.getScript:()Ljava/lang/String;
+      48: invokestatic  #55                 // Method com/unclezs/novel/analyzer/script/ScriptContext.current:()Ljavax/script/Bindings;
+      51: invokestatic  #56                 // Method com/unclezs/novel/analyzer/script/ScriptUtils.execute:(Ljava/lang/String;Ljavax/script/Bindings;)Ljava/lang/String;
+      54: astore_2
+      55: iconst_3
+      56: anewarray     #57                 // class java/lang/String
+      59: dup
+      60: iconst_0
+      61: ldc           #51                 // String source
+      63: aastore
+      64: dup
+      65: iconst_1
+      66: ldc           #53                 // String url
+      68: aastore
+      69: dup
+      70: iconst_2
+      71: ldc           #54                 // String params
+      73: aastore
+      74: invokestatic  #58                 // Method com/unclezs/novel/analyzer/script/ScriptContext.remove:([Ljava/lang/String;)V
+      77: aload_2
+      78: areturn
+      79: astore_2
+      80: getstatic     #60                 // Field LOG:Lorg/slf4j/Logger;
+      83: ldc           #61                 // String Ԥ����ű�ִ��ʧ��:{},url:{}
+      85: iconst_3
+      86: anewarray     #62                 // class java/lang/Object
+      89: dup
+      90: iconst_0
+      91: aload_0
+      92: invokevirtual #48                 // Method com/unclezs/novel/analyzer/request/RequestParams.getScript:()Ljava/lang/String;
+      95: aastore
+      96: dup
+      97: iconst_1
+      98: aload_0
+      99: invokevirtual #42                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrl:()Ljava/lang/String;
+     102: aastore
+     103: dup
+     104: iconst_2
+     105: aload_2
+     106: aastore
+     107: invokeinterface #63,  3           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;[Ljava/lang/Object;)V
+     112: iconst_3
+     113: anewarray     #57                 // class java/lang/String
+     116: dup
+     117: iconst_0
+     118: ldc           #51                 // String source
+     120: aastore
+     121: dup
+     122: iconst_1
+     123: ldc           #53                 // String url
+     125: aastore
+     126: dup
+     127: iconst_2
+     128: ldc           #54                 // String params
+     130: aastore
+     131: invokestatic  #58                 // Method com/unclezs/novel/analyzer/script/ScriptContext.remove:([Ljava/lang/String;)V
+     134: goto          162
+     137: astore_3
+     138: iconst_3
+     139: anewarray     #57                 // class java/lang/String
+     142: dup
+     143: iconst_0
+     144: ldc           #51                 // String source
+     146: aastore
+     147: dup
+     148: iconst_1
+     149: ldc           #53                 // String url
+     151: aastore
+     152: dup
+     153: iconst_2
+     154: ldc           #54                 // String params
+     156: aastore
+     157: invokestatic  #58                 // Method com/unclezs/novel/analyzer/script/ScriptContext.remove:([Ljava/lang/String;)V
+     160: aload_3
+     161: athrow
+     162: aload_1
+     163: areturn
+    Exception table:
+       from    to  target type
+          23    55    79   Class java/lang/Throwable
+          23    55   137   any
+          79   112   137   any
+
+  private com.unclezs.novel.analyzer.request.Http();
+    Code:
+       0: aload_0
+       1: invokespecial #64                 // Method java/lang/Object."<init>":()V
+       4: new           #65                 // class java/lang/UnsupportedOperationException
+       7: dup
+       8: ldc           #66                 // String This is a utility class and cannot be instantiated
+      10: invokespecial #67                 // Method java/lang/UnsupportedOperationException."<init>":(Ljava/lang/String;)V
+      13: athrow
+
+  public static com.unclezs.novel.analyzer.request.spi.HttpProvider getDynamicHttpClient();
+    Code:
+       0: getstatic     #23                 // Field dynamicHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+       3: areturn
+
+  public static com.unclezs.novel.analyzer.request.spi.HttpProvider getStaticHttpClient();
+    Code:
+       0: getstatic     #24                 // Field staticHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+       3: areturn
+
+  static {};
+    Code:
+       0: ldc           #68                 // class com/unclezs/novel/analyzer/request/Http
+       2: invokestatic  #69                 // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+       5: putstatic     #60                 // Field LOG:Lorg/slf4j/Logger;
+       8: ldc           #70                 // class com/unclezs/novel/analyzer/request/spi/HttpProvider
+      10: invokestatic  #71                 // Method java/util/ServiceLoader.load:(Ljava/lang/Class;)Ljava/util/ServiceLoader;
+      13: astore_0
+      14: aload_0
+      15: invokevirtual #72                 // Method java/util/ServiceLoader.iterator:()Ljava/util/Iterator;
+      18: astore_1
+      19: aload_1
+      20: invokeinterface #73,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      25: ifeq          61
+      28: aload_1
+      29: invokeinterface #74,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      34: checkcast     #70                 // class com/unclezs/novel/analyzer/request/spi/HttpProvider
+      37: astore_2
+      38: aload_2
+      39: invokeinterface #75,  1           // InterfaceMethod com/unclezs/novel/analyzer/request/spi/HttpProvider.isDynamic:()Z
+      44: ifeq          54
+      47: aload_2
+      48: putstatic     #23                 // Field dynamicHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+      51: goto          58
+      54: aload_2
+      55: putstatic     #24                 // Field staticHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+      58: goto          19
+      61: getstatic     #23                 // Field dynamicHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+      64: ifnonnull     96
+      67: ldc           #76                 // String com.unclezs.novel.analyzer.request.phantomjs.PhantomJsClient
+      69: invokestatic  #77                 // Method java/lang/Class.forName:(Ljava/lang/String;)Ljava/lang/Class;
+      72: invokevirtual #78                 // Method java/lang/Class.newInstance:()Ljava/lang/Object;
+      75: checkcast     #70                 // class com/unclezs/novel/analyzer/request/spi/HttpProvider
+      78: putstatic     #23                 // Field dynamicHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+      81: goto          96
+      84: astore_1
+      85: getstatic     #60                 // Field LOG:Lorg/slf4j/Logger;
+      88: ldc           #80                 // String δ���ö�̬��ҳ�ͻ��ˣ����Ҽ���Ĭ�Ͽͻ���PhantomJsClientʧ�� :com.unclezs.novel.analyzer.request.phantomjs.PhantomJsClient
+      90: aload_1
+      91: invokeinterface #81,  3           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+      96: getstatic     #24                 // Field staticHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+      99: ifnonnull     131
+     102: ldc           #82                 // String com.unclezs.novel.analyzer.request.okhttp.OkHttpClient
+     104: invokestatic  #77                 // Method java/lang/Class.forName:(Ljava/lang/String;)Ljava/lang/Class;
+     107: invokevirtual #78                 // Method java/lang/Class.newInstance:()Ljava/lang/Object;
+     110: checkcast     #70                 // class com/unclezs/novel/analyzer/request/spi/HttpProvider
+     113: putstatic     #24                 // Field staticHttpClient:Lcom/unclezs/novel/analyzer/request/spi/HttpProvider;
+     116: goto          131
+     119: astore_1
+     120: getstatic     #60                 // Field LOG:Lorg/slf4j/Logger;
+     123: ldc           #83                 // String δ���þ�̬̬��ҳ�ͻ��ˣ����Ҽ���Ĭ�Ͽͻ���OkHttpClientʧ�ܣ���ȷ���Ѿ�����Okhttp���� : com.unclezs.novel.analyzer.request.okhttp.OkHttpClient
+     125: aload_1
+     126: invokeinterface #81,  3           // InterfaceMethod org/slf4j/Logger.error:(Ljava/lang/String;Ljava/lang/Throwable;)V
+     131: ldc           #84                 // class com/unclezs/novel/analyzer/request/spi/ProxyProvider
+     133: invokestatic  #71                 // Method java/util/ServiceLoader.load:(Ljava/lang/Class;)Ljava/util/ServiceLoader;
+     136: astore_1
+     137: aload_1
+     138: invokevirtual #72                 // Method java/util/ServiceLoader.iterator:()Ljava/util/Iterator;
+     141: astore_2
+     142: aload_2
+     143: invokeinterface #73,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+     148: ifeq          166
+     151: aload_2
+     152: invokeinterface #74,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     157: checkcast     #84                 // class com/unclezs/novel/analyzer/request/spi/ProxyProvider
+     160: putstatic     #26                 // Field PROXY_PROVIDER:Lcom/unclezs/novel/analyzer/request/spi/ProxyProvider;
+     163: goto          176
+     166: new           #85                 // class com/unclezs/novel/analyzer/request/proxy/DefaultProxyProvider
+     169: dup
+     170: invokespecial #86                 // Method com/unclezs/novel/analyzer/request/proxy/DefaultProxyProvider."<init>":()V
+     173: putstatic     #26                 // Field PROXY_PROVIDER:Lcom/unclezs/novel/analyzer/request/spi/ProxyProvider;
+     176: return
+    Exception table:
+       from    to  target type
+          67    81    84   Class java/lang/Exception
+         102   116   119   Class java/lang/Exception
+}

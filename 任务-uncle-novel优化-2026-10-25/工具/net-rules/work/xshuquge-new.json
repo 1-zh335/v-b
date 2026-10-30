@@ -1,0 +1,59 @@
+[
+  {
+    "name": "🎉 书趣阁（新域名）",
+    "site": "http://www.xshuquge.net/",
+    "group": "联网书源-实测",
+    "enabled": true,
+    "audio": false,
+    "weight": 10,
+    "params": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    },
+    "search": {
+      "params": {
+        "url": "http://www.xshuquge.net/search.php",
+        "method": "POST",
+        "charset": "UTF-8",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "s=&searchkey={{keyword}}",
+        "dynamicDelayTime": 500
+      },
+      "list": "css:div.bookbox",
+      "detail": {
+        "url": "css:div.bookinfo > h4 > a@href",
+        "title": "css:div.bookinfo > h4 > a@text",
+        "author": {
+          "rule": "css:div.bookinfo > div.author@text",
+          "replace": [
+            "作者：##"
+          ]
+        },
+        "category": {
+          "rule": "css:div.bookinfo > div.cat@text",
+          "replace": [
+            "分类：##"
+          ]
+        },
+        "latestChapterName": {
+          "rule": "css:div.bookinfo > div.update > a@text"
+        },
+        "latestChapterUrl": "css:div.bookinfo > div.update > a@href"
+      }
+    },
+    "detail": {},
+    "toc": {
+      "list": "css:div.listmain > dl > dd",
+      "name": "css:a@text",
+      "url": "css:a@href",
+      "filter": true,
+      "reverse": false,
+      "autoNext": false,
+      "enableNext": false
+    },
+    "content": {
+      "content": "//div[@id=\"content\"]/text()",
+      "enableNext": false,
+      "next": "xpath://a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+    }
+  }
+]

@@ -1,0 +1,443 @@
+[
+  {
+    "section": "baidu-gap",
+    "gap": 0.0,
+    "ok": 3,
+    "n": 6,
+    "runs": [
+      {
+        "good": false,
+        "status": 200,
+        "preview": "{\"convert_offline\":true,\"err_detail\":\"proxy ratelimiter failed.\",\"err_msg\":\"rate"
+      },
+      {
+        "good": false,
+        "status": 200,
+        "preview": "{\"convert_offline\":true,\"err_detail\":\"proxy ratelimiter failed.\",\"err_msg\":\"rate"
+      },
+      {
+        "good": false,
+        "status": 200,
+        "preview": "{\"convert_offline\":true,\"err_detail\":\"proxy ratelimiter failed.\",\"err_msg\":\"rate"
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      }
+    ]
+  },
+  {
+    "section": "baidu-gap",
+    "gap": 0.5,
+    "ok": 5,
+    "n": 6,
+    "runs": [
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": false,
+        "status": 200,
+        "preview": "{\"convert_offline\":true,\"err_detail\":\"proxy ratelimiter failed.\",\"err_msg\":\"rate"
+      }
+    ]
+  },
+  {
+    "section": "baidu-gap",
+    "gap": 1.0,
+    "ok": 5,
+    "n": 6,
+    "runs": [
+      {
+        "good": false,
+        "status": 200,
+        "preview": "{\"convert_offline\":true,\"err_detail\":\"proxy ratelimiter failed.\",\"err_msg\":\"rate"
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      }
+    ]
+  },
+  {
+    "section": "baidu-gap",
+    "gap": 2.0,
+    "ok": 6,
+    "n": 6,
+    "runs": [
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      },
+      {
+        "good": true,
+        "status": 200,
+        "preview": ""
+      }
+    ]
+  },
+  {
+    "section": "baidu-long2",
+    "name": "post_len100",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 179712,
+    "frames": 624,
+    "duration": 22.46,
+    "ms": 631,
+    "err": "",
+    "chars": 100
+  },
+  {
+    "section": "baidu-long2",
+    "name": "post_len300",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 522432,
+    "frames": 1814,
+    "duration": 65.3,
+    "ms": 1276,
+    "err": "",
+    "chars": 300
+  },
+  {
+    "section": "baidu-long2",
+    "name": "post_len600",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 1045728,
+    "frames": 3631,
+    "duration": 130.72,
+    "ms": 2433,
+    "err": "",
+    "chars": 600
+  },
+  {
+    "section": "baidu-scheme",
+    "scheme": "http",
+    "ok": 5,
+    "n": 5
+  },
+  {
+    "section": "baidu-scheme",
+    "scheme": "https",
+    "ok": 3,
+    "n": 5
+  },
+  {
+    "section": "dui-stab",
+    "ok": 10,
+    "n": 10
+  },
+  {
+    "section": "dui-len",
+    "name": "dui_len250",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 151416,
+    "frames": 1402,
+    "duration": 50.47,
+    "ms": 10339,
+    "err": "",
+    "chars": 250,
+    "url_len": 6847
+  },
+  {
+    "section": "dui-len",
+    "name": "dui_len280",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 171180,
+    "frames": 1585,
+    "duration": 57.06,
+    "ms": 12357,
+    "err": "",
+    "chars": 280,
+    "url_len": 7657
+  },
+  {
+    "section": "dui-len",
+    "name": "dui_len300",
+    "status": 414,
+    "ok": false,
+    "sniff": "TEXT",
+    "len": 174,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 135,
+    "err": "HTTPError",
+    "preview": "<html>\r\n<head><title>414 Request-URI Too Large</title></head>\r\n<body>\r\n<center><h1>414 Request-URI Too Large</h1></center>\r\n<hr><center>openresty</center>\r\n</bo",
+    "chars": 300,
+    "url_len": 8197
+  },
+  {
+    "section": "dui-len",
+    "name": "dui_len320",
+    "status": 414,
+    "ok": false,
+    "sniff": "TEXT",
+    "len": 174,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 115,
+    "err": "HTTPError",
+    "preview": "<html>\r\n<head><title>414 Request-URI Too Large</title></head>\r\n<body>\r\n<center><h1>414 Request-URI Too Large</h1></center>\r\n<hr><center>openresty</center>\r\n</bo",
+    "chars": 320,
+    "url_len": 8737
+  },
+  {
+    "section": "dui-len",
+    "name": "dui_len350",
+    "status": 414,
+    "ok": false,
+    "sniff": "TEXT",
+    "len": 174,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 136,
+    "err": "HTTPError",
+    "preview": "<html>\r\n<head><title>414 Request-URI Too Large</title></head>\r\n<body>\r\n<center><h1>414 Request-URI Too Large</h1></center>\r\n<hr><center>openresty</center>\r\n</bo",
+    "chars": 350,
+    "url_len": 9547
+  },
+  {
+    "section": "fanyi-len",
+    "name": "fanyi_len110",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 220896,
+    "frames": 767,
+    "duration": 27.61,
+    "ms": 1107,
+    "err": "",
+    "chars": 110,
+    "url_len": 3030
+  },
+  {
+    "section": "fanyi-len",
+    "name": "fanyi_len120",
+    "status": 200,
+    "ok": true,
+    "sniff": "EMPTY",
+    "len": 0,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 139,
+    "err": "",
+    "chars": 120,
+    "url_len": 3300
+  },
+  {
+    "section": "fanyi-len",
+    "name": "fanyi_len135",
+    "status": 200,
+    "ok": true,
+    "sniff": "EMPTY",
+    "len": 0,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 141,
+    "err": "",
+    "chars": 135,
+    "url_len": 3705
+  },
+  {
+    "section": "fanyi-len",
+    "name": "fanyi_len150",
+    "status": 200,
+    "ok": true,
+    "sniff": "EMPTY",
+    "len": 0,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 112,
+    "err": "",
+    "chars": 150,
+    "url_len": 4110
+  },
+  {
+    "section": "fanyi-len",
+    "name": "fanyi_len170",
+    "status": 200,
+    "ok": true,
+    "sniff": "EMPTY",
+    "len": 0,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 145,
+    "err": "",
+    "chars": 170,
+    "url_len": 4650
+  },
+  {
+    "section": "fanyi-spd",
+    "name": "fanyi_spd1",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 42624,
+    "frames": 148,
+    "duration": 5.33,
+    "ms": 446,
+    "err": "",
+    "spd": "1"
+  },
+  {
+    "section": "fanyi-spd",
+    "name": "fanyi_spd2",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 36576,
+    "frames": 127,
+    "duration": 4.57,
+    "ms": 396,
+    "err": "",
+    "spd": "2"
+  },
+  {
+    "section": "fanyi-spd",
+    "name": "fanyi_spd3",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 31968,
+    "frames": 111,
+    "duration": 4.0,
+    "ms": 301,
+    "err": "",
+    "spd": "3"
+  },
+  {
+    "section": "fanyi-spd",
+    "name": "fanyi_spd5",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 25920,
+    "frames": 90,
+    "duration": 3.24,
+    "ms": 476,
+    "err": "",
+    "spd": "5"
+  },
+  {
+    "section": "fanyi-spd",
+    "name": "fanyi_spd7",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 21600,
+    "frames": 75,
+    "duration": 2.7,
+    "ms": 398,
+    "err": "",
+    "spd": "7"
+  },
+  {
+    "section": "fanyi-spd",
+    "name": "fanyi_spd9",
+    "status": 200,
+    "ok": true,
+    "sniff": "EMPTY",
+    "len": 0,
+    "frames": 0,
+    "duration": 0.0,
+    "ms": 131,
+    "err": "",
+    "spd": "9"
+  },
+  {
+    "section": "baidu-recover",
+    "name": "post_after_pause",
+    "status": 200,
+    "ok": true,
+    "sniff": "MP3-FRAME",
+    "len": 23616,
+    "frames": 82,
+    "duration": 2.95,
+    "ms": 245,
+    "err": ""
+  }
+]

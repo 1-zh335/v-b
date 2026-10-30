@@ -1,0 +1,151 @@
+﻿   1 Pane                     [                              ] @0,0 1920x1008 enabled=False pats=
+   2 Pane                     [夸克网盘Skill - 夸克                ] @0,0 1920x1008 enabled=True pats=ScrollItem
+   3 Pane                     [                              ] @0,0 1920x1008 enabled=True pats=ScrollItem
+   4 Pane                     [                              ] @0,0 1920x1008 enabled=True pats=ScrollItem
+   5 Pane                     [                              ] @1776,0 144x60 enabled=True pats=ScrollItem
+   6 Button                   [最小化                           ] @1776,9 42x42 enabled=True pats=Invoke|ScrollItem
+   7 Button                   [恢复                            ] @1824,9 42x42 enabled=True pats=Invoke|ScrollItem
+   8 Button                   [关闭                            ] @1872,9 42x42 enabled=True pats=Invoke|ScrollItem
+   9 Pane                     [                              ] @0,0 1920x1008 enabled=True pats=ScrollItem
+  10 Pane                     [                              ] @0,0 1920x1008 enabled=True pats=ScrollItem
+  11 Pane                     [                              ] @0,0 1920x1008 enabled=True pats=ScrollItem
+  12 Pane                     [                              ] @0,0 1920x1008 enabled=True pats=ScrollItem
+  13 Pane                     [                              ] @0,60 1920x117 enabled=True pats=ScrollItem
+  14 ToolBar                  [                              ] @0,60 1920x66 enabled=True pats=Selection|ScrollItem
+  15 Pane                     [                              ] @0,60 1920x66 enabled=True pats=ScrollItem
+  16 Button                   [返回                            ] @6,72 48x42 enabled=False pats=Invoke|ScrollItem
+  17 Button                   [前进                            ] @54,72 48x42 enabled=False pats=Invoke|ScrollItem
+  18 Button                   [重新加载                          ] @102,72 48x42 enabled=True pats=Invoke|ScrollItem
+  19 Button                   [家                             ] @150,72 48x42 enabled=True pats=Invoke|ScrollItem
+  20 Pane                     [                              ] @198,92 36x2 enabled=True pats=ScrollItem
+  21 Group                    [                              ] @242,69 1414x48 enabled=True pats=ScrollItem
+  22 Pane                     [                              ] @248,74 40x40 enabled=True pats=ScrollItem
+  23 Button                   [QuarkAskQuarkButton           ] @248,74 40x40 enabled=True pats=Invoke|ScrollItem
+  24 Edit                     [地址和搜索栏                        ] @299,72 1300x42 enabled=True pats=Value|Text|ScrollItem
+  25 Pane                     [                              ] @∞,∞ -∞x-∞ enabled=True pats=ScrollItem
+  26 Pane                     [                              ] @1610,74 40x40 enabled=True pats=ScrollItem
+  27 Button                   [为此标签页添加书签                     ] @1610,74 40x40 enabled=True pats=Invoke|ScrollItem
+  28 Pane                     [                              ] @1670,92 37x2 enabled=True pats=ScrollItem
+  29 Pane                     [                              ] @1709,72 43x42 enabled=True pats=ScrollItem
+  30 Button                   [扩展程序                          ] @1709,72 43x42 enabled=True pats=ExpandCollapse|ScrollItem
+  31 Pane                     [                              ] @1754,75 20x36 enabled=True pats=ScrollItem
+  32 Pane                     [                              ] @1776,72 42x42 enabled=True pats=ScrollItem
+  33 Button                   [下载内容                          ] @1776,72 42x42 enabled=True pats=ExpandCollapse|ScrollItem
+  34 Button                   [QuarkAvatarButton             ] @1821,72 42x42 enabled=True pats=Invoke|ScrollItem
+  35 Button                   [Chromium                      ] @1866,72 42x42 enabled=True pats=ExpandCollapse|ScrollItem
+  36 ToolBar                  [书签                            ] @9,126 1911x51 enabled=True pats=Selection|ScrollItem
+  37 ToolBar                  [已保存的标签页分组                     ] @15,129 48x36 enabled=True pats=Selection|ScrollItem
+  38 Button                   [标签页分组                         ] @15,129 36x36 enabled=True pats=ExpandCollapse|ScrollItem
+  39 Separator                [分隔符                           ] @63,135 15x24 enabled=True pats=ScrollItem
+  40 Pane                     [                              ] @78,122 231x52 enabled=True pats=ScrollItem
+  41 Button                   [导入书签                          ] @78,128 111x40 enabled=True pats=ExpandCollapse|ScrollItem
+  42 Button                   [网址导航                          ] @198,128 111x40 enabled=True pats=ExpandCollapse|ScrollItem
+  43 Pane                     [                              ] @0,177 1920x831 enabled=True pats=ScrollItem
+  44 Pane                     [                              ] @0,179 1920x830 enabled=True pats=ScrollItem
+  45 Pane                     [                              ] @0,180 1920x828 enabled=True pats=ScrollItem
+  46 Document                 [夸克网盘Skill                     ] @0,180 1920x828 enabled=True pats=Value|Scroll|Text|ScrollItem
+  47 Group                    [                              ] @0,180 1897x3156 enabled=True pats=Invoke|ScrollItem
+  48 Group                    [                              ] @0,180 1897x750 enabled=True pats=ScrollItem
+  49 Text                     [夸克网盘Skill                     ] @116,330 439x42 enabled=True pats=ScrollItem
+  50 Text                     [将网盘接入AI大脑，一句话管理你的文件           ] @116,411 594x44 enabled=True pats=Text|ScrollItem
+  51 Hyperlink                [下载Skill                       ] @116,516 192x65 enabled=True pats=Invoke|Value|ScrollItem
+  52 Group                    [                              ] @116,685 1665x2509 enabled=True pats=ScrollItem
+  53 Text                     [安装指南                          ] @215,678 180x61 enabled=True pats=Text|ScrollItem
+  54 Image                    [                              ] @117,793 795x582 enabled=True pats=ScrollItem
+  55 Group                    [绑定网址：pan.quark.cn完成授权后，直接告诉AI你的需求—搜文件、存资料、整理相册、生成分享链接，一句话搞定] @233,1237 543x67 enabled=True pats=ScrollItem
+  56 Group                    [已安装夸克网盘技能！                    ] @268,1164 187x20 enabled=True pats=ScrollItem
+  57 Group                    [深度思考                          ] @233,1164 80x20 enabled=True pats=ScrollItem
+  58 Text                     [复制下方提示词，在Agent中输入。激活夸克网盘Skill ] @912,891 715x41 enabled=True pats=Text|ScrollItem
+  59 Text                     [请安装 夸克网盘Skill,并授权账号           ] @964,997 305x27 enabled=True pats=Text|ScrollItem
+  60 Text                     [技能地址：                         ] @964,1036 106x27 enabled=True pats=Text|ScrollItem
+  61 Text                     [https://pdds.quark.cn/download/stfile/eekkigineefiegmgo/quarkclouddrive-1.0.25.zip] @964,1036 726x66 enabled=True pats=Text|ScrollItem
+  62 Text                     [授权码：**********                ] @964,1114 181x27 enabled=True pats=Text|ScrollItem
+  63 Button                   [复制技能地址                        ] @1497,1133 195x53 enabled=True pats=Invoke|ScrollItem
+  64 Text                     [目前已支持：                        ] @912,1258 108x25 enabled=True pats=Text|ScrollItem
+  65 Image                    [千问-办公助理                       ] @1035,1250 182x41 enabled=True pats=ScrollItem
+  66 Image                    [Codex                         ] @1397,1250 115x41 enabled=True pats=ScrollItem
+  67 Image                    [OpenClaw                      ] @1523,1250 147x41 enabled=True pats=ScrollItem
+  68 Text                     [核心功能                          ] @215,1487 180x61 enabled=True pats=Text|ScrollItem
+  69 Hyperlink                [查看更新详情                        ] @1638,1496 143x43 enabled=True pats=Invoke|Value|ScrollItem
+  70 Text                     [通用能力                          ] @177,1634 120x40 enabled=True pats=Text|ScrollItem
+  71 Text                     [已全面开放                         ] @775,1642 90x24 enabled=True pats=Text|ScrollItem
+  72 Text                     [关键词搜索                         ] @272,1738 105x27 enabled=True pats=Text|ScrollItem
+  73 Text                     [基于文件名，搜索文件                    ] @272,1770 180x23 enabled=True pats=Text|ScrollItem
+  74 Text                     [批量重命名                         ] @635,1738 105x27 enabled=True pats=Text|ScrollItem
+  75 Text                     [名称自由定义，批量操作                   ] @635,1770 198x23 enabled=True pats=Text|ScrollItem
+  76 Text                     [存储&下载                         ] @272,1874 103x28 enabled=True pats=Text|ScrollItem
+  77 Text                     [端云互通，文件随心存取                   ] @272,1906 198x24 enabled=True pats=Text|ScrollItem
+  78 Text                     [分享&转存                         ] @635,1874 103x28 enabled=True pats=Text|ScrollItem
+  79 Text                     [一键分享，链接更新秒存                   ] @635,1906 198x24 enabled=True pats=Text|ScrollItem
+  80 Text                     [AI高阶能力                        ] @1029,1634 150x40 enabled=True pats=Text|ScrollItem
+  81 Text                     [SVIP+会员专属                     ] @1592,1642 125x24 enabled=True pats=Text|ScrollItem
+  82 Text                     [智能搜索                          ] @1124,1738 84x27 enabled=True pats=Text|ScrollItem
+  83 Text                     [一句话描述，精准定位                    ] @1124,1770 180x23 enabled=True pats=Text|ScrollItem
+  84 Text                     [相册整理                          ] @1487,1738 84x27 enabled=True pats=Text|ScrollItem
+  85 Text                     [高效有序，智能整理相册                   ] @1487,1770 198x23 enabled=True pats=Text|ScrollItem
+  86 Text                     [AI总结                          ] @1124,1874 63x28 enabled=True pats=Text|ScrollItem
+  87 Text                     [海量文件，一键总结                     ] @1124,1906 162x24 enabled=True pats=Text|ScrollItem
+  88 Text                     [知识问答                          ] @1487,1874 84x28 enabled=True pats=Text|ScrollItem
+  89 Text                     [自由提问，秒得答案                     ] @1487,1906 162x24 enabled=True pats=Text|ScrollItem
+  90 Text                     [使用场景                          ] @215,2109 180x61 enabled=True pats=Text|ScrollItem
+  91 Group                    [                              ] @164,2223 524x81 enabled=True pats=Invoke|ScrollItem
+  92 Text                     [自动转存更新资料                      ] @164,2223 240x40 enabled=True pats=Text|ScrollItem
+  93 Text                     [设置定时任务，自动转存更新资源               ] @164,2271 315x27 enabled=True pats=Text|ScrollItem
+  94 Group                    [                              ] @164,2364 524x81 enabled=True pats=Invoke|ScrollItem
+  95 Text                     [文件整理一句话搞定                     ] @164,2364 270x40 enabled=True pats=Text|ScrollItem
+  96 Text                     [按需分类、统一命名，一句话整理到位             ] @164,2412 357x27 enabled=True pats=Text|ScrollItem
+  97 Group                    [                              ] @164,2505 524x81 enabled=True pats=Invoke|ScrollItem
+  98 Text                     [对话文件随手存网盘                     ] @164,2505 270x40 enabled=True pats=Text|ScrollItem
+  99 Text                     [和Agent聊天中的重要资料，一句话存网盘         ] @164,2553 394x27 enabled=True pats=Text|ScrollItem
+ 100 Group                    [                              ] @164,2646 524x81 enabled=True pats=Invoke|ScrollItem
+ 101 Text                     [需要的文件直接调用                     ] @164,2646 270x40 enabled=True pats=Text|ScrollItem
+ 102 Text                     [生成PPT，再也不用手动搬素材               ] @164,2694 289x27 enabled=True pats=Text|ScrollItem
+ 103 Group                    [                              ] @164,2787 524x81 enabled=True pats=Invoke|ScrollItem
+ 104 Text                     [一句话查找网盘文件                     ] @164,2787 270x40 enabled=True pats=Text|ScrollItem
+ 105 Text                     [人物、场景随心搜，照片一秒定位               ] @164,2835 315x27 enabled=True pats=Text|ScrollItem
+ 106 Group                    [                              ] @164,2928 524x81 enabled=True pats=Invoke|ScrollItem
+ 107 Text                     [重要资料备份网盘                      ] @164,2928 240x40 enabled=True pats=Text|ScrollItem
+ 108 Text                     [项目进展不怕跟丢，定时帮你完成备份归档           ] @164,2976 399x27 enabled=True pats=Text|ScrollItem
+ 109 Text                     [每天晚上 10 点帮我检查一下资源有没有更新，把每天新增的课件和课程回放转存到我的「学习资料」文件夹，已经存过的就不用重复存了。] @880,2349 794x68 enabled=True pats=Text|ScrollItem
+ 110 Text                     [http://pan.quark.cn/          ] @1384,2389 205x28 enabled=True pats=Text|ScrollItem
+ 111 Text                     [已检查课程资料，今天新增了 2 个文件，已转存到你的夸克网盘：] @784,2499 614x28 enabled=True pats=Text|ScrollItem
+ 112 Text                     [增量转存结果                        ] @784,2559 145x32 enabled=True pats=Text|ScrollItem
+ 113 Text                     [• 第05课｜提示词进阶.pdf              ] @784,2615 248x28 enabled=True pats=Text|ScrollItem
+ 114 Text                     [新增                            ] @1053,2619 31x21 enabled=True pats=Text|ScrollItem
+ 115 Text                     [• 第05课｜课程回放.mp4               ] @784,2657 239x28 enabled=True pats=Text|ScrollItem
+ 116 Text                     [更新                            ] @1043,2661 31x21 enabled=True pats=Text|ScrollItem
+ 117 Text                     [AI学习资料                        ] @883,2744 90x25 enabled=True pats=Text|ScrollItem
+ 118 Text                     [25 MB · 夸克网盘 /AI学习资料          ] @883,2777 205x21 enabled=True pats=Text|ScrollItem
+ 119 Text                     [新增 2 个文件 · 夸克网盘 / AI学习资料      ] @784,2860 359x28 enabled=True pats=Text|ScrollItem
+ 120 Text                     [已跳过之前转存的文件，明晚 22:00 将继续检查更新。  ] @784,2901 509x28 enabled=True pats=Text|ScrollItem
+ 121 Hyperlink                [粤ICP备2022013084号              ] @552,3230 247x23 enabled=True pats=Invoke|Value|ScrollItem
+ 122 Text                     [公司名: 广州市动悦信息技术有限公司            ] @825,3227 348x28 enabled=True pats=Text|ScrollItem
+ 123 Text                     [联系方式: 400-109-8622            ] @1213,3227 237x28 enabled=True pats=Text|ScrollItem
+ 124 Hyperlink                [服务协议                          ] @426,3281 115x23 enabled=True pats=Invoke|Value|ScrollItem
+ 125 Hyperlink                [隐私政策                          ] @554,3281 115x23 enabled=True pats=Invoke|Value|ScrollItem
+ 126 Hyperlink                [官方公告                          ] @681,3281 115x23 enabled=True pats=Invoke|Value|ScrollItem
+ 127 Hyperlink                [侵权投诉                          ] @809,3281 115x23 enabled=True pats=Invoke|Value|ScrollItem
+ 128 Hyperlink                [廉正举报                          ] @936,3281 115x23 enabled=True pats=Invoke|Value|ScrollItem
+ 129 Text                     [举报邮箱：zhixinlzjb@alibaba-inc.com] @1077,3278 380x28 enabled=True pats=Text|ScrollItem
+ 130 Pane                     [                              ] @0,179 1920x2 enabled=True pats=ScrollItem
+ 131 Tab                      [                              ] @0,0 1776x60 enabled=True pats=Selection|ScrollItem
+ 132 Pane                     [                              ] @6,0 51x60 enabled=True pats=ScrollItem
+ 133 Button                   [搜索标签页                         ] @6,0 51x60 enabled=True pats=ExpandCollapse|ScrollItem
+ 134 Pane                     [                              ] @45,0 810x60 enabled=True pats=ScrollItem
+ 135 Pane                     [                              ] @45,0 810x60 enabled=True pats=ScrollItem
+ 136 Pane                     [                              ] @45,0 810x60 enabled=True pats=ScrollItem
+ 137 Pane                     [                              ] @45,0 810x60 enabled=True pats=ScrollItem
+ 138 Pane                     [                              ] @45,0 810x60 enabled=True pats=ScrollItem
+ 139 Pane                     [                              ] @45,0 810x60 enabled=True pats=ScrollItem
+ 140 TabItem                  [新标签页                          ] @45,0 288x60 enabled=True pats=SelectionItem|ScrollItem
+ 141 TabItem                  [夸克网盘                          ] @306,0 288x60 enabled=True pats=SelectionItem|ScrollItem
+ 142 TabItem                  [夸克网盘Skill                     ] @567,0 288x60 enabled=True pats=SelectionItem|ScrollItem
+ 143 Button                   [关闭                            ] @795,9 42x42 enabled=True pats=Invoke|ScrollItem
+ 144 Pane                     [                              ] @45,0 810x60 enabled=True pats=ScrollItem
+ 145 Pane                     [                              ] @∞,∞ -∞x-∞ enabled=True pats=ScrollItem
+ 146 Button                   [新标签页                          ] @843,0 51x60 enabled=True pats=Invoke|ScrollItem
+ 147 Pane                     [                              ] @912,0 731x60 enabled=True pats=ScrollItem
+ 148 Pane                     [                              ] @1643,9 119x42 enabled=True pats=ScrollItem
+ 149 Button                   [QuarkAIChatButton             ] @1643,9 119x42 enabled=True pats=Invoke|ScrollItem
+ 150 Pane                     [                              ] @∞,∞ -∞x-∞ enabled=True pats=ScrollItem
+ 151 Pane                     [                              ] @∞,∞ -∞x-∞ enabled=True pats=ScrollItem

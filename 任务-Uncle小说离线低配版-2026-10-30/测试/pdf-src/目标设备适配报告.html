@@ -1,0 +1,779 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>目标设备适配报告（DTPC953）</title><style>
+@page { size: A4; margin: 16mm 14mm; }
+body { font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif; font-size: 10.5pt;
+       color: #222; line-height: 1.55; }
+h1 { font-size: 20pt; color: #1f3a2e; border-bottom: 2px solid #6aa47f; padding-bottom: 6px; }
+h2 { font-size: 14pt; color: #24503a; margin-top: 18px; border-left: 4px solid #6aa47f; padding-left: 8px; }
+h3 { font-size: 12pt; color: #2f5d43; margin-top: 14px; }
+code { font-family: Consolas, monospace; background: #f2f5f2; padding: 1px 4px; border-radius: 3px; font-size: 9.5pt; }
+pre { background: #f6f8f6; border: 1px solid #dbe4dc; padding: 8px; white-space: pre-wrap; word-break: break-all; font-size: 9pt; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.5pt; page-break-inside: avoid; }
+th, td { border: 1px solid #cfd8d0; padding: 5px 7px; text-align: left; vertical-align: top; }
+th { background: #e6efe8; }
+blockquote { border-left: 3px solid #b7cbbd; margin: 8px 0; padding: 4px 10px; color: #38513f; background: #f4f8f4; }
+figure { margin: 14px 0; page-break-inside: avoid; text-align: center; }
+figure img { max-width: 100%; max-height: 155mm; border: 1px solid #b9c9bd; border-radius: 3px; }
+figcaption { font-size: 9.5pt; color: #4a6453; margin-top: 4px; }
+.gallery-title { page-break-before: always; }
+</style></head><body><h1>目标设备适配报告（DTPC953）</h1>
+<blockquote>
+<p>文档版本：v1.0（2026-10-30）｜适用对象：Uncle小说 离线低配重构版（基于 v5.0.44 增强版）
+依据材料：本任务 <a href="../README.md"><code>README.md</code></a> §1/§3；目标设备原始取证文件（DxDiag / AIDA64 / CPU-Z / MSInfo32）
+状态约定：设计口径已定、但尚未在目标机或受限 JVM 下实测的条目，统一标注 <strong>「待 Lead 实测确认」</strong>；不得把设计值当作实测值引用。</p>
+</blockquote>
+<hr />
+<h2>1. 结论摘要</h2>
+<ol>
+<li><strong>能运行，但必须按低配档运行</strong>：DTPC953 为 ASUS PN40 迷你机（Win10 1809 LTSC x64 / Celeron J4005 2 核 2 线程 / 4GB 内存 / 128GB SSD / 1080p@96DPI），满足 Java 11 + JavaFX 17 的运行条件；但 <strong>无显卡驱动（Microsoft 基本显示适配器）、无声卡、可用内存仅约 667MB</strong>，属于"可跑、不能按普通办公机配置跑"的设备。</li>
+<li><strong>本版已实施的低配适配</strong>：JVM 收紧到 <code>-Xmx512m</code>（快速阅读 <code>-Xmx448m</code>）、JavaFX 强制软件渲染、关闭翻页动画与页面阴影、下载线程降至 1、关闭书架自动更新、关闭更新检查与分析上报，阅读窗口按 1080p/96DPI 定为 1120×760 / 字号 22 / 行距 0.25。</li>
+<li><strong>间歇联网与老板键是本版两个行为级改造</strong>：离线/在线状态后台探测 + 标题标识 + 统一提示框 + 恢复自动启用；完整版与本地 TXT 快速阅读两种模式均注册全局老板键（默认 <code>Alt+U</code>）。</li>
+<li><strong>主要不确定性</strong>：① Win10 1809 + JavaFX 17 软渲染组合尚未在真机实测；② 启动耗时/内存占用（RSS）尚未采样；③ 域环境（Symantec Endpoint Protection、代理/组策略、VNC 远程维护）可能影响联网探测与安装脚本执行。以上均列入 §5 风险与 §7 验证状态表，由 Lead 实测回填。</li>
+</ol>
+<hr />
+<h2>2. 目标机画像（对照 README §1）</h2>
+<h3>2.1 主表</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>README §1 记录</th>
+<th>原始文件实测值</th>
+<th>数据来源（文件 › 字段）</th>
+<th>对软件的约束</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主机</td>
+<td>ASUS Mini PC PN40（Vivo PC）</td>
+<td>系统型号 PN40；主板 ASUS PN40；机箱 Mini PC</td>
+<td><code>DxDiag.txt</code> › System Model；<code>DTPC953.html</code>(CPU-Z) › Mainboard Model / DMI System Information</td>
+<td>无独显、小机箱，散热与扩展受限</td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td>Windows 10 Enterprise 2019 LTSC x64，10.0.17763（1809）</td>
+<td>10.0.17763，企业版 LTSC 64-bit；AIDA64 记为 <code>10.0.17763.8146 (Win10 RS5 [1809])</code></td>
+<td><code>DxDiag.txt</code> › Operating System；<code>Report.htm</code>(AIDA64) › 系统概述 / 操作系统版本</td>
+<td>需兼容旧 Win10；无应用商店/UWP 依赖</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>Celeron J4005，2 核 2 线程，2.0–2.4GHz，4MB L2，14nm</td>
+<td>2 Cores / 2 Threads；14 nm；L2 4MB；Stock 2000MHz、Max 2400MHz；当前 1996.8MHz</td>
+<td><code>DTPC953.html</code>(CPU-Z) › Processors Information；<code>DxDiag.txt</code> › Processor</td>
+<td>低算力：控制启动耗时、后台任务、动画</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>4GB DDR4-2400，实际可用 3.82GB，采样时仅剩 <strong>667MB</strong></td>
+<td>安装 4.00GB；总物理内存 3.82GB；<strong>可用物理内存 667MB</strong>（同批 .nfo 另一份导出为 694MB）；AIDA64 快照 3915MB 中已用 2218MB / 可用 1697MB</td>
+<td><code>系统信息文件.txt</code>(MSInfo32) › 系统摘要：总的物理内存/可用物理内存；<code>系统信息文件.nfo</code> 同名字段；<code>Report.htm</code> › 物理内存</td>
+<td>JVM 堆必须收紧；禁止内存缓存滥用</td>
+</tr>
+<tr>
+<td>显卡</td>
+<td><strong>Microsoft 基本显示适配器</strong>（UHD 600 驱动未装），WDDM 1.3，共享显存 1957MB</td>
+<td>适配器 Microsoft 基本显示适配器；驱动 10.0.17763.1；WDDM 1.3；Display Memory 1957MB（Dedicated 0MB）；3D 加速器硬件为 Intel UHD Graphics 600（未装驱动）</td>
+<td><code>DxDiag.txt</code> › Display Devices；<code>Report.htm</code> › 显示适配器 / 3D 加速器</td>
+<td>无硬件加速 → JavaFX 必须软件渲染（<code>prism.order=sw</code>）</td>
+</tr>
+<tr>
+<td>显示</td>
+<td>Lenovo LS2224A 22" LCD，1920×1080，96 DPI（100%）</td>
+<td>1920×1080 32bit 64Hz；显示器 LEN LS2224A（22" FHD，DP 输入）；User DPI 96（100%）</td>
+<td><code>DxDiag.txt</code> › Display Devices / DPI；<code>Report.htm</code> › 显示器；<code>系统信息文件.txt</code> › [显示]</td>
+<td>默认窗口按 1080p/96DPI 排版，不沿用 150% 缩放假设</td>
+</tr>
+<tr>
+<td>音频</td>
+<td><strong>未找到声卡</strong>（Realtek ALC3236 / HDMI 音频驱动未装）</td>
+<td><code>Sound Devices</code>：Default Sound Playback = <strong>No</strong>；DxDiag 提示 "No sound card was found"；AIDA64 列出 ALC3236/HDMI 音频硬件但未装驱动；无默认播放端点</td>
+<td><code>DxDiag.txt</code> › DxDiag Notes / Sound Devices；<code>Report.htm</code> › 音频适配器</td>
+<td>TTS/有声播放不可用，需明确提示，不产生异常堆栈</td>
+</tr>
+<tr>
+<td>磁盘</td>
+<td>M.2 SSD 128GB：C: 81.3GB（50.2GB 空闲）、D: 40.1GB（33.8GB 空闲）</td>
+<td>硬盘 M.2 SSD 128GB（119.24GB）；C: 81344MB（50203MB 可用）、D: 40142MB（33844MB 可用）</td>
+<td><code>Report.htm</code> › 硬盘驱动器 / 磁盘分区；<code>系统信息文件.txt</code> › [磁盘]</td>
+<td>安装约 146MB 可接受，但避免额外大缓存</td>
+</tr>
+<tr>
+<td>网络</td>
+<td>Realtek PCIe GBE，IP 172.30.80.149；部署环境为<strong>间歇联网</strong></td>
+<td>Realtek PCIe GBE Family Controller（rt640x64）；IP 172.30.80.149/24，网关 172.30.80.254，DHCP 由 172.30.8.12 提供；另有 802.11n USB 无线网卡（已装驱动、无 IP，未使用）</td>
+<td><code>系统信息文件.txt</code> › [适配器]；<code>Report.htm</code> › 网络设备</td>
+<td>联网功能必须感知在线/离线并差异化提示，恢复后自动可用</td>
+</tr>
+<tr>
+<td>BIOS</td>
+<td>AMI 0804 / 2019-05-05，UEFI，Secure Boot 关闭</td>
+<td>BIOS 版本 0804，日期 2019/5/5，UEFI 模式，安全启动状态 <strong>关闭</strong></td>
+<td><code>系统信息文件.txt</code> › 系统摘要；<code>DTPC953.html</code> › DMI BIOS</td>
+<td>无影响</td>
+</tr>
+<tr>
+<td>账户/域</td>
+<td>域环境 <code>dt.kersentech.com</code>；用户 <code>DTPC953</code></td>
+<td>用户名 <code>DT\DTPC953</code>；AIDA64「登录域 = DT」；完整域名未在本次抽查字段中直接出现</td>
+<td><code>系统信息文件.txt</code> › 用户名；<code>Report.htm</code> › 登录域</td>
+<td>安装/运行限定当前用户目录，不依赖管理员</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>IE11；打印机若干</td>
+<td>IE 11.1790.17763.0；Firefox/Foxit 打印组件；Chrome 已安装于 <code>D:\Chrome</code></td>
+<td><code>Report.htm</code> › 已安装程序 / 系统概述</td>
+<td>应用内 WebView 与系统浏览器互不影响</td>
+</tr>
+</tbody>
+</table>
+<h3>2.2 补充观测（README §1 未列，但影响部署）</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>实测值</th>
+<th>数据来源</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全软件</td>
+<td><strong>Symantec Endpoint Protection 14.3.8289.5000.105</strong>（进程 <code>ccSvcHst.exe</code>，多个实例占用约 90–97MB）；Windows Defender 4.18.1807.18075；Windows 防火墙已启用</td>
+<td><code>Report.htm</code> › 进程 / 防病毒软件 / 防火墙</td>
+<td>可能扫描/拦截用户目录下的 exe、bat、ps1；占用约 200MB 内存，加剧内存余量紧张</td>
+</tr>
+<tr>
+<td>系统补丁</td>
+<td>10.0.17763.8146（AIDA64 记录；Windows 更新列表含 2026 年累积更新）</td>
+<td><code>Report.htm</code> › 操作系统版本</td>
+<td>1809 仍在支持期，组件版本较新</td>
+</tr>
+<tr>
+<td>远程维护</td>
+<td>装有 <strong>VNC Mirror Driver</strong>（RealVNC 兼容，<code>vncmirror.sys</code>），存在远程会话可能</td>
+<td><code>系统信息文件.txt</code> › [显示]</td>
+<td>远程会话下渲染/截图/全局热键可能与本地控制台不一致</td>
+</tr>
+<tr>
+<td>网络共享</td>
+<td>映射盘 <code>W:</code> = <code>\\DTFS03\it</code>、<code>X:</code> = <code>\\DTFS03\Temp</code></td>
+<td><code>系统信息文件.txt</code> › [驱动器]</td>
+<td>解压/安装建议用本地盘，避免网络盘权限/速度问题</td>
+</tr>
+<tr>
+<td>页面文件</td>
+<td>2.00GB（<code>C:\pagefile.sys</code>）</td>
+<td><code>系统信息文件.txt</code> › 系统摘要</td>
+<td>内存不足时依赖换页，会比 SSD 读写明显变慢</td>
+</tr>
+<tr>
+<td>电源</td>
+<td>交流电源，无电池</td>
+<td><code>Report.htm</code> › 电源管理</td>
+<td>无移动场景，可长期插电</td>
+</tr>
+</tbody>
+</table>
+<h3>2.3 证据文件清单与差异说明</h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>生成工具</th>
+<th>采样时间</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DxDiag.txt</code></td>
+<td>Windows DirectX 诊断工具</td>
+<td>2026-10-29 09:07:52</td>
+<td>OS/CPU/内存/显示/音频/显示器</td>
+</tr>
+<tr>
+<td><code>Report.htm</code></td>
+<td>AIDA64 v7.65.7400</td>
+<td>2026-10-13 08:26</td>
+<td>系统概述、内存/磁盘/网络、进程、安全软件、事件日志</td>
+</tr>
+<tr>
+<td><code>DTPC953.html</code></td>
+<td>CPU-Z 2.15.0.x64</td>
+<td>未标注（含 Build 17763.8146）</td>
+<td>CPU 核心/工艺/缓存、主板、DMI、显示适配器</td>
+</tr>
+<tr>
+<td><code>系统信息文件.txt</code></td>
+<td>MSInfo32</td>
+<td>2026-10-29 09:43:16</td>
+<td>系统摘要、内存、声音设备、显示、网络适配器、磁盘、共享盘</td>
+</tr>
+<tr>
+<td><code>系统信息文件.nfo</code></td>
+<td>MSInfo32（同批另一份导出）</td>
+<td>2026-10-29</td>
+<td>设备/驱动详情（可用内存字段为 694MB）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>差异说明：① 可用内存 667MB（.txt）与 694MB（.nfo）是同一台机不同采样时刻的正常波动，不影响结论；AIDA64 快照（较早）可用 1697MB，仅说明该机内存余量随负载剧烈变化。② README §1 的域 <code>dt.kersentech.com</code> 与原始文件可见的「登录域 DT」为同一环境的全称/短名，全称未在抽查字段中直接出现，<strong>待 Lead 核对</strong>。③ 原始取证文件当前实际存放于 <code>../../任务-夸克网盘Skill安装-2026-10-29/目标端设备详情/</code>，本任务目录尚未复制；建议 Lead 归档到 <code>../目标端设备详情/</code> 后再交付引用。</p>
+</blockquote>
+<hr />
+<h2>3. 逐项影响分析</h2>
+<table>
+<thead>
+<tr>
+<th>目标机约束</th>
+<th>具体影响</th>
+<th>对软件的要求</th>
+<th>当前对策（本版）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Win10 1809 / 17763</strong></td>
+<td>JavaFX 17 自带 WebKit，不依赖系统 WebView2；但 1809 无 UWP/新版组件，输入法与字体渲染较新系统旧；官方 v5.0.44 未在 1809 验证过</td>
+<td>不依赖商店组件；关闭更新检查；避免使用新版 Windows API</td>
+<td>JDK 11.0.18 + JavaFX 17.0.2 内嵌 runtime；<code>-Duncle.update.check=false</code>；目标档跳过更新/埋点</td>
+</tr>
+<tr>
+<td><strong>Celeron J4005 2C2T</strong></td>
+<td>单线程性能弱，启动 JVM+JavaFX 与建章节索引都吃 CPU；并发线程多会互相抢占</td>
+<td>控制启动路径、减少后台线程、避免动画与阴影</td>
+<td><code>-XX:+UseSerialGC</code>；下载线程 1/重试 1；关闭翻页动画、页面阴影、书架自动更新</td>
+</tr>
+<tr>
+<td><strong>4GB 内存（可用 667MB 级）</strong></td>
+<td>默认 <code>-Xmx1024m</code> 会挤压系统；Chrome/Symantec 同时运行时空闲内存接近耗尽，触发换页</td>
+<td>收紧堆/元空间/代码缓存；避免大缓存</td>
+<td><code>-Xms64m -Xmx512m -XX:MaxMetaspaceSize=192m -XX:ReservedCodeCacheSize=96m</code>；快速阅读 <code>-Xmx448m</code></td>
+</tr>
+<tr>
+<td><strong>无 GPU 驱动（基本显示适配器）</strong></td>
+<td>JavaFX 默认优先 D3D，失败才回退 sw；驱动缺失时回退过程可能黑屏/白屏数秒；有硬件驱动时软渲染帧率更低</td>
+<td>强制软件渲染；降低界面复杂度</td>
+<td><code>-Dprism.order=sw -Dprism.forceGPU=false -Dprism.lcdtext=false</code>；关闭动画/阴影；阅读窗口 1120×760</td>
+</tr>
+<tr>
+<td><strong>无声卡（无默认播放端点）</strong></td>
+<td>TTS 朗读/有声播放会抛底层音频异常或"无声音"；用户容易误判为软件故障</td>
+<td>入口处前置检测并提示，不输出异常堆栈</td>
+<td><code>OfflineGuard.guardAudio/guardTts</code> → 「音频不可用」提示框（标题「音频不可用」、按钮「知道了」）</td>
+</tr>
+<tr>
+<td><strong>SSD 128GB（C: 剩 50.2GB）</strong></td>
+<td>安装约 146MB + 章节索引/TTS 缓存/下载书会持续增长</td>
+<td>缓存可控、可清理；安装不落系统目录</td>
+<td>数据集中在安装目录 <code>caches/ downloads/ logs/</code>；部署指南要求 C 盘剩余 ≥10GB</td>
+</tr>
+<tr>
+<td><strong>1080p / 96DPI</strong></td>
+<td>150% 缩放假设会让窗口超出屏幕；字号偏小默认 20 号在 22" 1080p 上略小</td>
+<td>窗口与字号按 100% 缩放设计</td>
+<td>阅读窗口 1120×760、字号 22、行距 0.25、书名常显；完整版沿用 940×660 默认窗口</td>
+</tr>
+<tr>
+<td><strong>间歇联网</strong></td>
+<td>网络随时断/恢复；断网时点联网功能若直接请求会长时间转圈或报错</td>
+<td>后台探测、UI 标识、入口拦截、恢复自动启用、可手动重试</td>
+<td><code>OfflineGuard</code>：离线 15s/在线 60s 复检；标题「（离线）」/「 · 离线」；联网功能统一提示框；恢复 Toast；「重试联网」</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 适配策略表</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>策略</th>
+<th>具体参数 / 行为</th>
+<th>落地位置</th>
+<th>验证状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>完整版 JVM 收紧</td>
+<td><code>-Djava.net.useSystemProxies=true -Xms64m -Xmx512m -XX:MaxMetaspaceSize=192m -XX:ReservedCodeCacheSize=96m -XX:+UseSerialGC -Dprism.order=sw -Dprism.forceGPU=false -Dprism.lcdtext=false -Duncle.target.profile=true -Duncle.analytics.disabled=true -Duncle.update.check=false -Dfile.encoding=UTF-8</code></td>
+<td>安装目录 <code>conf/launcher.vmoptions</code>（<code>Uncle小说.exe</code> 读取）</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>快速阅读 JVM 收紧</td>
+<td>同上，堆改为 <code>-Xmx448m</code>（其余一致）</td>
+<td><code>本地TXT快速阅读.bat</code> 与桌面快捷方式 javaw 参数</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>JavaFX 软渲染</td>
+<td><code>prism.order=sw</code>、<code>prism.forceGPU=false</code>、<code>prism.lcdtext=false</code>（关闭 LCD 次像素）</td>
+<td>A1/A2 两个入口</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>动画/阴影关闭</td>
+<td><code>reader.flipAnimation=false</code>、<code>reader.showShadow=false</code></td>
+<td>安装时生成的 <code>conf/conf.json</code>（<code>初始化配置.ps1</code>）</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>阅读窗口目标档</td>
+<td>窗口 1120×760、字号 22、行距 0.25、<code>bookShelf.alwaysShowBookTitle=true</code>（README 写 1100×760，实际 <code>初始化配置.ps1</code> 写入 1120×760）</td>
+<td><code>conf/conf.json</code></td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>后台线程降低</td>
+<td>下载 <code>threadNum=1</code>、<code>taskNum=1</code>、<code>retryNum=1</code>；<code>bookShelf.autoUpdate=false</code></td>
+<td><code>conf/conf.json</code></td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A7</td>
+<td>静默更新与埋点</td>
+<td><code>-Duncle.update.check=false</code> 且目标档/离线时跳过 MixPanel；启动时更新检查仅在线且非目标档才执行</td>
+<td><code>launcher.vmoptions</code> + <code>App.java</code>/<code>MixPanelHelper.java</code> 补丁</td>
+<td>代码已实现；运行时待实测</td>
+</tr>
+<tr>
+<td>A8</td>
+<td>离线状态感知</td>
+<td>后台线程 <code>HttpURLConnection HEAD</code>（默认 <code>https://www.baidu.com/</code>，3s 超时）；离线 15s / 在线 60s 复检；状态变化只在 FX 线程更新</td>
+<td><code>OfflineGuard.java</code>（新增）</td>
+<td>代码已实现；运行时待实测</td>
+</tr>
+<tr>
+<td>A9</td>
+<td>离线 UI 差异化</td>
+<td>完整版标题 <code>Uncle小说（离线）</code>；快速阅读标题 <code>Uncle小说 · 本地TXT快速阅读（离线）</code>；阅读器标题尾追加 <code>· 离线</code>；首次离线 Toast「离线模式：本地阅读可用；联网功能需网络，恢复后自动启用」</td>
+<td><code>OfflineGuard.bindTitle/bindWindowTitle/titleSuffix</code>、<code>HomeView</code>、<code>ReaderView</code></td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>联网功能拦截</td>
+<td>书源搜索、全网搜书、有声搜索、解析下载、下载开始/续传、有声播放、TTS、自动更新、搜索/更换封面、书源网络导入 → 统一「离线模式」提示框（按钮「重试联网」「继续离线」）</td>
+<td>视图 overlay（<code>patch-src-views</code>）+ <code>ReaderView</code> + <code>FictionBookshelfView</code> 等</td>
+<td>待 Lead 实测确认（以最终构建拦截点为准）</td>
+</tr>
+<tr>
+<td>A11</td>
+<td>无声卡提示</td>
+<td>朗读/播放开始前 <code>guardAudio</code>；提示框标题「音频不可用」、正文说明「未检测到音频设备…」、按钮「知道了」；停止朗读不受影响</td>
+<td><code>ReaderView.onSpeakClicked/onPlayClicked</code> + <code>OfflineGuard</code></td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>A12</td>
+<td>全局老板键</td>
+<td>默认 <code>alt U</code>；读 <code>conf.hotkey.globalBossKey</code>，注册失败回退 <code>alt U</code>；隐藏全部窗口+托盘图标、<code>Platform.setImplicitExit(false)</code> 防退出；再按恢复前台</td>
+<td><code>BossKey.java</code>（新增）；<code>App.init</code>/<code>QuickApp.init</code> 调用；<code>HotkeyManager</code> 移除重复注册</td>
+<td>待 Lead 实测确认（两种模式）</td>
+</tr>
+<tr>
+<td>A13</td>
+<td>安装环境</td>
+<td>纯用户目录 <code>%LOCALAPPDATA%\Programs\UncleNovel</code>，无需管理员；安装脚本正常约 10 条 <code>[OK]</code>（桌面与开始菜单各一套快捷方式）；覆盖升级保留 <code>conf/core.db</code>、<code>conf/conf.json</code></td>
+<td><code>安装到本机.bat</code>、<code>创建快捷方式.ps1</code>、<code>初始化配置.ps1</code></td>
+<td>待 Lead 实测确认</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>口径差异说明：README §2/§3.3 写阅读窗口 1100×760，实际 <code>初始化配置.ps1</code> 为 <strong>1120×760</strong>；README 的 JVM 清单未列 <code>-Djava.net.useSystemProxies=true</code>，实际 <code>launcher.vmoptions</code> 已包含。本文以实际脚本为准，README 由 Lead 统一回填。</p>
+</blockquote>
+<hr />
+<h2>5. 风险与限制</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>风险</th>
+<th>可能表现</th>
+<th>等级</th>
+<th>缓解 / 备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td><strong>1809 兼容性未真机实测</strong></td>
+<td>启动失败、白屏、WebView 页面渲染异常、输入法/字体异常</td>
+<td>中</td>
+<td>部署前先跑 <code>目标机环境自检.ps1</code> + 首次启动验证清单；异常时保留 <code>logs/</code> 供 Lead 定位</td>
+</tr>
+<tr>
+<td>R2</td>
+<td><strong>软件渲染性能</strong></td>
+<td>首屏出现慢（数秒）、翻页/滚动掉帧、窗口拖动卡顿、长文本分页计算慢</td>
+<td>中</td>
+<td>已关闭动画/阴影、窗口 1120×760、字号 22；建议单窗口使用、不边下载边阅读</td>
+</tr>
+<tr>
+<td>R3</td>
+<td><strong>4GB 内存余量（667MB 级）</strong></td>
+<td>启动/打开大 TXT 时换页、Chrome+Symantec 同开时明显卡顿；极端情况 OOM</td>
+<td>高</td>
+<td>堆已收紧到 512/448MB；使用前关闭 Chrome 等大内存程序；不并发开多个大文件；异常查 <code>logs/log-error.log</code></td>
+</tr>
+<tr>
+<td>R4</td>
+<td><strong>无音频设备</strong></td>
+<td>朗读/有声播放点了没反应或提示音频不可用（预期行为）</td>
+<td>低</td>
+<td>入口已前置提示；本地阅读/下载不受影响</td>
+</tr>
+<tr>
+<td>R5</td>
+<td><strong>字体加载</strong></td>
+<td>若安装/移动到含中文或含空格路径，内置 PingFang 可能加载失败（日志 warn，界面回退系统字体）</td>
+<td>低</td>
+<td>默认安装路径为 ASCII；保持从快捷方式（起始位置=安装目录）启动；界面字体用系统自带微软雅黑</td>
+</tr>
+<tr>
+<td>R6</td>
+<td><strong>首次启动时无网络</strong></td>
+<td>首次启动即离线：标题显示「（离线）」、出现离线 Toast、联网入口弹提示框；首次启动本身仍会生成 <code>logs/</code>、<code>caches/</code> 等</td>
+<td>低</td>
+<td>属正常行为；更新检查已在目标档关闭，不应出现"检查更新失败"等待</td>
+</tr>
+<tr>
+<td>R7</td>
+<td><strong>杀软 / 域策略</strong></td>
+<td>Symantec EP 扫描/拦截 exe、bat、ps1；组策略限制脚本执行；PowerShell 执行策略拦截安装脚本</td>
+<td>中</td>
+<td>安装脚本统一用 <code>-NoProfile -ExecutionPolicy Bypass</code>；被拦截时由 IT 加白名单；安装本身不需要管理员权限</td>
+</tr>
+<tr>
+<td>R8</td>
+<td><strong>代理/网络探测限制</strong></td>
+<td>域网需代理/认证才能出网时，后台 HEAD 探测可能判为离线，联网功能被拦截</td>
+<td>中</td>
+<td>实际 <code>launcher.vmoptions</code> 已带 <code>-Djava.net.useSystemProxies=true</code>（跟随系统代理）；若系统代理需认证或探测 URL 不可达，可用 <code>-Duncle.network.probe.url</code> 改探测地址（部署方配置）；界面点「重试联网」复测</td>
+</tr>
+<tr>
+<td>R9</td>
+<td><strong>VNC / 远程会话</strong></td>
+<td>远程会话下渲染、截图、全局热键行为可能与本地控制台不同（如热键被远程工具截获）</td>
+<td>低</td>
+<td>验收尽量在本地控制台进行；远程验收需在报告中注明会话方式</td>
+</tr>
+<tr>
+<td>R10</td>
+<td><strong>磁盘与缓存增长</strong></td>
+<td>书源规则/章节索引/TTS 缓存/下载书持续写入安装目录；长期可能在 C 盘累积</td>
+<td>低</td>
+<td>部署前确认 C 盘 ≥10GB 可用；定期清理 <code>caches/</code>（阅读索引会重建）、备份 <code>conf/</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>说明：R1/R2/R3 三项只有真机实测才能定论，当前为基于硬件与配置的工程判断，<strong>不得写成"已验证"</strong>。</p>
+</blockquote>
+<hr />
+<h2>6. 目标机部署前自检清单</h2>
+<h3>6.1 自动自检：<code>目标机环境自检.ps1</code></h3>
+<p>在解压目录（或安装目录）运行：</p>
+<pre><code class="language-powershell">powershell -NoProfile -ExecutionPolicy Bypass -File &quot;目标机环境自检.ps1&quot;
+</code></pre>
+<p>脚本默认在<strong>脚本同目录</strong>输出 <code>目标机自检报告.txt</code>（UTF-8；可用 <code>-OutFile</code> 指定路径），逐项给 <code>[OK]</code> / <code>[WARN]</code> / <code>[FAIL]</code>，结尾打印结论行；退出码 <code>0</code> = 通过、<code>2</code> = 存在不满足项、<code>1</code> = WMI 读取失败。核对清单（判定规则按当前脚本实现）：</p>
+<table>
+<thead>
+<tr>
+<th>报告输出项</th>
+<th>DTPC953 期望</th>
+<th>脚本判定规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>操作系统（Caption / 版本 / Build）</td>
+<td>Win10 企业版 LTSC 2019 x64，<code>10.0.17763.x</code></td>
+<td>版本号以 <code>10.*</code> 开头 → <code>[OK]</code>；<strong>不校验 1809 小版本</strong>，Build 只打印，需人工核对</td>
+</tr>
+<tr>
+<td>系统型号</td>
+<td>ASUSTeK PN40</td>
+<td>只打印，不判定（人工核对是否为目标机）</td>
+</tr>
+<tr>
+<td>处理器</td>
+<td>Celeron J4005 / 2 核 2 线程</td>
+<td>逻辑处理器 ≥2 → <code>[OK]</code></td>
+</tr>
+<tr>
+<td>物理内存</td>
+<td>≈4GB（可识别 3.82GB）</td>
+<td>≥3.5GB → <code>[OK]</code></td>
+</tr>
+<tr>
+<td>显示适配器</td>
+<td>Microsoft 基本显示适配器</td>
+<td>一律 <code>[OK]</code>，文案标注「基本显示适配器（已启用 JavaFX 软件渲染，正常）」；有硬件驱动也通过</td>
+</tr>
+<tr>
+<td>音频设备</td>
+<td>无（未装声卡驱动，无默认播放端点）</td>
+<td>无设备 → <code>[WARN]</code>（提示朗读/有声播放不可用；属正常预期，不算失败）</td>
+</tr>
+<tr>
+<td>C 盘剩余空间</td>
+<td>≥10GB（实测 50.2GB）</td>
+<td>&gt;10GB → <code>[OK]</code></td>
+</tr>
+<tr>
+<td>屏幕分辨率</td>
+<td>1920×1080</td>
+<td>只打印，不判定（DPI 需人工确认 96/100%）</td>
+</tr>
+<tr>
+<td>网络适配器</td>
+<td>在线/离线均可，离线为正常预期</td>
+<td>存在已启用网卡 → <code>[OK]</code>；无 → <code>[WARN]</code>（离线正常）</td>
+</tr>
+<tr>
+<td>结论行</td>
+<td>通过（允许带 <code>[WARN]</code>）</td>
+<td>无 <code>[FAIL]</code> → <code>[OK] 全部关键项通过</code>；有则 <code>[FAIL] 存在 N 个不满足项</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>说明：自检脚本只做<strong>阈值判定</strong>（OS 主版本、CPU 逻辑核数、内存 ≥3.5GB、C 盘 &gt;10GB），型号/Build/分辨率/网络明细为打印+人工核对项；Symantec、域策略、代理等不在脚本范围，由 §6.2 人工清单覆盖。以上规则按 2026-10-30 版脚本实现核对，最终以交付包内脚本为准。</p>
+</blockquote>
+<h3>6.2 人工核对清单</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>检查项</th>
+<th>判定标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>交付包完整性</td>
+<td>zip 可正常解压；大小与 <code>../交付/SHA256.txt</code> 一致；解压后 <code>uncle-novel/</code>、<code>安装到本机.bat</code> 等齐全</td>
+</tr>
+<tr>
+<td>2</td>
+<td>解压路径</td>
+<td>本地盘、纯英文、无空格（不要解压到 <code>C:\Program Files</code>、网络盘 W:/X:）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>磁盘空间</td>
+<td>解压与安装合计预留 ≥300MB；C 盘剩余 ≥10GB</td>
+</tr>
+<tr>
+<td>4</td>
+<td>残留进程</td>
+<td>无 <code>Uncle小说.exe</code> / <code>javaw.exe</code> 残留（任务管理器确认）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>旧版数据</td>
+<td>若为升级：先备份旧安装目录 <code>conf/</code>（<code>core.db</code>、<code>conf.json</code>）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>杀软</td>
+<td>解压/安装前确认 Symantec 未实时拦截；必要时请求 IT 加白名单</td>
+</tr>
+<tr>
+<td>7</td>
+<td>权限</td>
+<td>当前用户可写 <code>%LOCALAPPDATA%</code>（安装无需管理员）</td>
+</tr>
+<tr>
+<td>8</td>
+<td>时间/时区</td>
+<td>系统时间正确（中国标准时间），否则 HTTPS 探测与联网可能失败</td>
+</tr>
+<tr>
+<td>9</td>
+<td>网络预期</td>
+<td>部署时确认当前是否联网（离线也能完成安装与本地阅读验证）</td>
+</tr>
+<tr>
+<td>10</td>
+<td>会话方式</td>
+<td>记录是本地控制台还是 VNC/远程会话（影响热键与截图结论）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. 验证状态与待补数据（由 Lead 实测回填）</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>设计口径</th>
+<th>当前状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>离线标题标识（完整版/快速阅读/阅读器）</td>
+<td><code>（离线）</code>、<code>· 离线</code></td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>离线提示框（文案、按钮、重试）</td>
+<td>标题「离线模式」+「重试联网」「继续离线」</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>恢复联网 Toast 与自动启用</td>
+<td>「网络已恢复，在线功能已启用」</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>老板键（完整版）</td>
+<td><code>Alt+U</code> 隐藏/恢复全部窗口与托盘</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>老板键（快速阅读模式，无托盘）</td>
+<td><code>Alt+U</code> 隐藏/恢复，隐藏后应用不退出</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>无声卡提示</td>
+<td>「音频不可用 / 知道了」</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>软渲染运行</td>
+<td>无黑屏崩溃、正常显示</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>启动耗时（完整版/快速阅读）</td>
+<td>记录数值</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>内存占用 RSS（完整版/快速阅读）</td>
+<td>记录数值</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>离线安装 <code>[OK]</code> 条数</td>
+<td>正常约 10 条（桌面+开始菜单两套快捷方式）</td>
+<td>待 Lead 实测确认</td>
+</tr>
+<tr>
+<td>自检报告 <code>目标机自检报告.txt</code></td>
+<td>全 <code>[OK]</code>/可解释 <code>[WARN]</code></td>
+<td>待 Lead 实测确认</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>8. 相关文件与证据链接</h2>
+<ul>
+<li>设计与契约：<a href="../README.md"><code>../README.md</code></a></li>
+<li>原始设备取证：<code>../../任务-夸克网盘Skill安装-2026-10-29/目标端设备详情/</code>（<a href="../../任务-夸克网盘Skill安装-2026-10-29/目标端设备详情/DxDiag.txt">DxDiag.txt</a>、<a href="../../任务-夸克网盘Skill安装-2026-10-29/目标端设备详情/Report.htm">Report.htm</a>、<a href="../../任务-夸克网盘Skill安装-2026-10-29/目标端设备详情/DTPC953.html">DTPC953.html</a>、<a href="../../任务-夸克网盘Skill安装-2026-10-29/目标端设备详情/系统信息文件.txt">系统信息文件.txt</a>、<a href="../../任务-夸克网盘Skill安装-2026-10-29/目标端设备详情/系统信息文件.nfo">系统信息文件.nfo</a>）</li>
+<li>用户文档：<a href="离线使用说明书.md"><code>离线使用说明书.md</code></a></li>
+<li>部署文档：<a href="离线部署指南.md"><code>离线部署指南.md</code></a></li>
+<li>验收截图：本机模拟已生成 <a href="../截图/离线模式/完整版/01-启动后.png"><code>../截图/离线模式/完整版/01-启动后.png</code></a> 与 <a href="../截图/离线模式/QuickApp/01-启动后.png"><code>../截图/离线模式/QuickApp/01-启动后.png</code></a>；目标机截图待 Lead 补入 <code>../截图/离线模式/</code>、<code>../截图/老板键/</code>、<code>../截图/低配运行/</code>、<code>../截图/安装验证/</code></li>
+</ul>
+<hr />
+<h2>附：Lead 实测回填（2026-10-30）</h2>
+<blockquote>
+<p>环境：开发机 Windows 11 / i5-1135G7 / 16GB（目标机 DTPC953 为 Celeron J4005/4GB，本机数据仅作量级参考）。
+全部测试使用目标档 JVM 参数：<code>-Xmx512m</code>（快速阅读 448m）、<code>-XX:+UseSerialGC</code>、<code>-Dprism.order=sw</code>、<code>-Duncle.target.profile=true</code>。</p>
+</blockquote>
+<h3>1. UI/功能证据（截图见任务目录 <code>截图/</code>）</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>结果</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完整版离线标题</td>
+<td>✅ 标题栏显示「Uncle小说（离线）」</td>
+<td><code>截图\离线模式\完整版\离线主页与提示框-1410x990.png</code></td>
+</tr>
+<tr>
+<td>离线拦截弹窗（书源搜索）</td>
+<td>✅ 标题「离线模式」，正文说明可继续使用本地功能，按钮「重试联网 / 继续离线」</td>
+<td><code>截图\离线模式\完整版\离线主页与提示框-712x411.png</code>；日志「离线提示框已弹出: 书源搜索」</td>
+</tr>
+<tr>
+<td>快速阅读离线标题</td>
+<td>✅ 阅读器标题尾部显示「· 离线」</td>
+<td><code>截图\音频与恢复\快速阅读与音频提示-1680x1140.png</code></td>
+</tr>
+<tr>
+<td>无声卡朗读提示</td>
+<td>✅ 「音频不可用 / 「朗读」需要音频设备 / 知道了」</td>
+<td><code>截图\音频与恢复\快速阅读与音频提示-652x284.png</code>；日志「音频提示框已弹出: 朗读」</td>
+</tr>
+<tr>
+<td>老板键（快速阅读/完整版）</td>
+<td>✅ Alt+U 隐藏后无可见窗口，再按恢复；完整版连托盘一起隐藏</td>
+<td>日志「老板键：已隐藏 1 个窗口」「老板键：已恢复窗口」；<code>截图\离线模式\完整版\03-老板键恢复后.png</code></td>
+</tr>
+<tr>
+<td>间歇联网自动恢复</td>
+<td>✅ 本机起本地 HTTP 服务模拟网络恢复：日志 <code>CHECKING -&gt; OFFLINE</code> → <code>OFFLINE -&gt; ONLINE</code>，标题从「（离线）」恢复为「Uncle小说」</td>
+<td><code>截图\音频与恢复\联网前-1410x990.png</code>、<code>联网恢复后-1410x990.png</code></td>
+</tr>
+<tr>
+<td>安装端到端</td>
+<td>✅ 全新/覆盖安装退出码 0，输出 <strong>10 条 [OK]</strong>（含自检/离线说明落位）</td>
+<td>安装输出记录；<code>测试\目标机自检报告-安装后本机示例.txt</code></td>
+</tr>
+<tr>
+<td>安装后配置</td>
+<td>✅ 字号 22、窗口 1120×760、动画/阴影关闭、下载单线程；vmoptions 含 <code>-Xmx512m</code>、<code>prism.order=sw</code>、<code>uncle.target.profile=true</code></td>
+<td><code>conf\conf.json</code>、<code>conf\launcher.vmoptions</code></td>
+</tr>
+<tr>
+<td>低配基准（本机）</td>
+<td>快速阅读：窗口 <strong>1.23s</strong> / RSS <strong>258MB</strong>；完整版：窗口 <strong>3.58s</strong> / RSS <strong>525MB</strong>；章节索引 18ms（331 章，缓存）</td>
+<td><code>测试\低配基准-本机测量.json</code></td>
+</tr>
+<tr>
+<td>交付 zip</td>
+<td>121.2 MB / 224 条目，SHA256 见 <code>交付\SHA256.txt</code></td>
+<td><code>交付\SHA256.txt</code></td>
+</tr>
+</tbody>
+</table>
+<h3>2. 已知限制（如实说明）</h3>
+<ul>
+<li>本机数据不代表 DTPC953 实测；目标机首次数据请用包内 <code>benchmark.ps1</code> 采样并回填本表。</li>
+<li>目标机无显卡驱动 → 已强制软件渲染，界面可能略慢；无音频设备 → 朗读/有声播放弹提示，本地阅读不受影响。</li>
+<li>老板键默认 <code>Alt+U</code>；完整版设置页关闭「启用全局快捷键」会停用，重新勾选即恢复（已修复原实现不重注册的问题）。</li>
+<li>阅读窗口实际为 1120×760（部分早期文档写 1100×760，以本节为准）；<code>launcher.vmoptions</code> 含 <code>-Djava.net.useSystemProxies=true</code>（离线无害）。</li>
+</ul><div class="gallery-title"><h1>附：关键验收截图（内嵌）</h1>
+<blockquote>以下截图均由本机模拟目标档参数实测生成（Windows 11 开发机，i5-1135G7/16GB；目标机 DTPC953 为 Celeron J4005/4GB，界面同样按此逻辑显示）。</blockquote>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/离线主页与提示框-1410x990.png"/><figcaption>完整版离线标题：窗口标题显示「Uncle小说（离线）」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/离线主页与提示框-712x411.png"/><figcaption>离线拦截弹窗：标题「离线模式」，正文说明可继续使用本地功能，按钮「重试联网 / 继续离线」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/快速阅读与音频提示-1680x1140.png"/><figcaption>本地TXT快速阅读：阅读器标题尾部显示「· 离线」，字号 22 / 窗口 1120×760</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/快速阅读与音频提示-652x284.png"/><figcaption>无声卡提示：「音频不可用 | 「朗读」需要音频设备」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/03-老板键恢复后.png"/><figcaption>老板键 Alt+U：隐藏全部窗口后再按一次恢复（完整版与快速阅读均支持）</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/联网前-1410x990.png"/><figcaption>间歇联网模拟：网络未连通时的离线状态（标题含「离线」）</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/联网恢复后-1410x990.png"/><figcaption>网络恢复后：软件自动切回在线状态，标题恢复为「Uncle小说」，无需重启</figcaption></figure>
+</div></body></html>

@@ -1,0 +1,2061 @@
+﻿
+########## com.unclezs.jfx.launcher.Launcher ##########
+Compiled from "Launcher.java"
+public class com.unclezs.jfx.launcher.Launcher extends javafx.application.Application {
+  private static final java.util.logging.Logger log;
+
+  public static final java.lang.String CHANGE_LOG_ARG_NAME;
+
+  public static final java.lang.String VERSION_ARG_NAME;
+
+  public static final java.lang.String HAS_NEW;
+
+  private javafx.stage.Stage launcherStage;
+
+  private com.unclezs.jfx.launcher.Manifest manifest;
+
+  private com.unclezs.jfx.launcher.LauncherView ui;
+
+  private boolean newVersion;
+
+  public com.unclezs.jfx.launcher.Launcher();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method javafx/application/Application."<init>":()V
+       4: aload_0
+       5: iconst_1
+       6: putfield      #7                  // Field newVersion:Z
+       9: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: aload_0
+       1: invokestatic  #13                 // Method launch:([Ljava/lang/String;)V
+       4: return
+
+  public void init();
+    Code:
+       0: invokestatic  #17                 // Method java/lang/Thread.currentThread:()Ljava/lang/Thread;
+       3: ldc           #23                 // String Launcher
+       5: invokevirtual #25                 // Method java/lang/Thread.setName:(Ljava/lang/String;)V
+       8: aload_0
+       9: invokevirtual #29                 // Method loadLocalManifest:()V
+      12: aload_0
+      13: new           #32                 // class com/unclezs/jfx/launcher/LauncherView
+      16: dup
+      17: aload_0
+      18: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      21: invokespecial #38                 // Method com/unclezs/jfx/launcher/LauncherView."<init>":(Lcom/unclezs/jfx/launcher/Manifest;)V
+      24: putfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      27: aload_0
+      28: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      31: ldc           #45                 // String ���ڼ�����...
+      33: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+      36: return
+
+  public void startApplication() throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: invokevirtual #50                 // Method checkForUpgrade:()V
+       4: aload_0
+       5: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+       8: ldc           #53                 // String ���ڳ�ʼ�����л���...
+      10: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+      13: aload_0
+      14: invokevirtual #55                 // Method loadLibraries:()Ljava/lang/ClassLoader;
+      17: astore_1
+      18: aload_1
+      19: aload_0
+      20: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      23: invokevirtual #59                 // Method com/unclezs/jfx/launcher/Manifest.getLaunchClass:()Ljava/lang/String;
+      26: invokevirtual #65                 // Method java/lang/ClassLoader.loadClass:(Ljava/lang/String;)Ljava/lang/Class;
+      29: astore_2
+      30: ldc           #2                  // class javafx/application/Application
+      32: aload_2
+      33: invokevirtual #71                 // Method java/lang/Class.isAssignableFrom:(Ljava/lang/Class;)Z
+      36: ifne          53
+      39: aload_0
+      40: new           #77                 // class java/lang/IllegalArgumentException
+      43: dup
+      44: ldc           #79                 // String ��������ΪApplication������...
+      46: invokespecial #81                 // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+      49: invokevirtual #83                 // Method handleStartError:(Ljava/lang/Throwable;)V
+      52: return
+      53: aload_0
+      54: aload_2
+      55: invokedynamic #87,  0             // InvokeDynamic #0:run:(Lcom/unclezs/jfx/launcher/Launcher;Ljava/lang/Class;)Ljava/lang/Runnable;
+      60: invokestatic  #91                 // Method com/unclezs/jfx/launcher/FxUtils.runFx:(Ljava/lang/Runnable;)V
+      63: return
+
+  public void start(javafx.stage.Stage);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+       5: aload_0
+       6: getfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+       9: iconst_0
+      10: invokevirtual #101                // Method javafx/stage/Stage.setResizable:(Z)V
+      13: aload_0
+      14: getfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+      17: new           #107                // class javafx/scene/Scene
+      20: dup
+      21: aload_0
+      22: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      25: getstatic     #109                // Field javafx/scene/paint/Color.TRANSPARENT:Ljavafx/scene/paint/Color;
+      28: invokespecial #115                // Method javafx/scene/Scene."<init>":(Ljavafx/scene/Parent;Ljavafx/scene/paint/Paint;)V
+      31: invokevirtual #118                // Method javafx/stage/Stage.setScene:(Ljavafx/scene/Scene;)V
+      34: aload_0
+      35: getfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+      38: getstatic     #122                // Field javafx/stage/StageStyle.TRANSPARENT:Ljavafx/stage/StageStyle;
+      41: invokevirtual #127                // Method javafx/stage/Stage.initStyle:(Ljavafx/stage/StageStyle;)V
+      44: aload_0
+      45: getfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+      48: invokevirtual #131                // Method javafx/stage/Stage.show:()V
+      51: aload_0
+      52: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      55: invokevirtual #134                // Method com/unclezs/jfx/launcher/Manifest.validate:()Z
+      58: ifne          75
+      61: aload_0
+      62: new           #77                 // class java/lang/IllegalArgumentException
+      65: dup
+      66: ldc           #138                // String �����ļ���ʽ���󣡣�
+      68: invokespecial #81                 // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+      71: invokevirtual #83                 // Method handleStartError:(Ljava/lang/Throwable;)V
+      74: return
+      75: new           #18                 // class java/lang/Thread
+      78: dup
+      79: aload_0
+      80: invokedynamic #140,  0            // InvokeDynamic #1:run:(Lcom/unclezs/jfx/launcher/Launcher;)Ljava/lang/Runnable;
+      85: invokespecial #143                // Method java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+      88: astore_2
+      89: aload_2
+      90: iconst_1
+      91: invokevirtual #145                // Method java/lang/Thread.setDaemon:(Z)V
+      94: aload_2
+      95: invokevirtual #148                // Method java/lang/Thread.start:()V
+      98: return
+
+  private void checkForUpgrade();
+    Code:
+       0: aload_0
+       1: invokevirtual #151                // Method syncManifest:()Z
+       4: istore_1
+       5: iload_1
+       6: ifeq          13
+       9: aload_0
+      10: invokevirtual #154                // Method syncResources:()V
+      13: return
+
+  public boolean syncManifest();
+    Code:
+       0: getstatic     #157                // Field log:Ljava/util/logging/Logger;
+       3: getstatic     #161                // Field java/util/logging/Level.INFO:Ljava/util/logging/Level;
+       6: ldc           #167                // String ��ȡԶ�������ļ�:{0}
+       8: aload_0
+       9: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      12: invokevirtual #169                // Method com/unclezs/jfx/launcher/Manifest.remoteManifest:()Ljava/net/URI;
+      15: invokevirtual #173                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Object;)V
+      18: aload_0
+      19: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      22: ldc           #178                // String ���ڼ���Ƿ����°汾...
+      24: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+      27: aload_0
+      28: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      31: invokevirtual #169                // Method com/unclezs/jfx/launcher/Manifest.remoteManifest:()Ljava/net/URI;
+      34: invokestatic  #180                // Method com/unclezs/jfx/launcher/Manifest.load:(Ljava/net/URI;)Lcom/unclezs/jfx/launcher/Manifest;
+      37: astore_1
+      38: aload_0
+      39: aload_1
+      40: invokevirtual #184                // Method checkNew:(Lcom/unclezs/jfx/launcher/Manifest;)Z
+      43: ifne          79
+      46: aload_0
+      47: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      50: ldc           #188                // String ��ǰ�������°汾��%s
+      52: iconst_1
+      53: anewarray     #190                // class java/lang/Object
+      56: dup
+      57: iconst_0
+      58: aload_0
+      59: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      62: invokevirtual #192                // Method com/unclezs/jfx/launcher/Manifest.getVersion:()Ljava/lang/String;
+      65: aastore
+      66: invokestatic  #195                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+      69: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+      72: aload_0
+      73: iconst_0
+      74: putfield      #7                  // Field newVersion:Z
+      77: iconst_0
+      78: ireturn
+      79: aload_0
+      80: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      83: invokevirtual #201                // Method com/unclezs/jfx/launcher/LauncherView.initUpdateView:()V
+      86: aload_0
+      87: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      90: ldc           #204                // String ��⵽�°汾��%s
+      92: iconst_1
+      93: anewarray     #190                // class java/lang/Object
+      96: dup
+      97: iconst_0
+      98: aload_0
+      99: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     102: invokevirtual #192                // Method com/unclezs/jfx/launcher/Manifest.getVersion:()Ljava/lang/String;
+     105: aastore
+     106: invokestatic  #195                // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+     109: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+     112: aload_0
+     113: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     116: invokevirtual #206                // Method com/unclezs/jfx/launcher/Manifest.localManifest:()Ljava/nio/file/Path;
+     119: astore_2
+     120: aload_2
+     121: iconst_0
+     122: anewarray     #210                // class java/nio/file/LinkOption
+     125: invokestatic  #212                // Method java/nio/file/Files.notExists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+     128: ifeq          145
+     131: aload_2
+     132: invokeinterface #218,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+     137: iconst_0
+     138: anewarray     #223                // class java/nio/file/attribute/FileAttribute
+     141: invokestatic  #225                // Method java/nio/file/Files.createDirectories:(Ljava/nio/file/Path;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/file/Path;
+     144: pop
+     145: aload_0
+     146: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     149: invokevirtual #206                // Method com/unclezs/jfx/launcher/Manifest.localManifest:()Ljava/nio/file/Path;
+     152: aload_1
+     153: invokevirtual #229                // Method com/unclezs/jfx/launcher/Manifest.toJson:()Ljava/lang/String;
+     156: iconst_0
+     157: anewarray     #232                // class java/nio/file/OpenOption
+     160: invokestatic  #234                // Method java/nio/file/Files.writeString:(Ljava/nio/file/Path;Ljava/lang/CharSequence;[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;
+     163: pop
+     164: aload_0
+     165: aload_1
+     166: putfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     169: aload_0
+     170: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     173: invokevirtual #238                // Method com/unclezs/jfx/launcher/Manifest.getChangeLog:()Ljava/util/List;
+     176: invokeinterface #242,  1          // InterfaceMethod java/util/List.isEmpty:()Z
+     181: ifne          216
+     184: getstatic     #157                // Field log:Ljava/util/logging/Logger;
+     187: getstatic     #161                // Field java/util/logging/Level.INFO:Ljava/util/logging/Level;
+     190: ldc           #247                // String ��������:{0}
+     192: aload_0
+     193: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     196: invokevirtual #238                // Method com/unclezs/jfx/launcher/Manifest.getChangeLog:()Ljava/util/List;
+     199: invokevirtual #173                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Object;)V
+     202: aload_0
+     203: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+     206: aload_0
+     207: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     210: invokevirtual #238                // Method com/unclezs/jfx/launcher/Manifest.getChangeLog:()Ljava/util/List;
+     213: invokevirtual #249                // Method com/unclezs/jfx/launcher/LauncherView.setWhatNew:(Ljava/util/List;)V
+     216: iconst_1
+     217: ireturn
+     218: astore_1
+     219: getstatic     #157                // Field log:Ljava/util/logging/Logger;
+     222: getstatic     #255                // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+     225: ldc_w         #258                // String ����ʧ��
+     228: aload_1
+     229: invokevirtual #260                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+     232: iconst_0
+     233: ireturn
+    Exception table:
+       from    to  target type
+           0    78   218   Class java/lang/Exception
+          79   217   218   Class java/lang/Exception
+
+  private void loadLocalManifest();
+    Code:
+       0: getstatic     #157                // Field log:Ljava/util/logging/Logger;
+       3: ldc_w         #263                // String �������������ļ�
+       6: invokevirtual #265                // Method java/util/logging/Logger.info:(Ljava/lang/String;)V
+       9: aload_0
+      10: invokestatic  #268                // Method com/unclezs/jfx/launcher/Manifest.embedded:()Lcom/unclezs/jfx/launcher/Manifest;
+      13: putfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      16: aload_0
+      17: invokevirtual #272                // Method parseParams:()V
+      20: aload_0
+      21: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      24: invokevirtual #206                // Method com/unclezs/jfx/launcher/Manifest.localManifest:()Ljava/nio/file/Path;
+      27: astore_1
+      28: aload_1
+      29: iconst_0
+      30: anewarray     #210                // class java/nio/file/LinkOption
+      33: invokestatic  #275                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+      36: ifeq          52
+      39: aload_0
+      40: aload_1
+      41: invokeinterface #278,  1          // InterfaceMethod java/nio/file/Path.toUri:()Ljava/net/URI;
+      46: invokestatic  #180                // Method com/unclezs/jfx/launcher/Manifest.load:(Ljava/net/URI;)Lcom/unclezs/jfx/launcher/Manifest;
+      49: putfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      52: return
+
+  private java.lang.ClassLoader loadLibraries();
+    Code:
+       0: aload_0
+       1: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+       4: invokevirtual #281                // Method com/unclezs/jfx/launcher/Manifest.resolveResources:()Ljava/util/List;
+       7: astore_1
+       8: aload_1
+       9: invokeinterface #284,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      14: invokedynamic #288,  0            // InvokeDynamic #2:test:()Ljava/util/function/Predicate;
+      19: invokeinterface #292,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      24: invokedynamic #298,  0            // InvokeDynamic #3:apply:()Ljava/util/function/Function;
+      29: invokeinterface #302,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      34: invokedynamic #306,  0            // InvokeDynamic #4:accept:()Ljava/util/function/Consumer;
+      39: invokeinterface #310,  2          // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+      44: aload_1
+      45: invokeinterface #284,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      50: invokedynamic #314,  0            // InvokeDynamic #5:test:()Ljava/util/function/Predicate;
+      55: invokeinterface #292,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      60: invokedynamic #315,  0            // InvokeDynamic #6:apply:()Ljava/util/function/Function;
+      65: invokeinterface #302,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+      70: invokedynamic #316,  0            // InvokeDynamic #7:accept:()Ljava/util/function/Consumer;
+      75: invokeinterface #310,  2          // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+      80: aload_1
+      81: invokeinterface #284,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      86: invokedynamic #317,  0            // InvokeDynamic #8:test:()Ljava/util/function/Predicate;
+      91: invokeinterface #292,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      96: invokedynamic #318,  0            // InvokeDynamic #9:apply:()Ljava/util/function/Function;
+     101: invokeinterface #302,  2          // InterfaceMethod java/util/stream/Stream.map:(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+     106: invokedynamic #319,  0            // InvokeDynamic #10:apply:()Ljava/util/function/IntFunction;
+     111: invokeinterface #322,  2          // InterfaceMethod java/util/stream/Stream.toArray:(Ljava/util/function/IntFunction;)[Ljava/lang/Object;
+     116: checkcast     #326                // class "[Ljava/nio/file/Path;"
+     119: astore_2
+     120: new           #328                // class com/unclezs/jfx/launcher/ModuleLoader
+     123: dup
+     124: aload_2
+     125: aload_0
+     126: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     129: invokevirtual #330                // Method com/unclezs/jfx/launcher/Manifest.getLaunchModule:()Ljava/lang/String;
+     132: invokespecial #333                // Method com/unclezs/jfx/launcher/ModuleLoader."<init>":([Ljava/nio/file/Path;Ljava/lang/String;)V
+     135: astore_3
+     136: aload_0
+     137: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     140: invokevirtual #336                // Method com/unclezs/jfx/launcher/Manifest.getModuleOptions:()Ljava/util/List;
+     143: aload_3
+     144: dup
+     145: invokestatic  #339                // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+     148: pop
+     149: invokedynamic #345,  0            // InvokeDynamic #11:accept:(Lcom/unclezs/jfx/launcher/ModuleLoader;)Ljava/util/function/Consumer;
+     154: invokeinterface #348,  2          // InterfaceMethod java/util/List.forEach:(Ljava/util/function/Consumer;)V
+     159: aload_3
+     160: invokevirtual #349                // Method com/unclezs/jfx/launcher/ModuleLoader.getClassLoader:()Ljava/lang/ClassLoader;
+     163: astore        4
+     165: aload         4
+     167: invokestatic  #352                // Method javafx/fxml/FXMLLoader.setDefaultClassLoader:(Ljava/lang/ClassLoader;)V
+     170: aload         4
+     172: invokedynamic #358,  0            // InvokeDynamic #12:run:(Ljava/lang/ClassLoader;)Ljava/lang/Runnable;
+     177: invokestatic  #361                // Method com/unclezs/jfx/launcher/FxUtils.runAndWait:(Ljava/lang/Runnable;)V
+     180: invokestatic  #17                 // Method java/lang/Thread.currentThread:()Ljava/lang/Thread;
+     183: aload         4
+     185: invokevirtual #364                // Method java/lang/Thread.setContextClassLoader:(Ljava/lang/ClassLoader;)V
+     188: aload         4
+     190: areturn
+
+  private void syncResources();
+    Code:
+       0: aload_0
+       1: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+       4: ldc_w         #367                // String �����������°汾...
+       7: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+      10: aload_0
+      11: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      14: invokevirtual #281                // Method com/unclezs/jfx/launcher/Manifest.resolveResources:()Ljava/util/List;
+      17: astore_1
+      18: aload_1
+      19: invokeinterface #284,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      24: invokedynamic #369,  0            // InvokeDynamic #13:test:()Ljava/util/function/Predicate;
+      29: invokeinterface #292,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      34: invokedynamic #370,  0            // InvokeDynamic #14:applyAsLong:()Ljava/util/function/ToLongFunction;
+      39: invokeinterface #374,  2          // InterfaceMethod java/util/stream/Stream.mapToLong:(Ljava/util/function/ToLongFunction;)Ljava/util/stream/LongStream;
+      44: invokeinterface #378,  1          // InterfaceMethod java/util/stream/LongStream.sum:()J
+      49: lstore_2
+      50: aload_0
+      51: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      54: dconst_0
+      55: invokevirtual #384                // Method com/unclezs/jfx/launcher/LauncherView.setProgress:(D)V
+      58: dconst_0
+      59: dstore        4
+      61: aload_1
+      62: invokeinterface #388,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      67: astore        6
+      69: aload         6
+      71: invokeinterface #392,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      76: ifeq          324
+      79: aload         6
+      81: invokeinterface #397,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      86: checkcast     #401                // class com/unclezs/jfx/launcher/Resource
+      89: astore        7
+      91: aload         7
+      93: invokevirtual #403                // Method com/unclezs/jfx/launcher/Resource.hasNew:()Z
+      96: ifeq          321
+      99: aload         7
+     101: invokevirtual #406                // Method com/unclezs/jfx/launcher/Resource.toLocalPath:()Ljava/nio/file/Path;
+     104: astore        8
+     106: aload         8
+     108: invokeinterface #218,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+     113: iconst_0
+     114: anewarray     #210                // class java/nio/file/LinkOption
+     117: invokestatic  #275                // Method java/nio/file/Files.exists:(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+     120: ifne          138
+     123: aload         8
+     125: invokeinterface #218,  1          // InterfaceMethod java/nio/file/Path.getParent:()Ljava/nio/file/Path;
+     130: iconst_0
+     131: anewarray     #223                // class java/nio/file/attribute/FileAttribute
+     134: invokestatic  #225                // Method java/nio/file/Files.createDirectories:(Ljava/nio/file/Path;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/file/Path;
+     137: pop
+     138: aload         7
+     140: aload_0
+     141: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     144: invokevirtual #409                // Method com/unclezs/jfx/launcher/Manifest.getUrl:()Ljava/lang/String;
+     147: invokevirtual #412                // Method com/unclezs/jfx/launcher/Resource.toUrl:(Ljava/lang/String;)Ljava/net/URL;
+     150: astore        9
+     152: aload         9
+     154: invokevirtual #416                // Method java/net/URL.openStream:()Ljava/io/InputStream;
+     157: astore        10
+     159: aload         8
+     161: iconst_0
+     162: anewarray     #232                // class java/nio/file/OpenOption
+     165: invokestatic  #422                // Method java/nio/file/Files.newOutputStream:(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/OutputStream;
+     168: astore        11
+     170: ldc_w         #426                // int 65536
+     173: newarray       byte
+     175: astore        12
+     177: aload         10
+     179: aload         12
+     181: invokevirtual #427                // Method java/io/InputStream.read:([B)I
+     184: dup
+     185: istore        13
+     187: iconst_m1
+     188: if_icmple     224
+     191: aload         11
+     193: aload         12
+     195: iconst_0
+     196: iload         13
+     198: invokevirtual #433                // Method java/io/OutputStream.write:([BII)V
+     201: dload         4
+     203: iload         13
+     205: i2d
+     206: dadd
+     207: dstore        4
+     209: aload_0
+     210: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+     213: dload         4
+     215: lload_2
+     216: l2d
+     217: ddiv
+     218: invokevirtual #384                // Method com/unclezs/jfx/launcher/LauncherView.setProgress:(D)V
+     221: goto          177
+     224: aload         11
+     226: ifnull        264
+     229: aload         11
+     231: invokevirtual #439                // Method java/io/OutputStream.close:()V
+     234: goto          264
+     237: astore        12
+     239: aload         11
+     241: ifnull        261
+     244: aload         11
+     246: invokevirtual #439                // Method java/io/OutputStream.close:()V
+     249: goto          261
+     252: astore        13
+     254: aload         12
+     256: aload         13
+     258: invokevirtual #444                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+     261: aload         12
+     263: athrow
+     264: aload         10
+     266: ifnull        304
+     269: aload         10
+     271: invokevirtual #447                // Method java/io/InputStream.close:()V
+     274: goto          304
+     277: astore        11
+     279: aload         10
+     281: ifnull        301
+     284: aload         10
+     286: invokevirtual #447                // Method java/io/InputStream.close:()V
+     289: goto          301
+     292: astore        12
+     294: aload         11
+     296: aload         12
+     298: invokevirtual #444                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+     301: aload         11
+     303: athrow
+     304: getstatic     #157                // Field log:Ljava/util/logging/Logger;
+     307: getstatic     #161                // Field java/util/logging/Level.INFO:Ljava/util/logging/Level;
+     310: ldc_w         #448                // String �������: {0}
+     313: aload         7
+     315: invokevirtual #450                // Method com/unclezs/jfx/launcher/Resource.getPath:()Ljava/lang/String;
+     318: invokevirtual #173                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Object;)V
+     321: goto          69
+     324: goto          340
+     327: astore_1
+     328: new           #453                // class com/unclezs/jfx/launcher/LauncherException
+     331: dup
+     332: ldc_w         #455                // String �������°汾ʧ��
+     335: aload_1
+     336: invokespecial #457                // Method com/unclezs/jfx/launcher/LauncherException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+     339: athrow
+     340: return
+    Exception table:
+       from    to  target type
+         170   224   237   Class java/lang/Throwable
+         244   249   252   Class java/lang/Throwable
+         159   264   277   Class java/lang/Throwable
+         284   289   292   Class java/lang/Throwable
+           0   324   327   Class java/lang/Exception
+
+  private boolean checkNew(com.unclezs.jfx.launcher.Manifest);
+    Code:
+       0: aload_0
+       1: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+       4: aload_1
+       5: invokevirtual #460                // Method com/unclezs/jfx/launcher/Manifest.equals:(Ljava/lang/Object;)Z
+       8: ifne          13
+      11: iconst_1
+      12: ireturn
+      13: aload_1
+      14: invokevirtual #281                // Method com/unclezs/jfx/launcher/Manifest.resolveResources:()Ljava/util/List;
+      17: invokeinterface #284,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+      22: invokedynamic #369,  0            // InvokeDynamic #13:test:()Ljava/util/function/Predicate;
+      27: invokeinterface #464,  2          // InterfaceMethod java/util/stream/Stream.anyMatch:(Ljava/util/function/Predicate;)Z
+      32: ireturn
+      33: astore_2
+      34: new           #453                // class com/unclezs/jfx/launcher/LauncherException
+      37: dup
+      38: ldc_w         #468                // String ����Ƿ����°汾ʧ��
+      41: aload_2
+      42: invokespecial #457                // Method com/unclezs/jfx/launcher/LauncherException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+      45: athrow
+    Exception table:
+       from    to  target type
+           0    12    33   Class java/lang/Exception
+          13    32    33   Class java/lang/Exception
+
+  private void parseParams();
+    Code:
+       0: aload_0
+       1: invokevirtual #470                // Method getParameters:()Ljavafx/application/Application$Parameters;
+       4: invokevirtual #474                // Method javafx/application/Application$Parameters.getNamed:()Ljava/util/Map;
+       7: astore_1
+       8: aload_0
+       9: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      12: ifnonnull     26
+      15: aload_0
+      16: new           #60                 // class com/unclezs/jfx/launcher/Manifest
+      19: dup
+      20: invokespecial #480                // Method com/unclezs/jfx/launcher/Manifest."<init>":()V
+      23: putfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      26: aload_0
+      27: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      30: aload_1
+      31: ldc_w         #481                // String name
+      34: aload_0
+      35: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      38: invokevirtual #483                // Method com/unclezs/jfx/launcher/Manifest.getAppName:()Ljava/lang/String;
+      41: invokeinterface #486,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      46: checkcast     #196                // class java/lang/String
+      49: invokevirtual #492                // Method com/unclezs/jfx/launcher/Manifest.setAppName:(Ljava/lang/String;)V
+      52: aload_0
+      53: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      56: aload_1
+      57: ldc_w         #495                // String url
+      60: aload_0
+      61: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      64: invokevirtual #409                // Method com/unclezs/jfx/launcher/Manifest.getUrl:()Ljava/lang/String;
+      67: invokeinterface #486,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      72: checkcast     #196                // class java/lang/String
+      75: invokevirtual #497                // Method com/unclezs/jfx/launcher/Manifest.setUrl:(Ljava/lang/String;)V
+      78: aload_0
+      79: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      82: aload_1
+      83: ldc_w         #500                // String configUrl
+      86: aload_0
+      87: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      90: invokevirtual #502                // Method com/unclezs/jfx/launcher/Manifest.getConfigUrl:()Ljava/lang/String;
+      93: invokeinterface #486,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+      98: checkcast     #196                // class java/lang/String
+     101: invokevirtual #505                // Method com/unclezs/jfx/launcher/Manifest.setConfigUrl:(Ljava/lang/String;)V
+     104: aload_0
+     105: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     108: aload_1
+     109: ldc_w         #508                // String launchClass
+     112: aload_0
+     113: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     116: invokevirtual #59                 // Method com/unclezs/jfx/launcher/Manifest.getLaunchClass:()Ljava/lang/String;
+     119: invokeinterface #486,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     124: checkcast     #196                // class java/lang/String
+     127: invokevirtual #510                // Method com/unclezs/jfx/launcher/Manifest.setLaunchClass:(Ljava/lang/String;)V
+     130: aload_0
+     131: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     134: aload_1
+     135: ldc_w         #513                // String launchModule
+     138: aload_0
+     139: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     142: invokevirtual #330                // Method com/unclezs/jfx/launcher/Manifest.getLaunchModule:()Ljava/lang/String;
+     145: invokeinterface #486,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     150: checkcast     #196                // class java/lang/String
+     153: invokevirtual #515                // Method com/unclezs/jfx/launcher/Manifest.setLaunchModule:(Ljava/lang/String;)V
+     156: aload_0
+     157: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     160: aload_1
+     161: ldc_w         #518                // String configPath
+     164: aload_0
+     165: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     168: invokevirtual #520                // Method com/unclezs/jfx/launcher/Manifest.getConfigPath:()Ljava/lang/String;
+     171: invokeinterface #486,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     176: checkcast     #196                // class java/lang/String
+     179: invokevirtual #523                // Method com/unclezs/jfx/launcher/Manifest.setConfigPath:(Ljava/lang/String;)V
+     182: aload_0
+     183: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     186: aload_1
+     187: ldc_w         #526                // String version
+     190: aload_0
+     191: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+     194: invokevirtual #192                // Method com/unclezs/jfx/launcher/Manifest.getVersion:()Ljava/lang/String;
+     197: invokeinterface #486,  3          // InterfaceMethod java/util/Map.getOrDefault:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+     202: checkcast     #196                // class java/lang/String
+     205: invokevirtual #528                // Method com/unclezs/jfx/launcher/Manifest.setVersion:(Ljava/lang/String;)V
+     208: return
+
+  private void handleStartError(java.lang.Throwable);
+    Code:
+       0: aload_0
+       1: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+       4: ldc_w         #531                // String ��������쳣������
+       7: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+      10: aload_0
+      11: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      14: aload_1
+      15: aload_0
+      16: invokedynamic #533,  0            // InvokeDynamic #15:run:(Lcom/unclezs/jfx/launcher/Launcher;)Ljava/lang/Runnable;
+      21: invokevirtual #534                // Method com/unclezs/jfx/launcher/LauncherView.setError:(Ljava/lang/Throwable;Ljava/lang/Runnable;)V
+      24: return
+
+  private void lambda$handleStartError$8();
+    Code:
+       0: aload_0
+       1: getfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+       4: invokevirtual #538                // Method javafx/stage/Stage.close:()V
+       7: invokestatic  #539                // Method javafx/application/Platform.exit:()V
+      10: iconst_m1
+      11: invokestatic  #544                // Method java/lang/System.exit:(I)V
+      14: return
+
+  private static void lambda$loadLibraries$7(java.lang.ClassLoader);
+    Code:
+       0: invokestatic  #17                 // Method java/lang/Thread.currentThread:()Ljava/lang/Thread;
+       3: aload_0
+       4: invokevirtual #364                // Method java/lang/Thread.setContextClassLoader:(Ljava/lang/ClassLoader;)V
+       7: return
+
+  private static java.nio.file.Path[] lambda$loadLibraries$6(int);
+    Code:
+       0: iload_0
+       1: anewarray     #219                // class java/nio/file/Path
+       4: areturn
+
+  private static boolean lambda$loadLibraries$5(com.unclezs.jfx.launcher.Resource);
+    Code:
+       0: getstatic     #549                // Field com/unclezs/jfx/launcher/Resource$Type.JAR:Lcom/unclezs/jfx/launcher/Resource$Type;
+       3: aload_0
+       4: invokevirtual #555                // Method com/unclezs/jfx/launcher/Resource.getType:()Lcom/unclezs/jfx/launcher/Resource$Type;
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  private static boolean lambda$loadLibraries$4(com.unclezs.jfx.launcher.Resource);
+    Code:
+       0: getstatic     #559                // Field com/unclezs/jfx/launcher/Resource$Type.NATIVE_SYS:Lcom/unclezs/jfx/launcher/Resource$Type;
+       3: aload_0
+       4: invokevirtual #555                // Method com/unclezs/jfx/launcher/Resource.getType:()Lcom/unclezs/jfx/launcher/Resource$Type;
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  private static java.lang.String lambda$loadLibraries$3(com.unclezs.jfx.launcher.Resource);
+    Code:
+       0: ldc_w         #562                // String .
+       3: iconst_1
+       4: anewarray     #196                // class java/lang/String
+       7: dup
+       8: iconst_0
+       9: aload_0
+      10: invokevirtual #450                // Method com/unclezs/jfx/launcher/Resource.getPath:()Ljava/lang/String;
+      13: aastore
+      14: invokestatic  #564                // InterfaceMethod java/nio/file/Path.of:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      17: invokeinterface #568,  1          // InterfaceMethod java/nio/file/Path.toFile:()Ljava/io/File;
+      22: invokevirtual #572                // Method java/io/File.getAbsolutePath:()Ljava/lang/String;
+      25: areturn
+
+  private static boolean lambda$loadLibraries$2(com.unclezs.jfx.launcher.Resource);
+    Code:
+       0: getstatic     #577                // Field com/unclezs/jfx/launcher/Resource$Type.NATIVE:Lcom/unclezs/jfx/launcher/Resource$Type;
+       3: aload_0
+       4: invokevirtual #555                // Method com/unclezs/jfx/launcher/Resource.getType:()Lcom/unclezs/jfx/launcher/Resource$Type;
+       7: if_acmpne     14
+      10: iconst_1
+      11: goto          15
+      14: iconst_0
+      15: ireturn
+
+  private void lambda$start$1();
+    Code:
+       0: aload_0
+       1: invokevirtual #580                // Method startApplication:()V
+       4: goto          13
+       7: astore_1
+       8: aload_0
+       9: aload_1
+      10: invokevirtual #83                 // Method handleStartError:(Ljava/lang/Throwable;)V
+      13: return
+    Exception table:
+       from    to  target type
+           0     4     7   Class java/lang/Exception
+
+  private void lambda$startApplication$0(java.lang.Class);
+    Code:
+       0: aload_1
+       1: iconst_0
+       2: anewarray     #72                 // class java/lang/Class
+       5: invokevirtual #583                // Method java/lang/Class.getConstructor:([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
+       8: iconst_0
+       9: anewarray     #190                // class java/lang/Object
+      12: invokevirtual #587                // Method java/lang/reflect/Constructor.newInstance:([Ljava/lang/Object;)Ljava/lang/Object;
+      15: checkcast     #2                  // class javafx/application/Application
+      18: astore_2
+      19: aload_2
+      20: invokevirtual #593                // Method javafx/application/Application.init:()V
+      23: new           #102                // class javafx/stage/Stage
+      26: dup
+      27: invokespecial #596                // Method javafx/stage/Stage."<init>":()V
+      30: astore_3
+      31: aload_3
+      32: ldc_w         #597                // String changeLog
+      35: aload_0
+      36: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      39: invokevirtual #238                // Method com/unclezs/jfx/launcher/Manifest.getChangeLog:()Ljava/util/List;
+      42: ldc_w         #526                // String version
+      45: aload_0
+      46: getfield      #34                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      49: invokevirtual #192                // Method com/unclezs/jfx/launcher/Manifest.getVersion:()Ljava/lang/String;
+      52: ldc_w         #599                // String hasNew
+      55: aload_0
+      56: getfield      #7                  // Field newVersion:Z
+      59: invokestatic  #600                // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      62: invokestatic  #606                // InterfaceMethod java/util/Map.of:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+      65: invokevirtual #609                // Method javafx/stage/Stage.setUserData:(Ljava/lang/Object;)V
+      68: aload_0
+      69: getfield      #41                 // Field ui:Lcom/unclezs/jfx/launcher/LauncherView;
+      72: ldc_w         #613                // String �������Ӧ��...
+      75: invokevirtual #47                 // Method com/unclezs/jfx/launcher/LauncherView.setPhase:(Ljava/lang/String;)V
+      78: aload_2
+      79: aload_3
+      80: invokevirtual #615                // Method javafx/application/Application.start:(Ljavafx/stage/Stage;)V
+      83: aload_0
+      84: getfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+      87: invokevirtual #538                // Method javafx/stage/Stage.close:()V
+      90: aload_0
+      91: aconst_null
+      92: putfield      #97                 // Field launcherStage:Ljavafx/stage/Stage;
+      95: goto          104
+      98: astore_2
+      99: aload_0
+     100: aload_2
+     101: invokevirtual #83                 // Method handleStartError:(Ljava/lang/Throwable;)V
+     104: return
+    Exception table:
+       from    to  target type
+           0    95    98   Class java/lang/Exception
+
+  static {};
+    Code:
+       0: ldc           #8                  // class com/unclezs/jfx/launcher/Launcher
+       2: invokevirtual #618                // Method java/lang/Class.getName:()Ljava/lang/String;
+       5: invokestatic  #621                // Method java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+       8: putstatic     #157                // Field log:Ljava/util/logging/Logger;
+      11: return
+}
+########## com.unclezs.jfx.launcher.Manifest ##########
+Compiled from "Manifest.java"
+public class com.unclezs.jfx.launcher.Manifest implements java.io.Serializable {
+  public static final com.google.gson.Gson GSON;
+
+  public static final java.lang.String EMBEDDED_CONFIG;
+
+  public static final java.lang.String BACKSLASH;
+
+  protected java.lang.String configPath;
+
+  protected java.lang.String appName;
+
+  protected java.lang.String url;
+
+  protected java.lang.String configUrl;
+
+  protected java.lang.String version;
+
+  protected java.util.List<java.lang.String> changeLog;
+
+  protected java.util.List<com.unclezs.jfx.launcher.Resource> resources;
+
+  protected java.lang.String launchClass;
+
+  protected java.lang.String launchModule;
+
+  protected java.util.List<java.lang.String> moduleOptions;
+
+  public static com.unclezs.jfx.launcher.Manifest load(java.net.URI);
+    Code:
+       0: aload_0
+       1: invokevirtual #1                  // Method java/net/URI.toURL:()Ljava/net/URL;
+       4: invokevirtual #7                  // Method java/net/URL.openStream:()Ljava/io/InputStream;
+       7: astore_1
+       8: getstatic     #13                 // Field GSON:Lcom/google/gson/Gson;
+      11: new           #19                 // class java/io/BufferedReader
+      14: dup
+      15: new           #21                 // class java/io/InputStreamReader
+      18: dup
+      19: aload_1
+      20: getstatic     #23                 // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+      23: invokespecial #29                 // Method java/io/InputStreamReader."<init>":(Ljava/io/InputStream;Ljava/nio/charset/Charset;)V
+      26: invokespecial #33                 // Method java/io/BufferedReader."<init>":(Ljava/io/Reader;)V
+      29: ldc           #14                 // class com/unclezs/jfx/launcher/Manifest
+      31: invokevirtual #36                 // Method com/google/gson/Gson.fromJson:(Ljava/io/Reader;Ljava/lang/Class;)Ljava/lang/Object;
+      34: checkcast     #14                 // class com/unclezs/jfx/launcher/Manifest
+      37: astore_2
+      38: aload_1
+      39: ifnull        46
+      42: aload_1
+      43: invokevirtual #42                 // Method java/io/InputStream.close:()V
+      46: aload_2
+      47: areturn
+      48: astore_2
+      49: aload_1
+      50: ifnull        66
+      53: aload_1
+      54: invokevirtual #42                 // Method java/io/InputStream.close:()V
+      57: goto          66
+      60: astore_3
+      61: aload_2
+      62: aload_3
+      63: invokevirtual #50                 // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+      66: aload_2
+      67: athrow
+      68: astore_1
+      69: new           #56                 // class com/unclezs/jfx/launcher/LauncherException
+      72: dup
+      73: ldc           #58                 // String Manifest����ʧ��:
+      75: aload_0
+      76: invokevirtual #60                 // Method java/net/URI.toString:()Ljava/lang/String;
+      79: invokevirtual #64                 // Method java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
+      82: aload_1
+      83: invokespecial #70                 // Method com/unclezs/jfx/launcher/LauncherException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+      86: athrow
+    Exception table:
+       from    to  target type
+           8    38    48   Class java/lang/Throwable
+          53    57    60   Class java/lang/Throwable
+           0    46    68   Class java/lang/Exception
+          48    68    68   Class java/lang/Exception
+
+  public static com.unclezs.jfx.launcher.Manifest embedded();
+    Code:
+       0: ldc           #73                 // class com/unclezs/jfx/launcher/Launcher
+       2: ldc           #75                 // String /
+       4: ldc           #77                 // String app.json
+       6: invokevirtual #64                 // Method java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
+       9: invokevirtual #79                 // Method java/lang/Class.getResource:(Ljava/lang/String;)Ljava/net/URL;
+      12: astore_0
+      13: aload_0
+      14: ifnonnull     25
+      17: new           #14                 // class com/unclezs/jfx/launcher/Manifest
+      20: dup
+      21: invokespecial #85                 // Method "<init>":()V
+      24: areturn
+      25: aload_0
+      26: invokevirtual #87                 // Method java/net/URL.toURI:()Ljava/net/URI;
+      29: invokestatic  #91                 // Method load:(Ljava/net/URI;)Lcom/unclezs/jfx/launcher/Manifest;
+      32: areturn
+      33: astore_1
+      34: new           #56                 // class com/unclezs/jfx/launcher/LauncherException
+      37: dup
+      38: ldc           #97                 // String URI�﷨����
+      40: aload_1
+      41: invokespecial #70                 // Method com/unclezs/jfx/launcher/LauncherException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+      44: athrow
+    Exception table:
+       from    to  target type
+          25    32    33   Class java/net/URISyntaxException
+
+  public void setUrl(java.lang.String);
+    Code:
+       0: aload_1
+       1: ldc           #75                 // String /
+       3: invokevirtual #99                 // Method java/lang/String.endsWith:(Ljava/lang/String;)Z
+       6: ifne          16
+       9: aload_1
+      10: ldc           #75                 // String /
+      12: invokevirtual #64                 // Method java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
+      15: astore_1
+      16: aload_0
+      17: aload_1
+      18: putfield      #103                // Field url:Ljava/lang/String;
+      21: return
+
+  public java.util.List<com.unclezs.jfx.launcher.Resource> resolveResources();
+    Code:
+       0: aload_0
+       1: getfield      #107                // Field resources:Ljava/util/List;
+       4: invokeinterface #111,  1          // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+       9: invokedynamic #117,  0            // InvokeDynamic #0:test:()Ljava/util/function/Predicate;
+      14: invokeinterface #121,  2          // InterfaceMethod java/util/stream/Stream.filter:(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+      19: invokestatic  #127                // Method java/util/stream/Collectors.toList:()Ljava/util/stream/Collector;
+      22: invokeinterface #133,  2          // InterfaceMethod java/util/stream/Stream.collect:(Ljava/util/stream/Collector;)Ljava/lang/Object;
+      27: checkcast     #112                // class java/util/List
+      30: areturn
+
+  public java.nio.file.Path localManifest();
+    Code:
+       0: ldc           #137                // String .
+       2: iconst_1
+       3: anewarray     #65                 // class java/lang/String
+       6: dup
+       7: iconst_0
+       8: aload_0
+       9: getfield      #139                // Field configPath:Ljava/lang/String;
+      12: aastore
+      13: invokestatic  #142                // InterfaceMethod java/nio/file/Path.of:(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+      16: invokeinterface #148,  1          // InterfaceMethod java/nio/file/Path.toAbsolutePath:()Ljava/nio/file/Path;
+      21: areturn
+
+  public java.net.URI remoteManifest();
+    Code:
+       0: aload_0
+       1: getfield      #152                // Field configUrl:Ljava/lang/String;
+       4: ifnull        17
+       7: aload_0
+       8: getfield      #152                // Field configUrl:Ljava/lang/String;
+      11: invokevirtual #155                // Method java/lang/String.isBlank:()Z
+      14: ifeq          32
+      17: aload_0
+      18: getfield      #103                // Field url:Ljava/lang/String;
+      21: aload_0
+      22: getfield      #139                // Field configPath:Ljava/lang/String;
+      25: invokevirtual #64                 // Method java/lang/String.concat:(Ljava/lang/String;)Ljava/lang/String;
+      28: invokestatic  #159                // Method java/net/URI.create:(Ljava/lang/String;)Ljava/net/URI;
+      31: areturn
+      32: aload_0
+      33: getfield      #152                // Field configUrl:Ljava/lang/String;
+      36: invokestatic  #159                // Method java/net/URI.create:(Ljava/lang/String;)Ljava/net/URI;
+      39: areturn
+
+  public java.lang.String toJson();
+    Code:
+       0: getstatic     #13                 // Field GSON:Lcom/google/gson/Gson;
+       3: aload_0
+       4: invokevirtual #163                // Method com/google/gson/Gson.toJson:(Ljava/lang/Object;)Ljava/lang/String;
+       7: areturn
+
+  public boolean validate();
+    Code:
+       0: aload_0
+       1: getfield      #167                // Field launchClass:Ljava/lang/String;
+       4: ifnull        21
+       7: aload_0
+       8: getfield      #167                // Field launchClass:Ljava/lang/String;
+      11: invokevirtual #155                // Method java/lang/String.isBlank:()Z
+      14: ifne          21
+      17: iconst_1
+      18: goto          22
+      21: iconst_0
+      22: ireturn
+
+  public java.lang.String getConfigPath();
+    Code:
+       0: aload_0
+       1: getfield      #139                // Field configPath:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String getAppName();
+    Code:
+       0: aload_0
+       1: getfield      #170                // Field appName:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String getUrl();
+    Code:
+       0: aload_0
+       1: getfield      #103                // Field url:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String getConfigUrl();
+    Code:
+       0: aload_0
+       1: getfield      #152                // Field configUrl:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String getVersion();
+    Code:
+       0: aload_0
+       1: getfield      #173                // Field version:Ljava/lang/String;
+       4: areturn
+
+  public java.util.List<java.lang.String> getChangeLog();
+    Code:
+       0: aload_0
+       1: getfield      #176                // Field changeLog:Ljava/util/List;
+       4: areturn
+
+  public java.util.List<com.unclezs.jfx.launcher.Resource> getResources();
+    Code:
+       0: aload_0
+       1: getfield      #107                // Field resources:Ljava/util/List;
+       4: areturn
+
+  public java.lang.String getLaunchClass();
+    Code:
+       0: aload_0
+       1: getfield      #167                // Field launchClass:Ljava/lang/String;
+       4: areturn
+
+  public java.lang.String getLaunchModule();
+    Code:
+       0: aload_0
+       1: getfield      #179                // Field launchModule:Ljava/lang/String;
+       4: areturn
+
+  public java.util.List<java.lang.String> getModuleOptions();
+    Code:
+       0: aload_0
+       1: getfield      #182                // Field moduleOptions:Ljava/util/List;
+       4: areturn
+
+  public void setConfigPath(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #139                // Field configPath:Ljava/lang/String;
+       5: return
+
+  public void setAppName(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #170                // Field appName:Ljava/lang/String;
+       5: return
+
+  public void setConfigUrl(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #152                // Field configUrl:Ljava/lang/String;
+       5: return
+
+  public void setVersion(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #173                // Field version:Ljava/lang/String;
+       5: return
+
+  public void setChangeLog(java.util.List<java.lang.String>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #176                // Field changeLog:Ljava/util/List;
+       5: return
+
+  public void setResources(java.util.List<com.unclezs.jfx.launcher.Resource>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #107                // Field resources:Ljava/util/List;
+       5: return
+
+  public void setLaunchClass(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #167                // Field launchClass:Ljava/lang/String;
+       5: return
+
+  public void setLaunchModule(java.lang.String);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #179                // Field launchModule:Ljava/lang/String;
+       5: return
+
+  public void setModuleOptions(java.util.List<java.lang.String>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #182                // Field moduleOptions:Ljava/util/List;
+       5: return
+
+  public boolean equals(java.lang.Object);
+    Code:
+       0: aload_1
+       1: aload_0
+       2: if_acmpne     7
+       5: iconst_1
+       6: ireturn
+       7: aload_1
+       8: instanceof    #14                 // class com/unclezs/jfx/launcher/Manifest
+      11: ifne          16
+      14: iconst_0
+      15: ireturn
+      16: aload_1
+      17: checkcast     #14                 // class com/unclezs/jfx/launcher/Manifest
+      20: astore_2
+      21: aload_2
+      22: aload_0
+      23: invokevirtual #185                // Method canEqual:(Ljava/lang/Object;)Z
+      26: ifne          31
+      29: iconst_0
+      30: ireturn
+      31: aload_0
+      32: invokevirtual #189                // Method getConfigPath:()Ljava/lang/String;
+      35: astore_3
+      36: aload_2
+      37: invokevirtual #189                // Method getConfigPath:()Ljava/lang/String;
+      40: astore        4
+      42: aload_3
+      43: ifnonnull     54
+      46: aload         4
+      48: ifnull        65
+      51: goto          63
+      54: aload_3
+      55: aload         4
+      57: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      60: ifne          65
+      63: iconst_0
+      64: ireturn
+      65: aload_0
+      66: invokevirtual #197                // Method getAppName:()Ljava/lang/String;
+      69: astore        5
+      71: aload_2
+      72: invokevirtual #197                // Method getAppName:()Ljava/lang/String;
+      75: astore        6
+      77: aload         5
+      79: ifnonnull     90
+      82: aload         6
+      84: ifnull        102
+      87: goto          100
+      90: aload         5
+      92: aload         6
+      94: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+      97: ifne          102
+     100: iconst_0
+     101: ireturn
+     102: aload_0
+     103: invokevirtual #200                // Method getUrl:()Ljava/lang/String;
+     106: astore        7
+     108: aload_2
+     109: invokevirtual #200                // Method getUrl:()Ljava/lang/String;
+     112: astore        8
+     114: aload         7
+     116: ifnonnull     127
+     119: aload         8
+     121: ifnull        139
+     124: goto          137
+     127: aload         7
+     129: aload         8
+     131: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     134: ifne          139
+     137: iconst_0
+     138: ireturn
+     139: aload_0
+     140: invokevirtual #203                // Method getConfigUrl:()Ljava/lang/String;
+     143: astore        9
+     145: aload_2
+     146: invokevirtual #203                // Method getConfigUrl:()Ljava/lang/String;
+     149: astore        10
+     151: aload         9
+     153: ifnonnull     164
+     156: aload         10
+     158: ifnull        176
+     161: goto          174
+     164: aload         9
+     166: aload         10
+     168: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     171: ifne          176
+     174: iconst_0
+     175: ireturn
+     176: aload_0
+     177: invokevirtual #206                // Method getVersion:()Ljava/lang/String;
+     180: astore        11
+     182: aload_2
+     183: invokevirtual #206                // Method getVersion:()Ljava/lang/String;
+     186: astore        12
+     188: aload         11
+     190: ifnonnull     201
+     193: aload         12
+     195: ifnull        213
+     198: goto          211
+     201: aload         11
+     203: aload         12
+     205: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     208: ifne          213
+     211: iconst_0
+     212: ireturn
+     213: aload_0
+     214: invokevirtual #209                // Method getChangeLog:()Ljava/util/List;
+     217: astore        13
+     219: aload_2
+     220: invokevirtual #209                // Method getChangeLog:()Ljava/util/List;
+     223: astore        14
+     225: aload         13
+     227: ifnonnull     238
+     230: aload         14
+     232: ifnull        250
+     235: goto          248
+     238: aload         13
+     240: aload         14
+     242: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     245: ifne          250
+     248: iconst_0
+     249: ireturn
+     250: aload_0
+     251: invokevirtual #213                // Method getResources:()Ljava/util/List;
+     254: astore        15
+     256: aload_2
+     257: invokevirtual #213                // Method getResources:()Ljava/util/List;
+     260: astore        16
+     262: aload         15
+     264: ifnonnull     275
+     267: aload         16
+     269: ifnull        287
+     272: goto          285
+     275: aload         15
+     277: aload         16
+     279: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     282: ifne          287
+     285: iconst_0
+     286: ireturn
+     287: aload_0
+     288: invokevirtual #216                // Method getLaunchClass:()Ljava/lang/String;
+     291: astore        17
+     293: aload_2
+     294: invokevirtual #216                // Method getLaunchClass:()Ljava/lang/String;
+     297: astore        18
+     299: aload         17
+     301: ifnonnull     312
+     304: aload         18
+     306: ifnull        324
+     309: goto          322
+     312: aload         17
+     314: aload         18
+     316: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     319: ifne          324
+     322: iconst_0
+     323: ireturn
+     324: aload_0
+     325: invokevirtual #219                // Method getLaunchModule:()Ljava/lang/String;
+     328: astore        19
+     330: aload_2
+     331: invokevirtual #219                // Method getLaunchModule:()Ljava/lang/String;
+     334: astore        20
+     336: aload         19
+     338: ifnonnull     349
+     341: aload         20
+     343: ifnull        361
+     346: goto          359
+     349: aload         19
+     351: aload         20
+     353: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     356: ifne          361
+     359: iconst_0
+     360: ireturn
+     361: aload_0
+     362: invokevirtual #222                // Method getModuleOptions:()Ljava/util/List;
+     365: astore        21
+     367: aload_2
+     368: invokevirtual #222                // Method getModuleOptions:()Ljava/util/List;
+     371: astore        22
+     373: aload         21
+     375: ifnonnull     386
+     378: aload         22
+     380: ifnull        398
+     383: goto          396
+     386: aload         21
+     388: aload         22
+     390: invokevirtual #192                // Method java/lang/Object.equals:(Ljava/lang/Object;)Z
+     393: ifne          398
+     396: iconst_0
+     397: ireturn
+     398: iconst_1
+     399: ireturn
+
+  protected boolean canEqual(java.lang.Object);
+    Code:
+       0: aload_1
+       1: instanceof    #14                 // class com/unclezs/jfx/launcher/Manifest
+       4: ireturn
+
+  public int hashCode();
+    Code:
+       0: bipush        59
+       2: istore_1
+       3: iconst_1
+       4: istore_2
+       5: aload_0
+       6: invokevirtual #189                // Method getConfigPath:()Ljava/lang/String;
+       9: astore_3
+      10: iload_2
+      11: bipush        59
+      13: imul
+      14: aload_3
+      15: ifnonnull     23
+      18: bipush        43
+      20: goto          27
+      23: aload_3
+      24: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+      27: iadd
+      28: istore_2
+      29: aload_0
+      30: invokevirtual #197                // Method getAppName:()Ljava/lang/String;
+      33: astore        4
+      35: iload_2
+      36: bipush        59
+      38: imul
+      39: aload         4
+      41: ifnonnull     49
+      44: bipush        43
+      46: goto          54
+      49: aload         4
+      51: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+      54: iadd
+      55: istore_2
+      56: aload_0
+      57: invokevirtual #200                // Method getUrl:()Ljava/lang/String;
+      60: astore        5
+      62: iload_2
+      63: bipush        59
+      65: imul
+      66: aload         5
+      68: ifnonnull     76
+      71: bipush        43
+      73: goto          81
+      76: aload         5
+      78: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+      81: iadd
+      82: istore_2
+      83: aload_0
+      84: invokevirtual #203                // Method getConfigUrl:()Ljava/lang/String;
+      87: astore        6
+      89: iload_2
+      90: bipush        59
+      92: imul
+      93: aload         6
+      95: ifnonnull     103
+      98: bipush        43
+     100: goto          108
+     103: aload         6
+     105: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+     108: iadd
+     109: istore_2
+     110: aload_0
+     111: invokevirtual #206                // Method getVersion:()Ljava/lang/String;
+     114: astore        7
+     116: iload_2
+     117: bipush        59
+     119: imul
+     120: aload         7
+     122: ifnonnull     130
+     125: bipush        43
+     127: goto          135
+     130: aload         7
+     132: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+     135: iadd
+     136: istore_2
+     137: aload_0
+     138: invokevirtual #209                // Method getChangeLog:()Ljava/util/List;
+     141: astore        8
+     143: iload_2
+     144: bipush        59
+     146: imul
+     147: aload         8
+     149: ifnonnull     157
+     152: bipush        43
+     154: goto          162
+     157: aload         8
+     159: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+     162: iadd
+     163: istore_2
+     164: aload_0
+     165: invokevirtual #213                // Method getResources:()Ljava/util/List;
+     168: astore        9
+     170: iload_2
+     171: bipush        59
+     173: imul
+     174: aload         9
+     176: ifnonnull     184
+     179: bipush        43
+     181: goto          189
+     184: aload         9
+     186: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+     189: iadd
+     190: istore_2
+     191: aload_0
+     192: invokevirtual #216                // Method getLaunchClass:()Ljava/lang/String;
+     195: astore        10
+     197: iload_2
+     198: bipush        59
+     200: imul
+     201: aload         10
+     203: ifnonnull     211
+     206: bipush        43
+     208: goto          216
+     211: aload         10
+     213: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+     216: iadd
+     217: istore_2
+     218: aload_0
+     219: invokevirtual #219                // Method getLaunchModule:()Ljava/lang/String;
+     222: astore        11
+     224: iload_2
+     225: bipush        59
+     227: imul
+     228: aload         11
+     230: ifnonnull     238
+     233: bipush        43
+     235: goto          243
+     238: aload         11
+     240: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+     243: iadd
+     244: istore_2
+     245: aload_0
+     246: invokevirtual #222                // Method getModuleOptions:()Ljava/util/List;
+     249: astore        12
+     251: iload_2
+     252: bipush        59
+     254: imul
+     255: aload         12
+     257: ifnonnull     265
+     260: bipush        43
+     262: goto          270
+     265: aload         12
+     267: invokevirtual #225                // Method java/lang/Object.hashCode:()I
+     270: iadd
+     271: istore_2
+     272: iload_2
+     273: ireturn
+
+  public java.lang.String toString();
+    Code:
+       0: aload_0
+       1: invokevirtual #189                // Method getConfigPath:()Ljava/lang/String;
+       4: aload_0
+       5: invokevirtual #197                // Method getAppName:()Ljava/lang/String;
+       8: aload_0
+       9: invokevirtual #200                // Method getUrl:()Ljava/lang/String;
+      12: aload_0
+      13: invokevirtual #203                // Method getConfigUrl:()Ljava/lang/String;
+      16: aload_0
+      17: invokevirtual #206                // Method getVersion:()Ljava/lang/String;
+      20: aload_0
+      21: invokevirtual #209                // Method getChangeLog:()Ljava/util/List;
+      24: aload_0
+      25: invokevirtual #213                // Method getResources:()Ljava/util/List;
+      28: aload_0
+      29: invokevirtual #216                // Method getLaunchClass:()Ljava/lang/String;
+      32: aload_0
+      33: invokevirtual #219                // Method getLaunchModule:()Ljava/lang/String;
+      36: aload_0
+      37: invokevirtual #222                // Method getModuleOptions:()Ljava/util/List;
+      40: invokedynamic #229,  0            // InvokeDynamic #1:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)Ljava/lang/String;
+      45: areturn
+
+  public com.unclezs.jfx.launcher.Manifest(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.List<java.lang.String>, java.util.List<com.unclezs.jfx.launcher.Resource>, java.lang.String, java.lang.String, java.util.List<java.lang.String>);
+    Code:
+       0: aload_0
+       1: invokespecial #233                // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: ldc           #77                 // String app.json
+       7: putfield      #139                // Field configPath:Ljava/lang/String;
+      10: aload_0
+      11: ldc           #234                // String FX-Launcher
+      13: putfield      #170                // Field appName:Ljava/lang/String;
+      16: aload_0
+      17: new           #236                // class java/util/ArrayList
+      20: dup
+      21: invokespecial #238                // Method java/util/ArrayList."<init>":()V
+      24: putfield      #176                // Field changeLog:Ljava/util/List;
+      27: aload_0
+      28: new           #236                // class java/util/ArrayList
+      31: dup
+      32: invokespecial #238                // Method java/util/ArrayList."<init>":()V
+      35: putfield      #107                // Field resources:Ljava/util/List;
+      38: aload_0
+      39: new           #236                // class java/util/ArrayList
+      42: dup
+      43: invokespecial #238                // Method java/util/ArrayList."<init>":()V
+      46: putfield      #182                // Field moduleOptions:Ljava/util/List;
+      49: aload_0
+      50: aload_1
+      51: putfield      #139                // Field configPath:Ljava/lang/String;
+      54: aload_0
+      55: aload_2
+      56: putfield      #170                // Field appName:Ljava/lang/String;
+      59: aload_0
+      60: aload_3
+      61: putfield      #103                // Field url:Ljava/lang/String;
+      64: aload_0
+      65: aload         4
+      67: putfield      #152                // Field configUrl:Ljava/lang/String;
+      70: aload_0
+      71: aload         5
+      73: putfield      #173                // Field version:Ljava/lang/String;
+      76: aload_0
+      77: aload         6
+      79: putfield      #176                // Field changeLog:Ljava/util/List;
+      82: aload_0
+      83: aload         7
+      85: putfield      #107                // Field resources:Ljava/util/List;
+      88: aload_0
+      89: aload         8
+      91: putfield      #167                // Field launchClass:Ljava/lang/String;
+      94: aload_0
+      95: aload         9
+      97: putfield      #179                // Field launchModule:Ljava/lang/String;
+     100: aload_0
+     101: aload         10
+     103: putfield      #182                // Field moduleOptions:Ljava/util/List;
+     106: return
+
+  public com.unclezs.jfx.launcher.Manifest();
+    Code:
+       0: aload_0
+       1: invokespecial #233                // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: ldc           #77                 // String app.json
+       7: putfield      #139                // Field configPath:Ljava/lang/String;
+      10: aload_0
+      11: ldc           #234                // String FX-Launcher
+      13: putfield      #170                // Field appName:Ljava/lang/String;
+      16: aload_0
+      17: new           #236                // class java/util/ArrayList
+      20: dup
+      21: invokespecial #238                // Method java/util/ArrayList."<init>":()V
+      24: putfield      #176                // Field changeLog:Ljava/util/List;
+      27: aload_0
+      28: new           #236                // class java/util/ArrayList
+      31: dup
+      32: invokespecial #238                // Method java/util/ArrayList."<init>":()V
+      35: putfield      #107                // Field resources:Ljava/util/List;
+      38: aload_0
+      39: new           #236                // class java/util/ArrayList
+      42: dup
+      43: invokespecial #238                // Method java/util/ArrayList."<init>":()V
+      46: putfield      #182                // Field moduleOptions:Ljava/util/List;
+      49: return
+
+  static {};
+    Code:
+       0: new           #37                 // class com/google/gson/Gson
+       3: dup
+       4: invokespecial #239                // Method com/google/gson/Gson."<init>":()V
+       7: putstatic     #13                 // Field GSON:Lcom/google/gson/Gson;
+      10: return
+}
+########## com.unclezs.jfx.launcher.LauncherView ##########
+Compiled from "LauncherView.java"
+public class com.unclezs.jfx.launcher.LauncherView extends javafx.scene.layout.StackPane {
+  private static final java.util.logging.Logger log;
+
+  public static final java.lang.String DEFAULT_CLASS;
+
+  private static final javafx.css.PseudoClass UPDATING_PSEUDO_CLASS_STATE;
+
+  private final javafx.scene.control.Label phase;
+
+  private final javafx.scene.layout.StackPane messageView;
+
+  private final javafx.scene.layout.StackPane progressView;
+
+  private final com.unclezs.jfx.launcher.Manifest manifest;
+
+  private javafx.scene.control.ProgressBar progressBar;
+
+  private javafx.scene.control.Label whatNew;
+
+  private javafx.beans.property.ReadOnlyBooleanWrapper updating;
+
+  public com.unclezs.jfx.launcher.LauncherView(com.unclezs.jfx.launcher.Manifest);
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method javafx/scene/layout/StackPane."<init>":()V
+       4: aload_0
+       5: new           #7                  // class javafx/scene/control/Label
+       8: dup
+       9: invokespecial #9                  // Method javafx/scene/control/Label."<init>":()V
+      12: putfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+      15: aload_0
+      16: new           #2                  // class javafx/scene/layout/StackPane
+      19: dup
+      20: invokespecial #1                  // Method javafx/scene/layout/StackPane."<init>":()V
+      23: putfield      #16                 // Field messageView:Ljavafx/scene/layout/StackPane;
+      26: aload_0
+      27: new           #2                  // class javafx/scene/layout/StackPane
+      30: dup
+      31: invokespecial #1                  // Method javafx/scene/layout/StackPane."<init>":()V
+      34: putfield      #20                 // Field progressView:Ljavafx/scene/layout/StackPane;
+      37: aload_0
+      38: aload_1
+      39: putfield      #23                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+      42: aload_0
+      43: invokevirtual #27                 // Method getStyleClass:()Ljavafx/collections/ObservableList;
+      46: iconst_1
+      47: anewarray     #31                 // class java/lang/String
+      50: dup
+      51: iconst_0
+      52: ldc           #33                 // String launcher-view
+      54: aastore
+      55: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+      60: pop
+      61: aload_0
+      62: invokevirtual #41                 // Method getStylesheets:()Ljavafx/collections/ObservableList;
+      65: iconst_1
+      66: anewarray     #31                 // class java/lang/String
+      69: dup
+      70: iconst_0
+      71: ldc           #11                 // class com/unclezs/jfx/launcher/LauncherView
+      73: ldc           #44                 // String /css/view.css
+      75: invokevirtual #46                 // Method java/lang/Class.getResource:(Ljava/lang/String;)Ljava/net/URL;
+      78: invokestatic  #52                 // Method java/util/Objects.requireNonNull:(Ljava/lang/Object;)Ljava/lang/Object;
+      81: checkcast     #58                 // class java/net/URL
+      84: invokevirtual #60                 // Method java/net/URL.toExternalForm:()Ljava/lang/String;
+      87: aastore
+      88: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+      93: pop
+      94: new           #64                 // class javafx/scene/layout/VBox
+      97: dup
+      98: invokespecial #66                 // Method javafx/scene/layout/VBox."<init>":()V
+     101: astore_2
+     102: aload_0
+     103: getfield      #16                 // Field messageView:Ljavafx/scene/layout/StackPane;
+     106: getstatic     #67                 // Field javafx/scene/layout/Priority.ALWAYS:Ljavafx/scene/layout/Priority;
+     109: invokestatic  #73                 // Method javafx/scene/layout/VBox.setVgrow:(Ljavafx/scene/Node;Ljavafx/scene/layout/Priority;)V
+     112: aload_2
+     113: invokevirtual #77                 // Method javafx/scene/layout/VBox.getStyleClass:()Ljavafx/collections/ObservableList;
+     116: iconst_1
+     117: anewarray     #31                 // class java/lang/String
+     120: dup
+     121: iconst_0
+     122: ldc           #78                 // String container
+     124: aastore
+     125: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     130: pop
+     131: aload_0
+     132: getfield      #20                 // Field progressView:Ljavafx/scene/layout/StackPane;
+     135: invokevirtual #80                 // Method javafx/scene/layout/StackPane.getStyleClass:()Ljavafx/collections/ObservableList;
+     138: iconst_1
+     139: anewarray     #31                 // class java/lang/String
+     142: dup
+     143: iconst_0
+     144: ldc           #81                 // String progress-view
+     146: aastore
+     147: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     152: pop
+     153: aload_0
+     154: getfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+     157: invokevirtual #83                 // Method javafx/scene/control/Label.getStyleClass:()Ljavafx/collections/ObservableList;
+     160: iconst_1
+     161: anewarray     #31                 // class java/lang/String
+     164: dup
+     165: iconst_0
+     166: ldc           #84                 // String phase
+     168: aastore
+     169: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     174: pop
+     175: aload_2
+     176: invokevirtual #85                 // Method javafx/scene/layout/VBox.getChildren:()Ljavafx/collections/ObservableList;
+     179: iconst_2
+     180: anewarray     #88                 // class javafx/scene/Node
+     183: dup
+     184: iconst_0
+     185: aload_0
+     186: getfield      #16                 // Field messageView:Ljavafx/scene/layout/StackPane;
+     189: aastore
+     190: dup
+     191: iconst_1
+     192: aload_0
+     193: getfield      #20                 // Field progressView:Ljavafx/scene/layout/StackPane;
+     196: aastore
+     197: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     202: pop
+     203: aload_0
+     204: invokevirtual #90                 // Method getChildren:()Ljavafx/collections/ObservableList;
+     207: iconst_1
+     208: anewarray     #88                 // class javafx/scene/Node
+     211: dup
+     212: iconst_0
+     213: aload_2
+     214: aastore
+     215: invokeinterface #91,  2           // InterfaceMethod javafx/collections/ObservableList.addAll:([Ljava/lang/Object;)Z
+     220: pop
+     221: aload_0
+     222: invokevirtual #94                 // Method initLauncherView:()V
+     225: return
+
+  public void initUpdateView();
+    Code:
+       0: aload_0
+       1: invokedynamic #97,  0             // InvokeDynamic #0:run:(Lcom/unclezs/jfx/launcher/LauncherView;)Ljava/lang/Runnable;
+       6: invokestatic  #101                // Method com/unclezs/jfx/launcher/FxUtils.runAndWait:(Ljava/lang/Runnable;)V
+       9: return
+
+  public void initLauncherView();
+    Code:
+       0: new           #7                  // class javafx/scene/control/Label
+       3: dup
+       4: aload_0
+       5: getfield      #23                 // Field manifest:Lcom/unclezs/jfx/launcher/Manifest;
+       8: invokevirtual #107                // Method com/unclezs/jfx/launcher/Manifest.getAppName:()Ljava/lang/String;
+      11: invokespecial #112                // Method javafx/scene/control/Label."<init>":(Ljava/lang/String;)V
+      14: astore_1
+      15: aload_1
+      16: invokevirtual #83                 // Method javafx/scene/control/Label.getStyleClass:()Ljavafx/collections/ObservableList;
+      19: iconst_1
+      20: anewarray     #31                 // class java/lang/String
+      23: dup
+      24: iconst_0
+      25: ldc           #115                // String logo
+      27: aastore
+      28: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+      33: pop
+      34: aload_0
+      35: getfield      #16                 // Field messageView:Ljavafx/scene/layout/StackPane;
+      38: invokevirtual #117                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+      41: iconst_1
+      42: anewarray     #88                 // class javafx/scene/Node
+      45: dup
+      46: iconst_0
+      47: aload_1
+      48: aastore
+      49: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+      54: pop
+      55: aload_0
+      56: getfield      #20                 // Field progressView:Ljavafx/scene/layout/StackPane;
+      59: invokevirtual #117                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+      62: iconst_1
+      63: anewarray     #88                 // class javafx/scene/Node
+      66: dup
+      67: iconst_0
+      68: aload_0
+      69: getfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+      72: aastore
+      73: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+      78: pop
+      79: return
+
+  public void setProgress(double);
+    Code:
+       0: aload_0
+       1: dload_1
+       2: invokedynamic #118,  0            // InvokeDynamic #1:run:(Lcom/unclezs/jfx/launcher/LauncherView;D)Ljava/lang/Runnable;
+       7: invokestatic  #121                // Method com/unclezs/jfx/launcher/FxUtils.runFx:(Ljava/lang/Runnable;)V
+      10: return
+
+  public void setWhatNew(java.util.List<java.lang.String>);
+    Code:
+       0: new           #124                // class java/lang/StringBuilder
+       3: dup
+       4: invokespecial #126                // Method java/lang/StringBuilder."<init>":()V
+       7: astore_2
+       8: aload_1
+       9: invokeinterface #127,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      14: astore_3
+      15: aload_3
+      16: invokeinterface #133,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      21: ifeq          50
+      24: aload_3
+      25: invokeinterface #139,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      30: checkcast     #31                 // class java/lang/String
+      33: astore        4
+      35: aload_2
+      36: aload         4
+      38: invokevirtual #143                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      41: ldc           #147                // String \n
+      43: invokevirtual #143                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      46: pop
+      47: goto          15
+      50: aload_0
+      51: aload_2
+      52: invokedynamic #149,  0            // InvokeDynamic #2:run:(Lcom/unclezs/jfx/launcher/LauncherView;Ljava/lang/StringBuilder;)Ljava/lang/Runnable;
+      57: invokestatic  #121                // Method com/unclezs/jfx/launcher/FxUtils.runFx:(Ljava/lang/Runnable;)V
+      60: return
+
+  public void setError(java.lang.Throwable, java.lang.Runnable);
+    Code:
+       0: getstatic     #152                // Field log:Ljava/util/logging/Logger;
+       3: getstatic     #156                // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+       6: ldc           #162                // String ��������쳣
+       8: aload_1
+       9: invokevirtual #164                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+      12: aload_0
+      13: aload_2
+      14: invokedynamic #169,  0            // InvokeDynamic #3:run:(Lcom/unclezs/jfx/launcher/LauncherView;Ljava/lang/Runnable;)Ljava/lang/Runnable;
+      19: invokestatic  #121                // Method com/unclezs/jfx/launcher/FxUtils.runFx:(Ljava/lang/Runnable;)V
+      22: return
+
+  public void setPhase(java.lang.String);
+    Code:
+       0: getstatic     #152                // Field log:Ljava/util/logging/Logger;
+       3: aload_1
+       4: invokevirtual #172                // Method java/util/logging/Logger.info:(Ljava/lang/String;)V
+       7: aload_0
+       8: aload_1
+       9: invokedynamic #175,  0            // InvokeDynamic #4:run:(Lcom/unclezs/jfx/launcher/LauncherView;Ljava/lang/String;)Ljava/lang/Runnable;
+      14: invokestatic  #101                // Method com/unclezs/jfx/launcher/FxUtils.runAndWait:(Ljava/lang/Runnable;)V
+      17: return
+
+  public boolean getUpdating();
+    Code:
+       0: aload_0
+       1: invokevirtual #178                // Method updatingProperty:()Ljavafx/beans/property/ReadOnlyBooleanProperty;
+       4: invokevirtual #182                // Method javafx/beans/property/ReadOnlyBooleanProperty.get:()Z
+       7: ireturn
+
+  public void setUpdating(boolean);
+    Code:
+       0: aload_0
+       1: invokevirtual #187                // Method updatingPropertyImpl:()Ljavafx/beans/property/ReadOnlyBooleanWrapper;
+       4: iload_1
+       5: invokevirtual #191                // Method javafx/beans/property/ReadOnlyBooleanWrapper.set:(Z)V
+       8: return
+
+  public javafx.beans.property.ReadOnlyBooleanProperty updatingProperty();
+    Code:
+       0: aload_0
+       1: invokevirtual #187                // Method updatingPropertyImpl:()Ljavafx/beans/property/ReadOnlyBooleanWrapper;
+       4: invokevirtual #197                // Method javafx/beans/property/ReadOnlyBooleanWrapper.getReadOnlyProperty:()Ljavafx/beans/property/ReadOnlyBooleanProperty;
+       7: areturn
+
+  public javafx.beans.property.ReadOnlyBooleanWrapper updatingPropertyImpl();
+    Code:
+       0: aload_0
+       1: getfield      #200                // Field updating:Ljavafx/beans/property/ReadOnlyBooleanWrapper;
+       4: ifnonnull     23
+       7: aload_0
+       8: new           #204                // class com/unclezs/jfx/launcher/LauncherView$1
+      11: dup
+      12: aload_0
+      13: aload_0
+      14: ldc           #206                // String updating
+      16: iconst_0
+      17: invokespecial #207                // Method com/unclezs/jfx/launcher/LauncherView$1."<init>":(Lcom/unclezs/jfx/launcher/LauncherView;Ljava/lang/Object;Ljava/lang/String;Z)V
+      20: putfield      #200                // Field updating:Ljavafx/beans/property/ReadOnlyBooleanWrapper;
+      23: aload_0
+      24: getfield      #200                // Field updating:Ljavafx/beans/property/ReadOnlyBooleanWrapper;
+      27: areturn
+
+  private void lambda$setPhase$5(java.lang.String);
+    Code:
+       0: aload_0
+       1: getfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+       4: aload_1
+       5: invokevirtual #210                // Method javafx/scene/control/Label.setText:(Ljava/lang/String;)V
+       8: return
+
+  private void lambda$setError$4(java.lang.Runnable);
+    Code:
+       0: aload_0
+       1: iconst_1
+       2: invokevirtual #213                // Method setUpdating:(Z)V
+       5: aload_0
+       6: getfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+       9: ldc           #216                // String ��������쳣����鿴��־��
+      11: invokevirtual #210                // Method javafx/scene/control/Label.setText:(Ljava/lang/String;)V
+      14: new           #218                // class javafx/scene/layout/Pane
+      17: dup
+      18: invokespecial #220                // Method javafx/scene/layout/Pane."<init>":()V
+      21: astore_2
+      22: aload_2
+      23: aload_1
+      24: invokedynamic #221,  0            // InvokeDynamic #5:handle:(Ljava/lang/Runnable;)Ljavafx/event/EventHandler;
+      29: invokevirtual #225                // Method javafx/scene/layout/Pane.setOnMouseClicked:(Ljavafx/event/EventHandler;)V
+      32: new           #64                 // class javafx/scene/layout/VBox
+      35: dup
+      36: iconst_2
+      37: anewarray     #88                 // class javafx/scene/Node
+      40: dup
+      41: iconst_0
+      42: aload_0
+      43: getfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+      46: aastore
+      47: dup
+      48: iconst_1
+      49: aload_2
+      50: aastore
+      51: invokespecial #229                // Method javafx/scene/layout/VBox."<init>":([Ljavafx/scene/Node;)V
+      54: astore_3
+      55: aload_2
+      56: invokevirtual #232                // Method javafx/scene/layout/Pane.getStyleClass:()Ljavafx/collections/ObservableList;
+      59: ldc           #233                // String exit-btn
+      61: invokeinterface #235,  2          // InterfaceMethod javafx/collections/ObservableList.add:(Ljava/lang/Object;)Z
+      66: pop
+      67: aload_0
+      68: getfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+      71: invokevirtual #83                 // Method javafx/scene/control/Label.getStyleClass:()Ljavafx/collections/ObservableList;
+      74: ldc           #239                // String error
+      76: invokeinterface #235,  2          // InterfaceMethod javafx/collections/ObservableList.add:(Ljava/lang/Object;)Z
+      81: pop
+      82: aload_3
+      83: invokevirtual #77                 // Method javafx/scene/layout/VBox.getStyleClass:()Ljavafx/collections/ObservableList;
+      86: iconst_1
+      87: anewarray     #31                 // class java/lang/String
+      90: dup
+      91: iconst_0
+      92: ldc           #241                // String progress-box
+      94: aastore
+      95: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     100: pop
+     101: aload_0
+     102: getfield      #20                 // Field progressView:Ljavafx/scene/layout/StackPane;
+     105: invokevirtual #117                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+     108: iconst_1
+     109: anewarray     #88                 // class javafx/scene/Node
+     112: dup
+     113: iconst_0
+     114: aload_3
+     115: aastore
+     116: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     121: pop
+     122: return
+
+  private static void lambda$setError$3(java.lang.Runnable, javafx.scene.input.MouseEvent);
+    Code:
+       0: aload_0
+       1: ifnonnull     8
+       4: iconst_m1
+       5: invokestatic  #243                // Method java/lang/System.exit:(I)V
+       8: aload_0
+       9: invokeinterface #249,  1          // InterfaceMethod java/lang/Runnable.run:()V
+      14: return
+
+  private void lambda$setWhatNew$2(java.lang.StringBuilder);
+    Code:
+       0: new           #253                // class javafx/scene/control/ScrollPane
+       3: dup
+       4: invokespecial #255                // Method javafx/scene/control/ScrollPane."<init>":()V
+       7: astore_2
+       8: aload_0
+       9: getfield      #256                // Field whatNew:Ljavafx/scene/control/Label;
+      12: aload_1
+      13: invokevirtual #259                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      16: invokevirtual #210                // Method javafx/scene/control/Label.setText:(Ljava/lang/String;)V
+      19: aload_2
+      20: aload_0
+      21: getfield      #256                // Field whatNew:Ljavafx/scene/control/Label;
+      24: invokevirtual #262                // Method javafx/scene/control/ScrollPane.setContent:(Ljavafx/scene/Node;)V
+      27: return
+
+  private void lambda$setProgress$1(double);
+    Code:
+       0: aload_0
+       1: getfield      #266                // Field progressBar:Ljavafx/scene/control/ProgressBar;
+       4: dload_1
+       5: invokevirtual #270                // Method javafx/scene/control/ProgressBar.setProgress:(D)V
+       8: return
+
+  private void lambda$initUpdateView$0();
+    Code:
+       0: aload_0
+       1: iconst_1
+       2: invokevirtual #213                // Method setUpdating:(Z)V
+       5: new           #253                // class javafx/scene/control/ScrollPane
+       8: dup
+       9: invokespecial #255                // Method javafx/scene/control/ScrollPane."<init>":()V
+      12: astore_1
+      13: aload_0
+      14: new           #7                  // class javafx/scene/control/Label
+      17: dup
+      18: invokespecial #9                  // Method javafx/scene/control/Label."<init>":()V
+      21: putfield      #256                // Field whatNew:Ljavafx/scene/control/Label;
+      24: aload_0
+      25: new           #271                // class javafx/scene/control/ProgressBar
+      28: dup
+      29: invokespecial #276                // Method javafx/scene/control/ProgressBar."<init>":()V
+      32: putfield      #266                // Field progressBar:Ljavafx/scene/control/ProgressBar;
+      35: new           #64                 // class javafx/scene/layout/VBox
+      38: dup
+      39: iconst_2
+      40: anewarray     #88                 // class javafx/scene/Node
+      43: dup
+      44: iconst_0
+      45: aload_0
+      46: getfield      #10                 // Field phase:Ljavafx/scene/control/Label;
+      49: aastore
+      50: dup
+      51: iconst_1
+      52: aload_0
+      53: getfield      #266                // Field progressBar:Ljavafx/scene/control/ProgressBar;
+      56: aastore
+      57: invokespecial #229                // Method javafx/scene/layout/VBox."<init>":([Ljavafx/scene/Node;)V
+      60: astore_2
+      61: aload_0
+      62: getfield      #256                // Field whatNew:Ljavafx/scene/control/Label;
+      65: invokevirtual #83                 // Method javafx/scene/control/Label.getStyleClass:()Ljavafx/collections/ObservableList;
+      68: iconst_1
+      69: anewarray     #31                 // class java/lang/String
+      72: dup
+      73: iconst_0
+      74: ldc_w         #277                // String what-new
+      77: aastore
+      78: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+      83: pop
+      84: aload_2
+      85: invokevirtual #77                 // Method javafx/scene/layout/VBox.getStyleClass:()Ljavafx/collections/ObservableList;
+      88: iconst_1
+      89: anewarray     #31                 // class java/lang/String
+      92: dup
+      93: iconst_0
+      94: ldc           #241                // String progress-box
+      96: aastore
+      97: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     102: pop
+     103: aload_1
+     104: aload_0
+     105: getfield      #256                // Field whatNew:Ljavafx/scene/control/Label;
+     108: invokevirtual #262                // Method javafx/scene/control/ScrollPane.setContent:(Ljavafx/scene/Node;)V
+     111: aload_0
+     112: getfield      #16                 // Field messageView:Ljavafx/scene/layout/StackPane;
+     115: invokevirtual #117                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+     118: iconst_1
+     119: anewarray     #88                 // class javafx/scene/Node
+     122: dup
+     123: iconst_0
+     124: aload_1
+     125: aastore
+     126: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     131: pop
+     132: aload_0
+     133: getfield      #20                 // Field progressView:Ljavafx/scene/layout/StackPane;
+     136: invokevirtual #117                // Method javafx/scene/layout/StackPane.getChildren:()Ljavafx/collections/ObservableList;
+     139: iconst_1
+     140: anewarray     #88                 // class javafx/scene/Node
+     143: dup
+     144: iconst_0
+     145: aload_2
+     146: aastore
+     147: invokeinterface #35,  2           // InterfaceMethod javafx/collections/ObservableList.setAll:([Ljava/lang/Object;)Z
+     152: pop
+     153: return
+
+  static {};
+    Code:
+       0: ldc           #11                 // class com/unclezs/jfx/launcher/LauncherView
+       2: invokevirtual #279                // Method java/lang/Class.getName:()Ljava/lang/String;
+       5: invokestatic  #282                // Method java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+       8: putstatic     #152                // Field log:Ljava/util/logging/Logger;
+      11: ldc           #206                // String updating
+      13: invokestatic  #286                // Method javafx/css/PseudoClass.getPseudoClass:(Ljava/lang/String;)Ljavafx/css/PseudoClass;
+      16: putstatic     #292                // Field UPDATING_PSEUDO_CLASS_STATE:Ljavafx/css/PseudoClass;
+      19: return
+}

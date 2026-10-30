@@ -1,0 +1,775 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Uncle小说 离线低配版 离线部署指南</title><style>
+@page { size: A4; margin: 16mm 14mm; }
+body { font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif; font-size: 10.5pt;
+       color: #222; line-height: 1.55; }
+h1 { font-size: 20pt; color: #1f3a2e; border-bottom: 2px solid #6aa47f; padding-bottom: 6px; }
+h2 { font-size: 14pt; color: #24503a; margin-top: 18px; border-left: 4px solid #6aa47f; padding-left: 8px; }
+h3 { font-size: 12pt; color: #2f5d43; margin-top: 14px; }
+code { font-family: Consolas, monospace; background: #f2f5f2; padding: 1px 4px; border-radius: 3px; font-size: 9.5pt; }
+pre { background: #f6f8f6; border: 1px solid #dbe4dc; padding: 8px; white-space: pre-wrap; word-break: break-all; font-size: 9pt; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9.5pt; page-break-inside: avoid; }
+th, td { border: 1px solid #cfd8d0; padding: 5px 7px; text-align: left; vertical-align: top; }
+th { background: #e6efe8; }
+blockquote { border-left: 3px solid #b7cbbd; margin: 8px 0; padding: 4px 10px; color: #38513f; background: #f4f8f4; }
+figure { margin: 14px 0; page-break-inside: avoid; text-align: center; }
+figure img { max-width: 100%; max-height: 155mm; border: 1px solid #b9c9bd; border-radius: 3px; }
+figcaption { font-size: 9.5pt; color: #4a6453; margin-top: 4px; }
+.gallery-title { page-break-before: always; }
+</style></head><body><h1>离线部署指南（目标机 DTPC953）</h1>
+<blockquote>
+<p>适用产品：Uncle小说 离线低配版 v5.0.44（DTPC953 专用）
+部署方式：<strong>离线 zip → <code>安装到本机.bat</code> → 自检 → 首次启动验证</strong>；安装到当前用户目录，无需管理员、无需另装 Java、安装过程无需联网
+配套文档：<a href="目标设备适配报告.md">目标设备适配报告.md</a> ｜ <a href="离线使用说明书.md">离线使用说明书.md</a> ｜ 设计契约：<a href="../README.md"><code>../README.md</code></a></p>
+</blockquote>
+<h2>1. 交付包结构清单</h2>
+<pre><code>Uncle小说-离线低配版-DTPC953.zip
+├─ 安装到本机.bat              # 主安装脚本（GBK/CRLF，双击运行）
+├─ 卸载.bat                    # 卸载脚本（删快捷方式，可选删安装目录）
+├─ 创建快捷方式.ps1            # 由安装脚本调用：桌面/开始菜单两套快捷方式 + 发送到
+├─ 初始化配置.ps1              # 生成目标机低配档 conf\conf.json（已存在则保留）
+├─ 本地TXT快速阅读.bat          # 快速阅读启动器（javaw + 低配 JVM 参数 + %* 透传 TXT）
+├─ 目标机环境自检.ps1           # 环境自检，输出 目标机自检报告.txt
+├─ benchmark.ps1               # 受限 JVM 下启动耗时/RSS 采样
+├─ 使用说明-离线版.txt          # 面向最终用户的说明（安装时复制进安装目录）
+├─ 离线部署指南.md              # 本文件
+├─ 书源-可选/                  # 可选书源规则与说明（沿用上一版；默认已内置 conf\rules.json）
+└─ uncle-novel/                # 程序主体（约 147MB，以实际打包为准）
+   ├─ Uncle小说.exe            # 完整版启动器（读取 conf\launcher.vmoptions）
+   ├─ uncle-novel.jar          # 启动器 jar
+   ├─ favicon.ico
+   ├─ bin\kindlegen.exe
+   ├─ conf\{app.json, core.db, jul.properties, launcher.vmoptions, rules.json}
+   ├─ fonts\pingfang-simple-bold.ttf
+   └─ runtime\{bin, conf, lib, modules\...}
+</code></pre>
+<p>关键文件说明（结构依据上一版产品包与本次构建脚本整理，<strong>最终以交付 zip 实际内容为准，待 Lead 打包确认</strong>）：</p>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>作用</th>
+<th>部署关注点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uncle-novel\conf\launcher.vmoptions</code></td>
+<td>完整版 JVM 参数（<code>-Xmx512m</code>、软渲染、目标档等）</td>
+<td>升级会被新包覆盖；如手工改过参数需记录</td>
+</tr>
+<tr>
+<td><code>uncle-novel\conf\conf.json</code></td>
+<td>用户设置（目标档默认值由 <code>初始化配置.ps1</code> 生成）</td>
+<td>覆盖安装<strong>保留</strong>；删掉会重置设置</td>
+</tr>
+<tr>
+<td><code>uncle-novel\conf\core.db</code></td>
+<td>书架/书源/进度数据库</td>
+<td>覆盖安装<strong>保留</strong>；升级前务必备份</td>
+</tr>
+<tr>
+<td><code>uncle-novel\runtime\modules\app.jar</code></td>
+<td>本版补丁的实际替换目标</td>
+<td>升级前备份；回退时覆盖回去即可</td>
+</tr>
+<tr>
+<td><code>uncle-novel\runtime\bin\javaw.exe</code></td>
+<td>内嵌 JRE（无需系统 Java）</td>
+<td>缺失即安装不完整</td>
+</tr>
+</tbody>
+</table>
+<h2>2. 介质拷贝与解压</h2>
+<p><strong>U 盘（推荐）</strong>：把 zip 复制到 U 盘 → 目标机复制到本地盘（如 <code>D:\临时\</code>）→ 用 7-Zip 解压到<strong>纯英文、无空格</strong>路径（如 <code>D:\Uncle离线版</code>）。不要直接在 U 盘或压缩包内运行；不要解压到 <code>C:\Program Files</code> 或网络盘 <code>W:</code>/<code>X:</code>。</p>
+<p><strong>网盘</strong>：下载到本地盘，确认下载完成且大小与交付记录一致（支持断点续传，避免半包；传输损坏是"解压报错"的常见原因）。</p>
+<p><strong>校验（建议必做）</strong>：</p>
+<pre><code class="language-powershell">Get-FileHash &quot;D:\临时\Uncle小说-离线低配版-DTPC953.zip&quot; -Algorithm SHA256
+</code></pre>
+<p>与 <a href="../交付/SHA256.txt"><code>../交付/SHA256.txt</code></a> 比对；解压后目录应包含 §1 清单且 <code>uncle-novel\runtime\bin\javaw.exe</code> 存在，缺项说明解压不完整，需重新解压。</p>
+<h2>3. 安装脚本逐步预期输出</h2>
+<p>双击解压目录的 <strong><code>安装到本机.bat</code></strong>（或在该目录打开 CMD 执行），按顺序核对：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>屏幕预期输出</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>标题行「Uncle小说 离线低配版 v5.0.44 安装程序」+ 目标机说明</td>
+<td>正常开始</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>[OK] 程序文件已复制到: C:\Users\DTPC953\AppData\Local\Programs\UncleNovel</code></td>
+<td>robocopy 成功；升级时先提示 <code>[!] 检测到已安装…</code> 并询问是否覆盖</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>[OK] 已生成目标机调优配置: …\conf\conf.json</code>（下一行缩进提示 1120×760/字号22/单线程等）</td>
+<td>首次安装生成低配档；升级时显示 <code>[OK] 已存在 conf\conf.json，保留原有设置</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>[OK] 完整版快捷方式: …\Uncle小说.lnk</code>（桌面、开始菜单各一条）</td>
+<td>共 2 条</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>[OK] 本地TXT快速阅读快捷方式: …\Uncle小说 · 本地TXT快速阅读.lnk</code>（同上各一条）</td>
+<td>共 2 条</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>[OK] 已加入右键『发送到』菜单: …\SendTo\Uncle小说快速阅读.lnk</code></td>
+<td>1 条</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>[OK] 目标机环境自检脚本已放入安装目录</code></td>
+<td>1 条</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>[OK] 离线/老板键说明已放入安装目录</code></td>
+<td>1 条</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>[OK] 卸载脚本与使用说明已放入安装目录</code></td>
+<td>1 条</td>
+</tr>
+<tr>
+<td>9</td>
+<td>结尾提示：老板键 <code>Alt+U</code>、首次启动说明、"建议先运行目标机环境自检.ps1"</td>
+<td>按 <code>任意键</code> 结束</td>
+</tr>
+</tbody>
+</table>
+<p><strong>判定：正常安装应看到约 10 条 <code>[OK]</code>、0 条 <code>[X]</code>，并出现桌面图标。</strong> 若出现：</p>
+<table>
+<thead>
+<tr>
+<th>失败输出</th>
+<th>原因</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[X] 未找到 uncle-novel 文件夹</code></td>
+<td>解压不完整或未在解压根目录运行</td>
+<td>重新完整解压，确认 <code>uncle-novel\Uncle小说.exe</code> 存在</td>
+</tr>
+<tr>
+<td><code>[X] 文件复制失败</code></td>
+<td>磁盘空间不足/权限/被杀软锁定</td>
+<td>检查 C 盘空间 ≥10GB；退出占用进程；临时关闭实时防护后重试</td>
+</tr>
+<tr>
+<td><code>[X] 快捷方式创建失败</code></td>
+<td>PowerShell 被策略拦截</td>
+<td>用 <code>powershell -NoProfile -ExecutionPolicy Bypass -File 创建快捷方式.ps1 -InstallDir "&lt;安装目录&gt;"</code> 手工执行</td>
+</tr>
+<tr>
+<td><code>[!] 调优配置生成失败</code></td>
+<td>配置写入异常</td>
+<td>可手动运行 <code>初始化配置.ps1</code>，或稍后在软件设置里调整</td>
+</tr>
+</tbody>
+</table>
+<p>安装位置固定为 <code>%LOCALAPPDATA%\Programs\UncleNovel</code>；覆盖安装只跳过 <code>conf\core.db</code> 与 <code>conf\conf.json</code>，其余文件全部更新。</p>
+<h2>4. 目标机自检</h2>
+<h3>4.1 运行</h3>
+<pre><code class="language-powershell"># 在解压目录（安装前）或安装目录（安装后）执行
+powershell -NoProfile -ExecutionPolicy Bypass -File &quot;目标机环境自检.ps1&quot;
+# 指定报告路径（可选）
+powershell -NoProfile -ExecutionPolicy Bypass -File &quot;目标机环境自检.ps1&quot; -OutFile &quot;D:\目标机自检报告.txt&quot;
+</code></pre>
+<p>报告默认写到<strong>脚本同目录</strong>的 <code>目标机自检报告.txt</code>（UTF-8）。退出码：<code>0</code> 通过、<code>2</code> 存在不满足项、<code>1</code> WMI 读取失败。</p>
+<h3>4.2 DTPC953 期望输出</h3>
+<table>
+<thead>
+<tr>
+<th>报告项</th>
+<th>期望（DTPC953）</th>
+<th>预期判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>操作系统</td>
+<td>Windows 10 企业版 LTSC，Build 17763</td>
+<td><code>[OK]</code>（脚本只校验主版本 <code>10.*</code>，小版本人工核对）</td>
+</tr>
+<tr>
+<td>系统型号</td>
+<td>ASUSTeK COMPUTER INC. PN40</td>
+<td>仅打印，人工核对</td>
+</tr>
+<tr>
+<td>处理器</td>
+<td>Celeron J4005 / 2 核 2 线程</td>
+<td><code>[OK]</code>（逻辑处理器 ≥2）</td>
+</tr>
+<tr>
+<td>物理内存</td>
+<td>≈3.82–4.00 GB</td>
+<td><code>[OK]</code>（≥3.5GB）</td>
+</tr>
+<tr>
+<td>显示适配器</td>
+<td>Microsoft 基本显示适配器（软渲染档）</td>
+<td><code>[OK]</code>（有硬件驱动也通过）</td>
+</tr>
+<tr>
+<td>音频设备</td>
+<td>未检测到</td>
+<td><code>[WARN]</code>（正常预期：朗读/有声不可用，本地阅读不受影响）</td>
+</tr>
+<tr>
+<td>C 盘剩余</td>
+<td>&gt;10GB（实测约 50.2GB）</td>
+<td><code>[OK]</code></td>
+</tr>
+<tr>
+<td>屏幕</td>
+<td>1920×1080</td>
+<td>仅打印，人工核对 DPI 96（100%）</td>
+</tr>
+<tr>
+<td>网络适配器</td>
+<td>存在已启用的网卡（离线时也可）</td>
+<td><code>[OK]</code>/<code>[WARN]</code>（离线不判失败）</td>
+</tr>
+<tr>
+<td>结论行</td>
+<td><code>[OK] 全部关键项通过</code>（允许 <code>[WARN]</code>）</td>
+<td>通过</td>
+</tr>
+</tbody>
+</table>
+<h3>4.3 判定与归档</h3>
+<ul>
+<li>出现 <code>[FAIL]</code>：<strong>暂停部署</strong>，按报告对应项处理后重跑（如磁盘空间、内存）。</li>
+<li><code>[WARN]</code>（音频、离线网络）：属目标机正常特征，记录即可，不影响交付。</li>
+<li>将 <code>目标机自检报告.txt</code> 归档到任务目录（建议 <code>../测试/目标机自检报告-DTPC953.txt</code>），并在验收表引用。</li>
+<li>自检<strong>不覆盖</strong>：Symantec/域策略、代理、杀毒误拦、VNC 会话等——这些由 §5 与 §8 的人工检查覆盖。</li>
+</ul>
+<h2>5. 首次启动验证清单</h2>
+<p>安装完成后按顺序执行，每项留证据（截图/JSON/日志）：</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>步骤</th>
+<th>操作</th>
+<th>预期结果</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>启动完整版</td>
+<td>双击桌面「Uncle小说」</td>
+<td>出现主窗口；离线时标题为 <code>Uncle小说（离线）</code>；无崩溃/错误弹窗</td>
+<td><code>../截图/离线模式/完整版/</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>启动快速阅读</td>
+<td>双击「Uncle小说 · 本地TXT快速阅读」</td>
+<td>弹出「选择要阅读的 TXT 文件」文件选择框</td>
+<td><code>../截图/离线模式/QuickApp/</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>打开本地 TXT</td>
+<td>用文件框选一个 TXT（或拖拽/发送到）</td>
+<td>进入阅读器，标题显示 <code>书名 · 章节（第 x/y 页 · 章 n/m）</code>；能翻页</td>
+<td><code>../截图/离线模式/</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>老板键隐藏</td>
+<td>按 <code>Alt+U</code></td>
+<td>所有窗口隐藏，任务栏与托盘图标消失，应用未退出</td>
+<td><code>../截图/老板键/01-隐藏前.png</code>、<code>02-隐藏后.png</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>老板键恢复</td>
+<td>再按 <code>Alt+U</code></td>
+<td>窗口恢复并回到前台</td>
+<td><code>../截图/老板键/03-恢复后.png</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>快速阅读模式老板键</td>
+<td>快速阅读窗口按 <code>Alt+U</code> 两次</td>
+<td>隐藏/恢复均正常（该模式无托盘，恢复只靠热键）</td>
+<td>同上目录</td>
+</tr>
+<tr>
+<td>7</td>
+<td>离线提示框</td>
+<td>断网状态点「书源搜索」/「解析下载」</td>
+<td>弹「离线模式」提示框，含「重试联网」「继续离线」</td>
+<td><code>../截图/离线模式/02-离线提示.png</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>恢复联网</td>
+<td>接入网络（或点「重试联网」）</td>
+<td>标题去掉「（离线）」；Toast「网络已恢复，在线功能已启用」</td>
+<td><code>../截图/离线模式/03-恢复联网.png</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>无声卡提示</td>
+<td>阅读器 → 设置 → 点「朗读」</td>
+<td>弹「音频不可用」，按钮「知道了」，无异常堆栈</td>
+<td><code>../截图/低配运行/</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>关闭再开</td>
+<td>关闭程序 → 重新启动</td>
+<td>正常退出、正常再启动；书架/阅读进度保留</td>
+<td>无</td>
+</tr>
+<tr>
+<td>11</td>
+<td>日志检查</td>
+<td>查看安装目录 <code>logs\log-error.log</code></td>
+<td>0 字节或确认为空；<code>log-system.log</code> 可见「老板键已注册」「联网状态」</td>
+<td>日志文件</td>
+</tr>
+<tr>
+<td>12</td>
+<td>性能采样</td>
+<td>运行 <code>benchmark.ps1</code>（见下）</td>
+<td>输出 JSON：<code>windowReadySec</code>、<code>readerReadySec</code>、<code>rssMB</code>、<code>indexLog</code></td>
+<td>归档到 <code>../测试/benchmark-DTPC953.json</code></td>
+</tr>
+</tbody>
+</table>
+<p>性能采样示例（<strong>会结束所有 javaw.exe，采样前保存工作</strong>）：</p>
+<pre><code class="language-powershell">powershell -NoProfile -ExecutionPolicy Bypass -File &quot;benchmark.ps1&quot; `
+  -InstallDir &quot;$env:LOCALAPPDATA\Programs\UncleNovel&quot; -InputFile &quot;D:\小说\某本书.txt&quot; -WaitSeconds 60
+</code></pre>
+<blockquote>
+<p>首次启动验证建议在<strong>本地控制台会话</strong>进行；若通过 VNC/远程操作，需在验收表注明（渲染与全局热键可能受远程工具影响）。证据文件名以 Lead 最终归档为准：当前已生成本机模拟截图 <code>../截图/离线模式/完整版/01-启动后.png</code>、<code>../截图/离线模式/QuickApp/01-启动后.png</code>。</p>
+</blockquote>
+<h2>6. 覆盖升级与回退</h2>
+<h3>6.1 升级（保留数据）</h3>
+<ol>
+<li>记录当前版本与 <code>runtime\modules\app.jar</code> 的 SHA256；确认软件已退出（无 <code>Uncle小说.exe</code>/<code>javaw.exe</code>）。</li>
+<li>备份 <code>%LOCALAPPDATA%\Programs\UncleNovel\conf\</code>（<code>core.db</code>、<code>conf.json</code>）到本地安全目录。</li>
+<li>用新 zip 解压后双击 <code>安装到本机.bat</code> → 提示已安装时选 <code>Y</code> 覆盖。</li>
+<li>安装后按 §4 自检 + §5 首启验证；确认书架与设置仍在。</li>
+</ol>
+<h3>6.2 回退（补丁级）</h3>
+<p>补丁只替换 <code>uncle-novel\runtime\modules\app.jar</code>，回退步骤：</p>
+<pre><code class="language-powershell"># 1) 结束所有相关进程
+Get-Process javaw, &quot;Uncle小说&quot; -ErrorAction SilentlyContinue | Stop-Process -Force
+# 2) 备份当前（出问题的新版）
+Copy-Item &quot;$env:LOCALAPPDATA\Programs\UncleNovel\runtime\modules\app.jar&quot; &quot;D:\备份\app.jar.新版&quot;
+# 3) 覆盖回上一版 app.jar
+Copy-Item &quot;D:\备份\app.jar.上一版&quot; &quot;$env:LOCALAPPDATA\Programs\UncleNovel\runtime\modules\app.jar&quot; -Force
+</code></pre>
+<ul>
+<li>回退<strong>不要动</strong> <code>conf\core.db</code>、<code>conf\conf.json</code>（保留书架与设置）。</li>
+<li>若整体回退到上一版产品包：先备份 <code>conf\</code>，再用上一版 zip 覆盖安装，最后把 <code>core.db</code>/<code>conf.json</code> 放回（版本升级产生的数据结构变化以 Lead 说明为准）。</li>
+<li>升级/回退后都需重新执行 §4 自检项中的日志与启动检查。</li>
+</ul>
+<h3>6.3 版本记录表（部署时填写）</h3>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>操作者</th>
+<th>版本/补丁</th>
+<th>app.jar SHA256</th>
+<th>conf 备份路径</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>待填</td>
+<td>待填</td>
+<td>待填</td>
+<td>待填</td>
+<td>待填</td>
+<td>待填</td>
+</tr>
+</tbody>
+</table>
+<h2>7. 验收记录表模板（供 Lead 实测填写）</h2>
+<blockquote>
+<p>实测值留空，由 Lead 在目标机执行后回填；截图路径相对本任务目录。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>验收项</th>
+<th>期望</th>
+<th>实测</th>
+<th>证据（截图/JSON/日志）</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>安装 <code>[OK]</code> 条数</td>
+<td>约 10 条、无 <code>[X]</code></td>
+<td>待填</td>
+<td><code>../截图/安装验证/</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>2</td>
+<td>桌面/开始菜单快捷方式</td>
+<td>两套 + 发送到</td>
+<td>待填</td>
+<td>截图</td>
+<td>待填</td>
+</tr>
+<tr>
+<td>3</td>
+<td>完整版启动耗时</td>
+<td>记录数值</td>
+<td>待填</td>
+<td>benchmark JSON <code>windowReadySec</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>4</td>
+<td>快速阅读首屏耗时</td>
+<td>记录数值</td>
+<td>待填</td>
+<td>benchmark JSON <code>readerReadySec</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>5</td>
+<td>完整版 RSS</td>
+<td>记录数值（MB）</td>
+<td>待填</td>
+<td>benchmark/任务管理器</td>
+<td>待填</td>
+</tr>
+<tr>
+<td>6</td>
+<td>快速阅读 RSS</td>
+<td>记录数值（MB）</td>
+<td>待填</td>
+<td>benchmark JSON <code>rssMB</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>7</td>
+<td>离线标题标识</td>
+<td>主窗口/快速阅读/阅读器三处</td>
+<td>待填</td>
+<td><code>../截图/离线模式/</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>8</td>
+<td>离线提示框 + 重试联网</td>
+<td>文案与按钮正确</td>
+<td>待填</td>
+<td><code>../截图/离线模式/02-离线提示.png</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>9</td>
+<td>联网恢复自动启用</td>
+<td>标题恢复 + Toast</td>
+<td>待填</td>
+<td><code>../截图/离线模式/03-恢复联网.png</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>10</td>
+<td>老板键（完整版）隐藏/恢复</td>
+<td>窗口+托盘消失/恢复</td>
+<td>待填</td>
+<td><code>../截图/老板键/</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>11</td>
+<td>老板键（快速阅读模式）</td>
+<td>隐藏/恢复、应用不退出</td>
+<td>待填</td>
+<td><code>../截图/老板键/</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>12</td>
+<td>无声卡提示</td>
+<td>「音频不可用」且无堆栈</td>
+<td>待填</td>
+<td><code>../截图/低配运行/</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>13</td>
+<td>本地 TXT 三种打开方式</td>
+<td>文件框/拖拽/发送到均可用</td>
+<td>待填</td>
+<td>截图</td>
+<td>待填</td>
+</tr>
+<tr>
+<td>14</td>
+<td>关闭再开 + 进度保留</td>
+<td>正常退出/恢复</td>
+<td>待填</td>
+<td>截图</td>
+<td>待填</td>
+</tr>
+<tr>
+<td>15</td>
+<td>错误日志</td>
+<td><code>logs\log-error.log</code> 空</td>
+<td>待填</td>
+<td>日志文件</td>
+<td>待填</td>
+</tr>
+<tr>
+<td>16</td>
+<td>目标机自检报告</td>
+<td>无 <code>[FAIL]</code></td>
+<td>待填</td>
+<td><code>../测试/目标机自检报告-DTPC953.txt</code></td>
+<td>待填</td>
+</tr>
+<tr>
+<td>17</td>
+<td>交付包 SHA256</td>
+<td>与 <code>../交付/SHA256.txt</code> 一致</td>
+<td>待填</td>
+<td>校验输出</td>
+<td>待填</td>
+</tr>
+</tbody>
+</table>
+<h2>8. 常见部署问题</h2>
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>原因</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>解压报错/文件缺失</td>
+<td>传输损坏、解压不完整</td>
+<td>重新拷贝并校验 SHA256，完整解压</td>
+</tr>
+<tr>
+<td>安装脚本窗口一闪而过</td>
+<td>被杀软拦截/路径异常</td>
+<td>在解压目录打开 CMD 执行 <code>安装到本机.bat</code> 看报错；确认杀软放行</td>
+</tr>
+<tr>
+<td>快捷方式创建失败</td>
+<td>PowerShell 执行策略</td>
+<td>用 <code>-NoProfile -ExecutionPolicy Bypass -File</code> 手工执行</td>
+</tr>
+<tr>
+<td>安装完成但双击无反应</td>
+<td>文件被隔离、进程残留、路径被移动</td>
+<td>检查 <code>runtime\bin\javaw.exe</code> 是否存在；结束残留进程；从快捷方式启动</td>
+</tr>
+<tr>
+<td>提示字体加载失败</td>
+<td>安装/解压路径含中文或空格</td>
+<td>移动到纯英文路径后重开；不移动已安装目录时改用默认安装路径</td>
+</tr>
+<tr>
+<td>自检报 WMI 读取失败</td>
+<td>WMI 服务异常/权限</td>
+<td>用管理员 PowerShell 重跑；仍失败则以人工清单核对</td>
+</tr>
+<tr>
+<td>离线时联网功能全弹提示</td>
+<td>预期行为</td>
+<td>恢复网络或点「重试联网」；确认代理设置</td>
+</tr>
+<tr>
+<td>杀软报警/删除文件</td>
+<td>Symantec 实时防护</td>
+<td>将安装目录与 zip 加入排除；由 IT 确认策略</td>
+</tr>
+<tr>
+<td>磁盘不足</td>
+<td>C 盘剩余 &lt;10GB</td>
+<td>清理或改用 D 盘（安装目录仍固定在用户目录，需保证系统盘空间）</td>
+</tr>
+<tr>
+<td>远程会话下热键无效</td>
+<td>VNC/远程工具截获组合键</td>
+<td>在本地控制台验证；或改老板键组合（见使用说明书 §5.3）</td>
+</tr>
+</tbody>
+</table>
+<h2>9. 附录：命令与路径速查</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安装目录</td>
+<td><code>%LOCALAPPDATA%\Programs\UncleNovel</code></td>
+</tr>
+<tr>
+<td>完整版进程</td>
+<td><code>Uncle小说.exe</code>（启动器）→ 子进程 <code>javaw.exe</code></td>
+</tr>
+<tr>
+<td>快速阅读进程</td>
+<td><code>javaw.exe</code> 直接启动 QuickApp</td>
+</tr>
+<tr>
+<td>版本参数文件</td>
+<td><code>安装目录\conf\launcher.vmoptions</code></td>
+</tr>
+<tr>
+<td>低配档设置</td>
+<td><code>安装目录\conf\conf.json</code>（<code>初始化配置.ps1</code> 生成）</td>
+</tr>
+<tr>
+<td>书架数据</td>
+<td><code>安装目录\conf\core.db</code></td>
+</tr>
+<tr>
+<td>日志</td>
+<td><code>安装目录\logs\log-system.log</code>、<code>log-error.log</code></td>
+</tr>
+<tr>
+<td>自检报告</td>
+<td><code>目标机自检报告.txt</code>（脚本同目录）</td>
+</tr>
+<tr>
+<td>benchmark 输出</td>
+<td>JSON：<code>windowReadySec</code> / <code>readerReadySec</code> / <code>rssMB</code> / <code>indexLog</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-powershell"># 结束残留进程
+Get-Process javaw, &quot;Uncle小说&quot; -ErrorAction SilentlyContinue | Stop-Process -Force
+# 校验交付包
+Get-FileHash &quot;D:\临时\Uncle小说-离线低配版-DTPC953.zip&quot; -Algorithm SHA256
+# 重新执行自检（安装目录）
+powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$env:LOCALAPPDATA\Programs\UncleNovel\目标机环境自检.ps1&quot;
+</code></pre>
+<h2>10. 相关链接</h2>
+<ul>
+<li>设备适配依据：<a href="目标设备适配报告.md">目标设备适配报告.md</a></li>
+<li>最终用户说明：<a href="离线使用说明书.md">离线使用说明书.md</a></li>
+<li>设计契约与验收标准：<a href="../README.md"><code>../README.md</code></a></li>
+<li>交付包与校验值：<code>../交付/</code>（zip、<code>SHA256.txt</code>）</li>
+<li>验收截图：<code>../截图/离线模式/</code>、<code>../截图/老板键/</code>、<code>../截图/低配运行/</code>、<code>../截图/安装验证/</code></li>
+<li>测试记录：<code>../测试/</code>（自检报告、benchmark JSON、日志摘录）</li>
+</ul>
+<h2>---</h2>
+<h2>附：Lead 实测回填（2026-10-30）</h2>
+<blockquote>
+<p>环境：开发机 Windows 11 / i5-1135G7 / 16GB（目标机 DTPC953 为 Celeron J4005/4GB，本机数据仅作量级参考）。
+全部测试使用目标档 JVM 参数：<code>-Xmx512m</code>（快速阅读 448m）、<code>-XX:+UseSerialGC</code>、<code>-Dprism.order=sw</code>、<code>-Duncle.target.profile=true</code>。</p>
+</blockquote>
+<h3>1. UI/功能证据（截图见任务目录 <code>截图/</code>）</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>结果</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完整版离线标题</td>
+<td>✅ 标题栏显示「Uncle小说（离线）」</td>
+<td><code>截图\离线模式\完整版\离线主页与提示框-1410x990.png</code></td>
+</tr>
+<tr>
+<td>离线拦截弹窗（书源搜索）</td>
+<td>✅ 标题「离线模式」，正文说明可继续使用本地功能，按钮「重试联网 / 继续离线」</td>
+<td><code>截图\离线模式\完整版\离线主页与提示框-712x411.png</code>；日志「离线提示框已弹出: 书源搜索」</td>
+</tr>
+<tr>
+<td>快速阅读离线标题</td>
+<td>✅ 阅读器标题尾部显示「· 离线」</td>
+<td><code>截图\音频与恢复\快速阅读与音频提示-1680x1140.png</code></td>
+</tr>
+<tr>
+<td>无声卡朗读提示</td>
+<td>✅ 「音频不可用 / 「朗读」需要音频设备 / 知道了」</td>
+<td><code>截图\音频与恢复\快速阅读与音频提示-652x284.png</code>；日志「音频提示框已弹出: 朗读」</td>
+</tr>
+<tr>
+<td>老板键（快速阅读/完整版）</td>
+<td>✅ Alt+U 隐藏后无可见窗口，再按恢复；完整版连托盘一起隐藏</td>
+<td>日志「老板键：已隐藏 1 个窗口」「老板键：已恢复窗口」；<code>截图\离线模式\完整版\03-老板键恢复后.png</code></td>
+</tr>
+<tr>
+<td>间歇联网自动恢复</td>
+<td>✅ 本机起本地 HTTP 服务模拟网络恢复：日志 <code>CHECKING -&gt; OFFLINE</code> → <code>OFFLINE -&gt; ONLINE</code>，标题从「（离线）」恢复为「Uncle小说」</td>
+<td><code>截图\音频与恢复\联网前-1410x990.png</code>、<code>联网恢复后-1410x990.png</code></td>
+</tr>
+<tr>
+<td>安装端到端</td>
+<td>✅ 全新/覆盖安装退出码 0，输出 <strong>10 条 [OK]</strong>（含自检/离线说明落位）</td>
+<td>安装输出记录；<code>测试\目标机自检报告-安装后本机示例.txt</code></td>
+</tr>
+<tr>
+<td>安装后配置</td>
+<td>✅ 字号 22、窗口 1120×760、动画/阴影关闭、下载单线程；vmoptions 含 <code>-Xmx512m</code>、<code>prism.order=sw</code>、<code>uncle.target.profile=true</code></td>
+<td><code>conf\conf.json</code>、<code>conf\launcher.vmoptions</code></td>
+</tr>
+<tr>
+<td>低配基准（本机）</td>
+<td>快速阅读：窗口 <strong>1.23s</strong> / RSS <strong>258MB</strong>；完整版：窗口 <strong>3.58s</strong> / RSS <strong>525MB</strong>；章节索引 18ms（331 章，缓存）</td>
+<td><code>测试\低配基准-本机测量.json</code></td>
+</tr>
+<tr>
+<td>交付 zip</td>
+<td>121.2 MB / 224 条目，SHA256 见 <code>交付\SHA256.txt</code></td>
+<td><code>交付\SHA256.txt</code></td>
+</tr>
+</tbody>
+</table>
+<h3>2. 已知限制（如实说明）</h3>
+<ul>
+<li>本机数据不代表 DTPC953 实测；目标机首次数据请用包内 <code>benchmark.ps1</code> 采样并回填本表。</li>
+<li>目标机无显卡驱动 → 已强制软件渲染，界面可能略慢；无音频设备 → 朗读/有声播放弹提示，本地阅读不受影响。</li>
+<li>老板键默认 <code>Alt+U</code>；完整版设置页关闭「启用全局快捷键」会停用，重新勾选即恢复（已修复原实现不重注册的问题）。</li>
+<li>阅读窗口实际为 1120×760（部分早期文档写 1100×760，以本节为准）；<code>launcher.vmoptions</code> 含 <code>-Djava.net.useSystemProxies=true</code>（离线无害）。</li>
+</ul><div class="gallery-title"><h1>附：关键验收截图（内嵌）</h1>
+<blockquote>以下截图均由本机模拟目标档参数实测生成（Windows 11 开发机，i5-1135G7/16GB；目标机 DTPC953 为 Celeron J4005/4GB，界面同样按此逻辑显示）。</blockquote>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/离线主页与提示框-1410x990.png"/><figcaption>完整版离线标题：窗口标题显示「Uncle小说（离线）」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/离线主页与提示框-712x411.png"/><figcaption>离线拦截弹窗：标题「离线模式」，正文说明可继续使用本地功能，按钮「重试联网 / 继续离线」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/快速阅读与音频提示-1680x1140.png"/><figcaption>本地TXT快速阅读：阅读器标题尾部显示「· 离线」，字号 22 / 窗口 1120×760</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/快速阅读与音频提示-652x284.png"/><figcaption>无声卡提示：「音频不可用 | 「朗读」需要音频设备」</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/离线模式/完整版/03-老板键恢复后.png"/><figcaption>老板键 Alt+U：隐藏全部窗口后再按一次恢复（完整版与快速阅读均支持）</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/联网前-1410x990.png"/><figcaption>间歇联网模拟：网络未连通时的离线状态（标题含「离线」）</figcaption></figure>
+<figure><img src="file:///C:/Users/31384/Documents/trae_projects/v b/任务-Uncle小说离线低配版-2026-10-30/截图/音频与恢复/联网恢复后-1410x990.png"/><figcaption>网络恢复后：软件自动切回在线状态，标题恢复为「Uncle小说」，无需重启</figcaption></figure>
+</div></body></html>

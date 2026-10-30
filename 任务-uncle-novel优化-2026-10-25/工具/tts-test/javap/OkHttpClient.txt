@@ -1,0 +1,506 @@
+﻿Compiled from "OkHttpClient.java"
+public class com.unclezs.novel.analyzer.request.okhttp.OkHttpClient implements com.unclezs.novel.analyzer.request.spi.HttpProvider {
+  private static final org.slf4j.Logger log;
+
+  private okhttp3.OkHttpClient staticHttpClient;
+
+  public com.unclezs.novel.analyzer.request.okhttp.OkHttpClient();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: invokestatic  #2                  // Method com/unclezs/novel/analyzer/request/HttpConfig.defaultConfig:()Lcom/unclezs/novel/analyzer/request/HttpConfig;
+       8: invokevirtual #3                  // Method configuration:(Lcom/unclezs/novel/analyzer/request/HttpConfig;)V
+      11: return
+
+  public void configuration(com.unclezs.novel.analyzer.request.HttpConfig);
+    Code:
+       0: new           #4                  // class com/unclezs/novel/analyzer/request/ssl/SslTrustAllCerts
+       3: dup
+       4: invokespecial #5                  // Method com/unclezs/novel/analyzer/request/ssl/SslTrustAllCerts."<init>":()V
+       7: astore_2
+       8: aload_0
+       9: aload_2
+      10: invokespecial #6                  // Method createSslSocketFactory:(Ljavax/net/ssl/X509TrustManager;)Ljavax/net/ssl/SSLSocketFactory;
+      13: astore_3
+      14: aload_0
+      15: new           #7                  // class okhttp3/OkHttpClient$Builder
+      18: dup
+      19: invokespecial #8                  // Method okhttp3/OkHttpClient$Builder."<init>":()V
+      22: new           #9                  // class okhttp3/ConnectionPool
+      25: dup
+      26: aload_1
+      27: invokevirtual #10                 // Method com/unclezs/novel/analyzer/request/HttpConfig.getMaxIdleConnections:()I
+      30: aload_1
+      31: invokevirtual #11                 // Method com/unclezs/novel/analyzer/request/HttpConfig.getKeepAliveDuration:()J
+      34: getstatic     #12                 // Field java/util/concurrent/TimeUnit.SECONDS:Ljava/util/concurrent/TimeUnit;
+      37: invokespecial #13                 // Method okhttp3/ConnectionPool."<init>":(IJLjava/util/concurrent/TimeUnit;)V
+      40: invokevirtual #14                 // Method okhttp3/OkHttpClient$Builder.connectionPool:(Lokhttp3/ConnectionPool;)Lokhttp3/OkHttpClient$Builder;
+      43: aload_1
+      44: invokevirtual #15                 // Method com/unclezs/novel/analyzer/request/HttpConfig.getConnectionTimeout:()J
+      47: getstatic     #12                 // Field java/util/concurrent/TimeUnit.SECONDS:Ljava/util/concurrent/TimeUnit;
+      50: invokevirtual #16                 // Method okhttp3/OkHttpClient$Builder.connectTimeout:(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;
+      53: aload_1
+      54: invokevirtual #17                 // Method com/unclezs/novel/analyzer/request/HttpConfig.getReadTimeout:()J
+      57: getstatic     #12                 // Field java/util/concurrent/TimeUnit.SECONDS:Ljava/util/concurrent/TimeUnit;
+      60: invokevirtual #18                 // Method okhttp3/OkHttpClient$Builder.readTimeout:(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;
+      63: aload_3
+      64: aload_2
+      65: invokevirtual #19                 // Method okhttp3/OkHttpClient$Builder.sslSocketFactory:(Ljavax/net/ssl/SSLSocketFactory;Ljavax/net/ssl/X509TrustManager;)Lokhttp3/OkHttpClient$Builder;
+      68: invokedynamic #20,  0             // InvokeDynamic #0:verify:()Ljavax/net/ssl/HostnameVerifier;
+      73: invokevirtual #21                 // Method okhttp3/OkHttpClient$Builder.hostnameVerifier:(Ljavax/net/ssl/HostnameVerifier;)Lokhttp3/OkHttpClient$Builder;
+      76: aload_1
+      77: invokevirtual #22                 // Method com/unclezs/novel/analyzer/request/HttpConfig.isFollowRedirect:()Z
+      80: invokevirtual #23                 // Method okhttp3/OkHttpClient$Builder.followRedirects:(Z)Lokhttp3/OkHttpClient$Builder;
+      83: aload_1
+      84: invokevirtual #24                 // Method com/unclezs/novel/analyzer/request/HttpConfig.isRetryOnFailed:()Z
+      87: invokevirtual #25                 // Method okhttp3/OkHttpClient$Builder.retryOnConnectionFailure:(Z)Lokhttp3/OkHttpClient$Builder;
+      90: invokevirtual #26                 // Method okhttp3/OkHttpClient$Builder.build:()Lokhttp3/OkHttpClient;
+      93: putfield      #27                 // Field staticHttpClient:Lokhttp3/OkHttpClient;
+      96: return
+
+  private javax.net.ssl.SSLSocketFactory createSslSocketFactory(javax.net.ssl.X509TrustManager);
+    Code:
+       0: ldc           #28                 // String TLS
+       2: invokestatic  #29                 // Method javax/net/ssl/SSLContext.getInstance:(Ljava/lang/String;)Ljavax/net/ssl/SSLContext;
+       5: astore_2
+       6: aload_2
+       7: aconst_null
+       8: iconst_1
+       9: anewarray     #30                 // class javax/net/ssl/TrustManager
+      12: dup
+      13: iconst_0
+      14: aload_1
+      15: aastore
+      16: new           #31                 // class java/security/SecureRandom
+      19: dup
+      20: invokespecial #32                 // Method java/security/SecureRandom."<init>":()V
+      23: invokevirtual #33                 // Method javax/net/ssl/SSLContext.init:([Ljavax/net/ssl/KeyManager;[Ljavax/net/ssl/TrustManager;Ljava/security/SecureRandom;)V
+      26: aload_2
+      27: invokevirtual #34                 // Method javax/net/ssl/SSLContext.getSocketFactory:()Ljavax/net/ssl/SSLSocketFactory;
+      30: areturn
+      31: astore_2
+      32: getstatic     #36                 // Field log:Lorg/slf4j/Logger;
+      35: ldc           #37                 // String SSL Factory ����ʧ�ܣ�ʹ��Ĭ�ϵ�SSL Factory
+      37: invokeinterface #38,  2           // InterfaceMethod org/slf4j/Logger.warn:(Ljava/lang/String;)V
+      42: invokestatic  #39                 // Method javax/net/ssl/SSLSocketFactory.getDefault:()Ljavax/net/SocketFactory;
+      45: checkcast     #40                 // class javax/net/ssl/SSLSocketFactory
+      48: areturn
+    Exception table:
+       from    to  target type
+           0    30    31   Class java/lang/Exception
+
+  public okhttp3.Call init(com.unclezs.novel.analyzer.request.RequestParams);
+    Code:
+       0: new           #41                 // class okhttp3/Request$Builder
+       3: dup
+       4: invokespecial #42                 // Method okhttp3/Request$Builder."<init>":()V
+       7: aload_1
+       8: invokevirtual #43                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrl:()Ljava/lang/String;
+      11: invokevirtual #44                 // Method okhttp3/Request$Builder.url:(Ljava/lang/String;)Lokhttp3/Request$Builder;
+      14: astore_2
+      15: aload_1
+      16: invokevirtual #45                 // Method com/unclezs/novel/analyzer/request/RequestParams.getHeaders:()Ljava/util/Map;
+      19: invokestatic  #46                 // Method com/unclezs/novel/analyzer/util/CollectionUtils.isNotEmpty:(Ljava/util/Map;)Z
+      22: ifeq          88
+      25: aload_1
+      26: invokevirtual #45                 // Method com/unclezs/novel/analyzer/request/RequestParams.getHeaders:()Ljava/util/Map;
+      29: invokeinterface #47,  1           // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+      34: invokeinterface #48,  1           // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+      39: astore_3
+      40: aload_3
+      41: invokeinterface #49,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+      46: ifeq          88
+      49: aload_3
+      50: invokeinterface #50,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      55: checkcast     #51                 // class java/util/Map$Entry
+      58: astore        4
+      60: aload_2
+      61: aload         4
+      63: invokeinterface #52,  1           // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+      68: checkcast     #53                 // class java/lang/String
+      71: aload         4
+      73: invokeinterface #54,  1           // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+      78: checkcast     #53                 // class java/lang/String
+      81: invokevirtual #55                 // Method okhttp3/Request$Builder.addHeader:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
+      84: pop
+      85: goto          40
+      88: getstatic     #56                 // Field com/unclezs/novel/analyzer/request/HttpMethod.GET:Lcom/unclezs/novel/analyzer/request/HttpMethod;
+      91: invokevirtual #57                 // Method com/unclezs/novel/analyzer/request/HttpMethod.name:()Ljava/lang/String;
+      94: aload_1
+      95: invokevirtual #58                 // Method com/unclezs/novel/analyzer/request/RequestParams.getMethod:()Ljava/lang/String;
+      98: invokevirtual #59                 // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+     101: ifeq          112
+     104: aload_2
+     105: invokevirtual #60                 // Method okhttp3/Request$Builder.get:()Lokhttp3/Request$Builder;
+     108: pop
+     109: goto          135
+     112: aload_2
+     113: aload_1
+     114: invokevirtual #58                 // Method com/unclezs/novel/analyzer/request/RequestParams.getMethod:()Ljava/lang/String;
+     117: aload_1
+     118: invokevirtual #61                 // Method com/unclezs/novel/analyzer/request/RequestParams.getMediaType:()Ljava/lang/String;
+     121: invokestatic  #62                 // Method okhttp3/MediaType.parse:(Ljava/lang/String;)Lokhttp3/MediaType;
+     124: aload_1
+     125: invokevirtual #63                 // Method com/unclezs/novel/analyzer/request/RequestParams.getBody:()Ljava/lang/String;
+     128: invokestatic  #64                 // Method okhttp3/RequestBody.create:(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/RequestBody;
+     131: invokevirtual #65                 // Method okhttp3/Request$Builder.method:(Ljava/lang/String;Lokhttp3/RequestBody;)Lokhttp3/Request$Builder;
+     134: pop
+     135: aload_1
+     136: invokevirtual #45                 // Method com/unclezs/novel/analyzer/request/RequestParams.getHeaders:()Ljava/util/Map;
+     139: invokestatic  #46                 // Method com/unclezs/novel/analyzer/util/CollectionUtils.isNotEmpty:(Ljava/util/Map;)Z
+     142: ifeq          208
+     145: aload_1
+     146: invokevirtual #45                 // Method com/unclezs/novel/analyzer/request/RequestParams.getHeaders:()Ljava/util/Map;
+     149: invokeinterface #47,  1           // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+     154: invokeinterface #48,  1           // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+     159: astore_3
+     160: aload_3
+     161: invokeinterface #49,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+     166: ifeq          208
+     169: aload_3
+     170: invokeinterface #50,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+     175: checkcast     #51                 // class java/util/Map$Entry
+     178: astore        4
+     180: aload_2
+     181: aload         4
+     183: invokeinterface #52,  1           // InterfaceMethod java/util/Map$Entry.getKey:()Ljava/lang/Object;
+     188: checkcast     #53                 // class java/lang/String
+     191: aload         4
+     193: invokeinterface #54,  1           // InterfaceMethod java/util/Map$Entry.getValue:()Ljava/lang/Object;
+     198: checkcast     #53                 // class java/lang/String
+     201: invokevirtual #66                 // Method okhttp3/Request$Builder.header:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;
+     204: pop
+     205: goto          160
+     208: aload_1
+     209: invokevirtual #67                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrlParams:()Ljava/lang/String;
+     212: invokestatic  #68                 // Method com/unclezs/novel/analyzer/util/StringUtils.isNotBlank:(Ljava/lang/CharSequence;)Z
+     215: ifeq          282
+     218: new           #69                 // class java/lang/StringBuilder
+     221: dup
+     222: invokespecial #70                 // Method java/lang/StringBuilder."<init>":()V
+     225: aload_1
+     226: invokevirtual #43                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrl:()Ljava/lang/String;
+     229: invokevirtual #71                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     232: aload_1
+     233: invokevirtual #43                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrl:()Ljava/lang/String;
+     236: ldc           #72                 // String ?
+     238: invokevirtual #73                 // Method java/lang/String.contains:(Ljava/lang/CharSequence;)Z
+     241: ifeq          249
+     244: ldc           #74                 // String &
+     246: goto          251
+     249: ldc           #72                 // String ?
+     251: invokevirtual #71                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     254: aload_1
+     255: invokevirtual #67                 // Method com/unclezs/novel/analyzer/request/RequestParams.getUrlParams:()Ljava/lang/String;
+     258: invokevirtual #71                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     261: invokevirtual #75                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+     264: astore_3
+     265: getstatic     #36                 // Field log:Lorg/slf4j/Logger;
+     268: ldc           #76                 // String OkHttp�����ַ��{}
+     270: aload_3
+     271: invokeinterface #77,  3           // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;Ljava/lang/Object;)V
+     276: aload_2
+     277: aload_3
+     278: invokevirtual #44                 // Method okhttp3/Request$Builder.url:(Ljava/lang/String;)Lokhttp3/Request$Builder;
+     281: pop
+     282: aload_1
+     283: invokevirtual #78                 // Method com/unclezs/novel/analyzer/request/RequestParams.isEnableProxy:()Z
+     286: ifeq          350
+     289: new           #79                 // class java/net/InetSocketAddress
+     292: dup
+     293: aload_1
+     294: invokevirtual #80                 // Method com/unclezs/novel/analyzer/request/RequestParams.getProxy:()Lcom/unclezs/novel/analyzer/request/proxy/HttpProxy;
+     297: invokevirtual #81                 // Method com/unclezs/novel/analyzer/request/proxy/HttpProxy.getHost:()Ljava/lang/String;
+     300: aload_1
+     301: invokevirtual #80                 // Method com/unclezs/novel/analyzer/request/RequestParams.getProxy:()Lcom/unclezs/novel/analyzer/request/proxy/HttpProxy;
+     304: invokevirtual #82                 // Method com/unclezs/novel/analyzer/request/proxy/HttpProxy.getPort:()Ljava/lang/Integer;
+     307: invokevirtual #83                 // Method java/lang/Integer.intValue:()I
+     310: invokespecial #84                 // Method java/net/InetSocketAddress."<init>":(Ljava/lang/String;I)V
+     313: astore_3
+     314: new           #85                 // class java/net/Proxy
+     317: dup
+     318: getstatic     #86                 // Field java/net/Proxy$Type.HTTP:Ljava/net/Proxy$Type;
+     321: aload_3
+     322: invokespecial #87                 // Method java/net/Proxy."<init>":(Ljava/net/Proxy$Type;Ljava/net/SocketAddress;)V
+     325: astore        4
+     327: aload_0
+     328: getfield      #27                 // Field staticHttpClient:Lokhttp3/OkHttpClient;
+     331: invokevirtual #88                 // Method okhttp3/OkHttpClient.newBuilder:()Lokhttp3/OkHttpClient$Builder;
+     334: aload         4
+     336: invokevirtual #89                 // Method okhttp3/OkHttpClient$Builder.proxy:(Ljava/net/Proxy;)Lokhttp3/OkHttpClient$Builder;
+     339: invokevirtual #26                 // Method okhttp3/OkHttpClient$Builder.build:()Lokhttp3/OkHttpClient;
+     342: aload_2
+     343: invokevirtual #90                 // Method okhttp3/Request$Builder.build:()Lokhttp3/Request;
+     346: invokevirtual #91                 // Method okhttp3/OkHttpClient.newCall:(Lokhttp3/Request;)Lokhttp3/Call;
+     349: areturn
+     350: aload_0
+     351: getfield      #27                 // Field staticHttpClient:Lokhttp3/OkHttpClient;
+     354: aload_2
+     355: invokevirtual #90                 // Method okhttp3/Request$Builder.build:()Lokhttp3/Request;
+     358: invokevirtual #91                 // Method okhttp3/OkHttpClient.newCall:(Lokhttp3/Request;)Lokhttp3/Call;
+     361: areturn
+
+  public java.lang.String content(com.unclezs.novel.analyzer.request.RequestParams) throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #92                 // Method init:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Lokhttp3/Call;
+       5: astore_2
+       6: aload_2
+       7: invokeinterface #93,  1           // InterfaceMethod okhttp3/Call.execute:()Lokhttp3/Response;
+      12: astore_3
+      13: aload_0
+      14: aload_3
+      15: invokespecial #94                 // Method handleFailed:(Lokhttp3/Response;)V
+      18: aload_3
+      19: invokevirtual #95                 // Method okhttp3/Response.body:()Lokhttp3/ResponseBody;
+      22: astore        4
+      24: ldc           #97                 // String
+      26: astore        5
+      28: aload         4
+      30: ifnull        84
+      33: aload_1
+      34: invokevirtual #98                 // Method com/unclezs/novel/analyzer/request/RequestParams.getCharset:()Ljava/lang/String;
+      37: invokestatic  #68                 // Method com/unclezs/novel/analyzer/util/StringUtils.isNotBlank:(Ljava/lang/CharSequence;)Z
+      40: ifeq          68
+      43: aload         4
+      45: invokevirtual #99                 // Method okhttp3/ResponseBody.source:()Lokio/BufferedSource;
+      48: invokeinterface #100,  1          // InterfaceMethod okio/BufferedSource.readByteString:()Lokio/ByteString;
+      53: aload_1
+      54: invokevirtual #98                 // Method com/unclezs/novel/analyzer/request/RequestParams.getCharset:()Ljava/lang/String;
+      57: invokestatic  #101                // Method java/nio/charset/Charset.forName:(Ljava/lang/String;)Ljava/nio/charset/Charset;
+      60: invokevirtual #102                // Method okio/ByteString.string:(Ljava/nio/charset/Charset;)Ljava/lang/String;
+      63: astore        5
+      65: goto          84
+      68: aload_0
+      69: aload         4
+      71: invokevirtual #99                 // Method okhttp3/ResponseBody.source:()Lokio/BufferedSource;
+      74: aload         4
+      76: invokevirtual #103                // Method okhttp3/ResponseBody.contentType:()Lokhttp3/MediaType;
+      79: invokespecial #104                // Method getString:(Lokio/BufferedSource;Lokhttp3/MediaType;)Ljava/lang/String;
+      82: astore        5
+      84: aload         5
+      86: astore        6
+      88: aload_3
+      89: ifnull        96
+      92: aload_3
+      93: invokevirtual #105                // Method okhttp3/Response.close:()V
+      96: aload         6
+      98: areturn
+      99: astore        4
+     101: aload_3
+     102: ifnull        121
+     105: aload_3
+     106: invokevirtual #105                // Method okhttp3/Response.close:()V
+     109: goto          121
+     112: astore        5
+     114: aload         4
+     116: aload         5
+     118: invokevirtual #107                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+     121: aload         4
+     123: athrow
+    Exception table:
+       from    to  target type
+          13    88    99   Class java/lang/Throwable
+         105   109   112   Class java/lang/Throwable
+
+  public java.lang.String get(java.lang.String);
+    Code:
+       0: invokestatic  #108                // Method com/unclezs/novel/analyzer/request/RequestParams.builder:()Lcom/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder;
+       3: aload_1
+       4: invokevirtual #109                // Method com/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder.url:(Ljava/lang/String;)Lcom/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder;
+       7: invokevirtual #110                // Method com/unclezs/novel/analyzer/request/RequestParams$RequestParamsBuilder.build:()Lcom/unclezs/novel/analyzer/request/RequestParams;
+      10: astore_2
+      11: aload_0
+      12: aload_2
+      13: invokevirtual #111                // Method content:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Ljava/lang/String;
+      16: areturn
+      17: astore_3
+      18: aload_3
+      19: invokevirtual #113                // Method java/io/IOException.printStackTrace:()V
+      22: ldc           #97                 // String
+      24: areturn
+    Exception table:
+       from    to  target type
+          11    16    17   Class java/io/IOException
+
+  public byte[] bytes(com.unclezs.novel.analyzer.request.RequestParams) throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #92                 // Method init:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Lokhttp3/Call;
+       5: astore_2
+       6: aload_2
+       7: invokeinterface #93,  1           // InterfaceMethod okhttp3/Call.execute:()Lokhttp3/Response;
+      12: astore_3
+      13: aload_0
+      14: aload_3
+      15: invokespecial #94                 // Method handleFailed:(Lokhttp3/Response;)V
+      18: aload_3
+      19: invokevirtual #95                 // Method okhttp3/Response.body:()Lokhttp3/ResponseBody;
+      22: astore        4
+      24: aload         4
+      26: ifnonnull     45
+      29: iconst_0
+      30: newarray       byte
+      32: astore        5
+      34: aload_3
+      35: ifnull        42
+      38: aload_3
+      39: invokevirtual #105                // Method okhttp3/Response.close:()V
+      42: aload         5
+      44: areturn
+      45: aload         4
+      47: invokevirtual #114                // Method okhttp3/ResponseBody.byteStream:()Ljava/io/InputStream;
+      50: invokestatic  #115                // Method com/unclezs/novel/analyzer/util/io/IoUtils.readBytes:(Ljava/io/InputStream;)[B
+      53: astore        5
+      55: aload_3
+      56: ifnull        63
+      59: aload_3
+      60: invokevirtual #105                // Method okhttp3/Response.close:()V
+      63: aload         5
+      65: areturn
+      66: astore        4
+      68: aload_3
+      69: ifnull        88
+      72: aload_3
+      73: invokevirtual #105                // Method okhttp3/Response.close:()V
+      76: goto          88
+      79: astore        5
+      81: aload         4
+      83: aload         5
+      85: invokevirtual #107                // Method java/lang/Throwable.addSuppressed:(Ljava/lang/Throwable;)V
+      88: aload         4
+      90: athrow
+    Exception table:
+       from    to  target type
+          13    34    66   Class java/lang/Throwable
+          45    55    66   Class java/lang/Throwable
+          72    76    79   Class java/lang/Throwable
+
+  public boolean validate(com.unclezs.novel.analyzer.request.RequestParams) throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokevirtual #92                 // Method init:(Lcom/unclezs/novel/analyzer/request/RequestParams;)Lokhttp3/Call;
+       5: astore_2
+       6: aload_2
+       7: invokeinterface #93,  1           // InterfaceMethod okhttp3/Call.execute:()Lokhttp3/Response;
+      12: astore_3
+      13: aload_3
+      14: invokevirtual #105                // Method okhttp3/Response.close:()V
+      17: aload_3
+      18: invokevirtual #116                // Method okhttp3/Response.isSuccessful:()Z
+      21: ireturn
+
+  public boolean isDynamic();
+    Code:
+       0: iconst_0
+       1: ireturn
+
+  private void handleFailed(okhttp3.Response) throws java.io.IOException;
+    Code:
+       0: aload_1
+       1: invokevirtual #116                // Method okhttp3/Response.isSuccessful:()Z
+       4: ifne          46
+       7: new           #117                // class com/unclezs/novel/analyzer/common/exception/RequestFailedException
+      10: dup
+      11: new           #69                 // class java/lang/StringBuilder
+      14: dup
+      15: invokespecial #70                 // Method java/lang/StringBuilder."<init>":()V
+      18: ldc           #118                // String �����״̬�룬code=
+      20: invokevirtual #71                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      23: aload_1
+      24: invokevirtual #119                // Method okhttp3/Response.code:()I
+      27: invokevirtual #120                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+      30: ldc           #121                // String  ��
+      32: invokevirtual #71                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      35: aload_1
+      36: invokevirtual #122                // Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+      39: invokevirtual #75                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      42: invokespecial #123                // Method com/unclezs/novel/analyzer/common/exception/RequestFailedException."<init>":(Ljava/lang/String;)V
+      45: athrow
+      46: return
+
+  private java.lang.String getString(okio.BufferedSource, okhttp3.MediaType) throws java.io.IOException;
+    Code:
+       0: aconst_null
+       1: astore_3
+       2: iconst_0
+       3: istore        4
+       5: aload_1
+       6: invokeinterface #124,  1          // InterfaceMethod okio/BufferedSource.readByteArray:()[B
+      11: astore        5
+      13: aload_2
+      14: ifnull        46
+      17: aload_2
+      18: aconst_null
+      19: invokevirtual #125                // Method okhttp3/MediaType.charset:(Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;
+      22: astore_3
+      23: aload_3
+      24: ifnonnull     46
+      27: aload_1
+      28: getstatic     #126                // Field java/nio/charset/StandardCharsets.UTF_16LE:Ljava/nio/charset/Charset;
+      31: invokestatic  #127                // Method okhttp3/internal/Util.bomAwareCharset:(Lokio/BufferedSource;Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;
+      34: astore_3
+      35: ldc           #128                // String text/html
+      37: aload_2
+      38: invokevirtual #129                // Method okhttp3/MediaType.toString:()Ljava/lang/String;
+      41: invokevirtual #59                 // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+      44: istore        4
+      46: iload         4
+      48: ifeq          89
+      51: getstatic     #126                // Field java/nio/charset/StandardCharsets.UTF_16LE:Ljava/nio/charset/Charset;
+      54: aload_3
+      55: invokevirtual #130                // Method java/nio/charset/Charset.equals:(Ljava/lang/Object;)Z
+      58: ifeq          89
+      61: new           #53                 // class java/lang/String
+      64: dup
+      65: aload         5
+      67: getstatic     #131                // Field java/nio/charset/StandardCharsets.UTF_8:Ljava/nio/charset/Charset;
+      70: invokespecial #132                // Method java/lang/String."<init>":([BLjava/nio/charset/Charset;)V
+      73: invokestatic  #133                // Method com/unclezs/novel/analyzer/util/regex/RegexUtils.matchHtmlCharset:(Ljava/lang/String;)Ljava/lang/String;
+      76: astore        6
+      78: aload         6
+      80: ifnull        89
+      83: aload         6
+      85: invokestatic  #101                // Method java/nio/charset/Charset.forName:(Ljava/lang/String;)Ljava/nio/charset/Charset;
+      88: astore_3
+      89: aload_3
+      90: ifnull        103
+      93: getstatic     #126                // Field java/nio/charset/StandardCharsets.UTF_16LE:Ljava/nio/charset/Charset;
+      96: aload_3
+      97: invokevirtual #130                // Method java/nio/charset/Charset.equals:(Ljava/lang/Object;)Z
+     100: ifeq          109
+     103: ldc           #134                // String GBK
+     105: invokestatic  #101                // Method java/nio/charset/Charset.forName:(Ljava/lang/String;)Ljava/nio/charset/Charset;
+     108: astore_3
+     109: new           #53                 // class java/lang/String
+     112: dup
+     113: aload         5
+     115: aload_3
+     116: invokespecial #132                // Method java/lang/String."<init>":([BLjava/nio/charset/Charset;)V
+     119: areturn
+
+  public okhttp3.OkHttpClient getStaticHttpClient();
+    Code:
+       0: aload_0
+       1: getfield      #27                 // Field staticHttpClient:Lokhttp3/OkHttpClient;
+       4: areturn
+
+  private static boolean lambda$configuration$0(java.lang.String, javax.net.ssl.SSLSession);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokeinterface #135,  1          // InterfaceMethod javax/net/ssl/SSLSession.getPeerHost:()Ljava/lang/String;
+       7: invokevirtual #59                 // Method java/lang/String.equalsIgnoreCase:(Ljava/lang/String;)Z
+      10: ireturn
+
+  static {};
+    Code:
+       0: ldc           #136                // class com/unclezs/novel/analyzer/request/okhttp/OkHttpClient
+       2: invokestatic  #137                // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/Class;)Lorg/slf4j/Logger;
+       5: putstatic     #36                 // Field log:Lorg/slf4j/Logger;
+       8: return
+}

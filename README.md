@@ -1,12 +1,15 @@
 # v b — 本地工作区
 
 > 本机任务工作区（Windows 11 / DeepSeek Harness + Trae）。
-> 所有工程规范以 `.trae/rules/工程规范.md` 为唯一来源（DSH 侧副本 `C:\Users\31384\.dsh\AGENTS.md`）。
+> 所有工程规范以根目录 `AGENTS.md` 为**唯一来源**：Trae 与 DSH 都直接自动加载同一文件；`.trae/rules/` 已清空、`C:\Users\31384\.dsh\AGENTS.md` 与 Trae 个人规则仅保留指针。
 
 ## 目录内容
 
+- `AGENTS.md` — 本机 AI Agent 工程规范（Trae + DSH 共用唯一文档，改规则只改这里）
 - `dsh-start.bat` — DSH Web UI 启动脚本（桌面「DSH 启动」快捷方式目标）
-- `.trae/rules/工程规范.md` — 本机 AI Agent 工程规范（编码/环境/验收流程）
+- `push-to-github.bat` / `push-to-github.ps1` — GitHub 一键上传
+- `工具/` — 跨任务可复用工具（`窗口查看.ps1`：窗口截屏/UIA；`浏览器\`：Edge CDP + Playwright 驱动；见 `工具/README.md`）
+- `任务-规则防过度承诺与文档审查-2026-10-31/历史归档/` — 旧规则文档与适配记录（2026-10-31 从根目录归档）
 - `任务X/` — 各任务目录（中文命名，见规范 §5）
 
 ## 上传到 GitHub
@@ -31,5 +34,5 @@
 
 - 新任务在根目录下新建中文命名子目录（如 `任务1`）
 - 改 `.bat`/`.cmd`/`.vbs` 后立即按规范 §2 校验（GBK + CRLF）
-- 修改规范：先改 `.trae/rules/工程规范.md`，再同步 `~/.dsh/AGENTS.md`
+- 修改规范：只改根 `AGENTS.md`，Trae 与 DSH 自动生效，无需同步
 - 推送前 `git status` 确认无敏感/大文件；排除规则见 `.gitignore`

@@ -1,0 +1,66 @@
+{
+    "version":  "5.0.44",
+    "basic":  {
+                  "tray":  false,
+                  "theme":  "default",
+                  "lang":  "简体中文",
+                  "fonts":  "Microsoft YaHei"
+              },
+    "download":  {
+                     "folder":  "C:\\Users\\31384\\AppData\\Local\\Programs\\UncleNovel\\downloads",
+                     "threadNum":  2,
+                     "taskNum":  1,
+                     "retryNum":  1,
+                     "volume":  true,
+                     "mobi":  false,
+                     "txt":  true,
+                     "epub":  false
+                 },
+    "reader":  {
+                   "themeName":  "green",
+                   "bgImage":  "",
+                   "fontSize":  20,
+                   "fontFamily":  "Microsoft YaHei",
+                   "align":  "LEFT",
+                   "simpleTraditional":  0,
+                   "speaker":  0,
+                   "speed":  1,
+                   "showHeader":  true,
+                   "windowTop":  false,
+                   "showShadow":  true,
+                   "flipAnimation":  true,
+                   "pageWidth":  0.9,
+                   "lineSpacing":  0.2,
+                   "stageWidth":  800,
+                   "stageHeight":  640
+               },
+    "bookShelf":  {
+                      "group":  "全部",
+                      "autoUpdate":  false,
+                      "alwaysShowBookTitle":  true
+                  },
+    "backup":  {
+                   "url":  "",
+                   "username":  "",
+                   "password":  "",
+                   "bookshelf":  true,
+                   "audio":  true,
+                   "rule":  true,
+                   "searchEngine":  true,
+                   "setting":  true
+               },
+    "proxy":  {
+                  "httpProxy":  false,
+                  "useSystem":  false
+              },
+    "hotkey":  {
+                   "readerNextPage":  "RIGHT",
+                   "readerPrePage":  "LEFT",
+                   "readerNextChapter":  "DOWN",
+                   "readerPreChapter":  "UP",
+                   "readerToc":  "ctrl C",
+                   "globalBossKey":  "alt U",
+                   "enabledGlobal":  true
+               },
+    "debug":  false
+}

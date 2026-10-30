@@ -1,0 +1,83 @@
+[
+  {
+    "tag": "baidu-http-per106",
+    "status": 200,
+    "ct": "audio/mp3",
+    "bytes": 34848,
+    "head": "fff388c4",
+    "isMp3": true,
+    "ms": 290
+  },
+  {
+    "tag": "baidu-https-per106",
+    "status": 200,
+    "ct": "audio/mp3",
+    "bytes": 34848,
+    "head": "fff388c4",
+    "isMp3": true,
+    "ms": 596
+  },
+  {
+    "tag": "dui-gdfanfp",
+    "status": 200,
+    "ct": "audio/mpeg",
+    "bytes": 12096,
+    "head": "fff338c4",
+    "isMp3": true,
+    "ms": 1329
+  },
+  {
+    "tag": "dui-zhilingfp",
+    "status": 200,
+    "ct": "audio/mpeg",
+    "bytes": 12960,
+    "head": "fff338c4",
+    "isMp3": true,
+    "ms": 1167
+  },
+  {
+    "tag": "dui-zxcmp",
+    "status": 200,
+    "ct": "audio/mpeg",
+    "bytes": 13068,
+    "head": "fff338c4",
+    "isMp3": true,
+    "ms": 1341
+  },
+  {
+    "tag": "dui-gqlanfp",
+    "status": 200,
+    "ct": "audio/mpeg",
+    "bytes": 13932,
+    "head": "fff338c4",
+    "isMp3": true,
+    "ms": 1225
+  },
+  {
+    "tag": "dui-geyoump",
+    "status": 200,
+    "ct": "audio/mpeg",
+    "bytes": 15228,
+    "head": "fff338c4",
+    "isMp3": true,
+    "ms": 1329
+  },
+  {
+    "tag": "dui-ppangf_csn",
+    "status": 200,
+    "ct": "audio/mpeg",
+    "bytes": 13716,
+    "head": "fff338c4",
+    "isMp3": true,
+    "ms": 1315
+  },
+  {
+    "tag": "dui-gdgmfp",
+    "status": 200,
+    "ct": "audio/mpeg",
+    "bytes": 12204,
+    "head": "fff338c4",
+    "isMp3": true,
+    "ms": 1144
+  }
+]

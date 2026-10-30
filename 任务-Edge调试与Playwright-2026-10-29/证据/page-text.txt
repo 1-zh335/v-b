@@ -1,0 +1,7 @@
+﻿[OK] connected http://127.0.0.1:9222 | browser 156.0.4314.50 | contexts 1
+浏览器自动化自检
+
+初始文本：等待点击
+
+ 点击我
+[OK] text length: 25

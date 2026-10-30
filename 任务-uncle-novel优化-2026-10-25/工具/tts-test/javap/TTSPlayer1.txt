@@ -1,0 +1,48 @@
+﻿Compiled from "TTSPlayer.java"
+class com.unclezs.novel.app.main.views.reader.player.TTSPlayer$1 extends javafx.concurrent.Task<java.lang.Void> {
+  final com.unclezs.novel.app.main.views.reader.player.TTSPlayer this$0;
+
+  com.unclezs.novel.app.main.views.reader.player.TTSPlayer$1(com.unclezs.novel.app.main.views.reader.player.TTSPlayer);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: putfield      #1                  // Field this$0:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+       5: aload_0
+       6: invokespecial #2                  // Method javafx/concurrent/Task."<init>":()V
+       9: return
+
+  protected java.lang.Void call() throws java.io.IOException;
+    Code:
+       0: aload_0
+       1: getfield      #1                  // Field this$0:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+       4: getfield      #3                  // Field com/unclezs/novel/app/main/views/reader/player/TTSPlayer.paragraphs:Ljava/util/Queue;
+       7: invokeinterface #4,  1            // InterfaceMethod java/util/Queue.iterator:()Ljava/util/Iterator;
+      12: astore_1
+      13: aload_1
+      14: invokeinterface #5,  1            // InterfaceMethod java/util/Iterator.hasNext:()Z
+      19: ifeq          58
+      22: aload_1
+      23: invokeinterface #6,  1            // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      28: checkcast     #7                  // class java/lang/String
+      31: astore_2
+      32: aload_0
+      33: invokevirtual #8                  // Method isCancelled:()Z
+      36: ifne          55
+      39: aload_0
+      40: getfield      #1                  // Field this$0:Lcom/unclezs/novel/app/main/views/reader/player/TTSPlayer;
+      43: aload_2
+      44: iconst_0
+      45: invokevirtual #9                  // Method com/unclezs/novel/app/main/views/reader/player/TTSPlayer.toAudio:(Ljava/lang/String;Z)Ljava/io/File;
+      48: pop
+      49: ldc2_w        #10                 // long 2000l
+      52: invokestatic  #12                 // Method com/unclezs/novel/analyzer/common/concurrent/ThreadUtils.sleep:(J)V
+      55: goto          13
+      58: aconst_null
+      59: areturn
+
+  protected java.lang.Object call() throws java.lang.Exception;
+    Code:
+       0: aload_0
+       1: invokevirtual #13                 // Method call:()Ljava/lang/Void;
+       4: areturn
+}

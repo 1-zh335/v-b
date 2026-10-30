@@ -21,3 +21,27 @@ build/
 __pycache__/
 .venv/
 .pytest_cache/
+
+# 大体积任务产物 / 二进制 / 素材（2026-10-31 加；见 AGENTS.md §5，禁止 git add -f 强塞）
+*.jar
+*.pack
+*.idx
+*.ttf
+*.ttc
+*.woff2
+*.wav
+*.mp3
+*.mp4
+*.webm
+kindlegen*
+modules
+runtime/
+jre/
+1-原版/
+2-优化版/
+交付/
+源码/
+旧版-v4-快照/
+旧版数据恢复/
+目标端设备详情/
+素材/

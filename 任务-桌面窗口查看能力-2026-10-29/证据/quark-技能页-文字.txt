@@ -1,0 +1,98 @@
+﻿[Pane] 夸克网盘Skill - 夸克
+[Button] 最小化
+[Button] 恢复
+[Button] 关闭
+[Button] 返回
+[Button] 前进
+[Button] 重新加载
+[Button] 家
+[Button] QuarkAskQuarkButton
+[Edit] 地址和搜索栏
+[Button] 为此标签页添加书签
+[Button] 扩展程序
+[Button] 下载内容
+[Button] QuarkAvatarButton
+[Button] Chromium
+[ToolBar] 书签
+[ToolBar] 已保存的标签页分组
+[Button] 标签页分组
+[Separator] 分隔符
+[Button] 导入书签
+[Button] 网址导航
+[Document] 夸克网盘Skill
+[Text] 将网盘接入AI大脑，一句话管理你的文件
+[Hyperlink] 下载Skill
+[Text] 安装指南
+[Group] 绑定网址：pan.quark.cn完成授权后，直接告诉AI你的需求—搜文件、存资料、整理相册、生成分享链接，一句话搞定
+[Group] 已安装夸克网盘技能！
+[Group] 深度思考
+[Text] 复制下方提示词，在Agent中输入。激活夸克网盘Skill
+[Text] 请安装 夸克网盘Skill,并授权账号
+[Text] 技能地址：
+[Text] https://pdds.quark.cn/download/stfile/eekkigineefiegmgo/quarkclouddrive-1.0.25.zip
+[Text] 授权码：**********
+[Button] 复制技能地址
+[Text] 目前已支持：
+[Image] 千问-办公助理
+[Image] Codex
+[Image] OpenClaw
+[Text] 核心功能
+[Hyperlink] 查看更新详情
+[Text] 通用能力
+[Text] 已全面开放
+[Text] 关键词搜索
+[Text] 基于文件名，搜索文件
+[Text] 批量重命名
+[Text] 名称自由定义，批量操作
+[Text] 存储&下载
+[Text] 端云互通，文件随心存取
+[Text] 分享&转存
+[Text] 一键分享，链接更新秒存
+[Text] AI高阶能力
+[Text] SVIP+会员专属
+[Text] 智能搜索
+[Text] 一句话描述，精准定位
+[Text] 相册整理
+[Text] 高效有序，智能整理相册
+[Text] AI总结
+[Text] 海量文件，一键总结
+[Text] 知识问答
+[Text] 自由提问，秒得答案
+[Text] 使用场景
+[Text] 自动转存更新资料
+[Text] 设置定时任务，自动转存更新资源
+[Text] 文件整理一句话搞定
+[Text] 按需分类、统一命名，一句话整理到位
+[Text] 对话文件随手存网盘
+[Text] 和Agent聊天中的重要资料，一句话存网盘
+[Text] 需要的文件直接调用
+[Text] 生成PPT，再也不用手动搬素材
+[Text] 一句话查找网盘文件
+[Text] 人物、场景随心搜，照片一秒定位
+[Text] 重要资料备份网盘
+[Text] 项目进展不怕跟丢，定时帮你完成备份归档
+[Text] 每天晚上 10 点帮我检查一下资源有没有更新，把每天新增的课件和课程回放转存到我的「学习资料」文件夹，已经存过的就不用重复存了。
+[Text] http://pan.quark.cn/
+[Text] 已检查课程资料，今天新增了 2 个文件，已转存到你的夸克网盘：
+[Text] 增量转存结果
+[Text] • 第05课｜提示词进阶.pdf
+[Text] 新增
+[Text] • 第05课｜课程回放.mp4
+[Text] 更新
+[Text] AI学习资料
+[Text] 25 MB · 夸克网盘 /AI学习资料
+[Text] 新增 2 个文件 · 夸克网盘 / AI学习资料
+[Text] 已跳过之前转存的文件，明晚 22:00 将继续检查更新。
+[Hyperlink] 粤ICP备2022013084号
+[Text] 公司名: 广州市动悦信息技术有限公司
+[Text] 联系方式: 400-109-8622
+[Hyperlink] 服务协议
+[Hyperlink] 隐私政策
+[Hyperlink] 官方公告
+[Hyperlink] 侵权投诉
+[Hyperlink] 廉正举报
+[Text] 举报邮箱：zhixinlzjb@alibaba-inc.com
+[Button] 搜索标签页
+[TabItem] 新标签页
+[TabItem] 夸克网盘
+[Button] QuarkAIChatButton
