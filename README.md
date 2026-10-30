@@ -14,6 +14,8 @@
 
 ## 上传到 GitHub
 
+> **当前状态（2026-10-31）**：已推送成功 → https://github.com/1-zh335/v-b （公开，分支 main，7 个提交）。本地已配置 origin；令牌存 Windows 凭据管理器，之后 git push origin main 免输入。若 github.com 连不上，见 AGENTS.md §1/§8 的 IP 覆盖方法。
+
 **一键方式（推荐）**：双击 `push-to-github.bat`，按提示粘贴个人访问令牌（PAT）即可自动完成：验证账号 → 建仓库（`v-b`，公开，脚本开头可改）→ 关联远程 → 推送 `main`。
 - 令牌只在运行时输入、不写入任何文件；成功后存入系统凭据管理器，之后 `git push` 免登录
 - 令牌获取：https://github.com/settings/tokens → Generate new token → Tokens (classic) → 勾选 `repo` → 复制 `ghp_...`

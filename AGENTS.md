@@ -4,7 +4,7 @@
 > - **Trae**：项目根 `AGENTS.md` 自动纳入规则上下文（设置项 `AI.rules.importAgentsMd` 默认 true，本机未关闭；原 `.trae\rules\工程规范.md` 已合并删除，避免重复注入）
 > - **DSH**：`dsh-agent-instructions` 自动加载项目根（含 `.git` 的目录）到工作目录链上的 `AGENTS.md` / `CLAUDE.md`（及 `.local` 变体）；全局 `C:\Users\31384\.dsh\AGENTS.md` 已改为指向本文件的简短指针
 > 本文件由另一台机器的 `AGENTS.md`（用户 `d59049`、工作区 `D:\Vibe Coding`、Windows 10 LTSC）于 **2026-10-24 本地适配**，并合并原 Trae 项目规则（`.trae\rules\工程规范.md`）与 Trae 个人规则（`~/.trae-cn/user_rules\工程规范.md`）中的有效内容；环境事实均本机实测核对（见 §1）。
-> 任何在本机工作的 AI Agent 必须遵守以下规范。最后修订：2026-10-31（新增 §6「承诺与交付纪律（防过度承诺）」与 §10「文档维护与自检」；校正 DSH 内核 `0.2.1-rc.5`、补 `@dsh-pet/bridge` 实装态、更新 `.trae/` 已删除与工作区根历史目录；此前 2026-10-29 新增 Edge CDP 9222 + Playwright-core 浏览器自动化与 §6「桌面/已打开窗口：先看再答」；2026-10-28 内核曾为 `0.2.1-rc.3`；2026-10-25 修正「DSH 版本」「裸 `dsh` 解析」；Trae / DSH 单一规则文档整合）。
+> 任何在本机工作的 AI Agent 必须遵守以下规范。最后修订：2026-10-31（同日完成 GitHub 推送与网络绕行记录，见 §1/§8/§9；此前新增 §6「承诺与交付纪律（防过度承诺）」与 §10「文档维护与自检」；校正 DSH 内核 `0.2.1-rc.5`、补 `@dsh-pet/bridge` 实装态、更新 `.trae/` 已删除与工作区根历史目录；此前 2026-10-29 新增 Edge CDP 9222 + Playwright-core 浏览器自动化与 §6「桌面/已打开窗口：先看再答」；2026-10-28 内核曾为 `0.2.1-rc.3`；2026-10-25 修正「DSH 版本」「裸 `dsh` 解析」；Trae / DSH 单一规则文档整合）。
 
 ## 1. 环境信息（2026-10-31 本机复核）
 
@@ -19,7 +19,7 @@
   - 桌面端运行时：Node `24.21.0`、pnpm `11.28.5`、Python `3.12.14`（见 `resources\runtime\primary-runtime\runtime.json`）；`dsh plugin` 装插件时用的就是这套 pnpm，其内置 **24 小时 `minimumReleaseAge`** 会让刚发布的新版本被暂缓或报 `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`——改用已满 24h 的版本，或加 `--config.minimum-release-age=0`
 - Python：3.12.10（pip 25.0.1），安装于 `C:\Users\31384\AppData\Local\Programs\Python\Python312\`；本机实测裸 `python`/`pip` 已正确解析到 Python312（`WindowsApps` 商店占位仍在 PATH 末尾但不遮蔽），`py -3` 可用。脚本内仍建议绝对路径（`start` 子进程等场景会丢 PATH 继承）
 - 浏览器/客户端（视觉验收 + 「用户已打开窗口」场景）：**未安装 Chrome**；Edge `C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`（2026-10-31 实测 156.0.4314.50；Edge 自动更新，精确值以安装文件版本为准）；**夸克浏览器（夸克网盘）** `C:\Program Files\Quark\quark.exe`（7.4.2.1020，Chromium 内核，进程名 `quark`，窗口类 `Chrome_WidgetWin_1`，实测 PrintWindow 截屏 + UIA 读字均可用）；DSH 桌面端为 Electron 窗口，同样可截屏 + UIA。屏幕 1920×1080 @150% 缩放，截图前必须 DPI 感知（`工具\窗口查看.ps1` 已处理）；**浏览器级自动化**：Edge `--remote-debugging-port=9222` + `工具\浏览器\`（Playwright-core），见 §9
-- git：`C:\Program Files\Git\cmd\git.exe`（2.55.0.windows.3）；工作区已是 git 仓库（分支 `main`，已有初始提交，**当前无 `origin` 远程**；提交身份 `1-zh335 <3138470565@qq.com>`，`core.quotepath=false`）
+- git：`C:\Program Files\Git\cmd\git.exe`（2.55.0.windows.3）；工作区 git 仓库（分支 `main`，提交身份 `1-zh335 <3138470565@qq.com>`，`core.quotepath=false`）。**远程已配置并已推送**：`origin = https://github.com/1-zh335/v-b.git`（公开，2026-10-31 推送成功，远端 HEAD `07f0dd9`）；令牌（classic、`repo`、无过期）已存入 **Windows 凭据管理器**，之后 `git push` 免输入。**本机访问 github.com 受网络干扰**：默认 DNS/IP 时常超时或被重置；已用 `git config --global http.curloptResolve "github.com:443:20.27.177.113"` 绕过（可用 IP 还有 `20.205.243.166/.169`、`20.200.245.247`、`140.82.112.x`，会漂移）；浏览器访问 github.com 需以 `--host-resolver-rules="MAP github.com <IP>"` 启动 Edge。详见 §8 与任务记录
 - Trae：`C:\Users\31384\AppData\Local\Programs\Trae CN\Trae CN.exe`（3.4.7）
 - DSH：**桌面端内核 `0.2.1-rc.5`**（2026-10-31 实测；nightly 渠道自动升级；精确值以 `resources\runtime\primary-runtime\runtime.json` 的 `desktopVersion` 为准）；程序位置 `C:\Users\31384\AppData\Local\Programs\DeepSeek Harness\DeepSeek Harness.exe`；命令行入口 = 桌面端自带 CLI `resources\runtime\cli\bin\dsh.cmd`（PATH 首位，`dsh --version` = 桌面端内核版本，2026-10-31 实测 `0.2.1-rc.5`）。npm 全局另装 `@deepseek-ai/dsh@0.1.1-rc.2`（`...\AppData\Roaming\npm\dsh.ps1`），PATH 在其后、当前不生效，**升级它不会改变 `dsh` 的实际版本**；`DSH_HOME=C:\Users\31384\.dsh`；GUI 端口随启动变化，以运行时提示为准；`dsh-start.bat` 固定使用 3080
 - 硬件信息参考：`C:\Users\31384\Desktop\DxDiag.txt`（本机不存在，跳过，不影响任务）
@@ -99,7 +99,7 @@
 - 写功能代码前**先**生成项目文档（README.md / DESIGN.md）说明目标、文件结构、逻辑流程
 - 临时测试文件用完即删
 - 打包交付类项目（用户要求 .exe 交付时）的产物可按交付形态分文件夹存放，种类与命名不强制；历史项目常用可参考：`1-开箱即用`（免安装绿色版）、`2-安装器`（setup 安装包）、`3-单文件exe`（单文件便携版）；非打包任务不适用
-- 工作区 `C:\Users\31384\Documents\trae_projects\v b` **已是 git 仓库**（2026-08-30 初始化，分支 `main`，已有初始提交，目前**尚未配置远程 `origin`**）：`git status` 把中文路径显示成 `\351\241\271...` 转义串时，是 `core.quotepath` 默认值所致，执行 `git config core.quotepath false` 即可（只影响显示，本仓库已设置）
+- 工作区 `C:\Users\31384\Documents\trae_projects\v b` **已是 git 仓库**（2026-08-30 初始化，分支 `main`，已有初始提交；**2026-10-31 已配置远程 `origin` 并推送**，详见 §1/§9）：`git status` 把中文路径显示成 `\351\241\271...` 转义串时，是 `core.quotepath` 默认值所致，执行 `git config core.quotepath false` 即可（只影响显示，本仓库已设置）
 - git CLI 经 winget 安装（Git for Windows 2.55.0，路径 `C:\Program Files\Git\cmd\git.exe`）；若命令不可用，新开终端或改用绝对路径。**本仓库曾启用 sparse-checkout（cone：仅根文件 + `/docs/` + `/pet/`），2026-10-31 已执行 `git sparse-checkout disable` 以允许任务目录入库**；今后 `git add -A` 若报 `outside of your sparse-checkout definition`，先 `git sparse-checkout disable` 再提交。注意：关闭 sparse-checkout 会从 HEAD 恢复工作区里已删除但尚未提交删除的文件（2026-10-31 就恢复了旧的 `.trae/rules/工程规范.md`），恢复后要重新删除并提交。
 - 上传 GitHub：**优先使用工作区一键脚本**——双击 `push-to-github.bat`，按提示粘贴个人访问令牌（repo 权限），脚本自动完成建仓库（`v-b`，公开）→ 关联远程 → 推送 `main`；手动方式：先在 GitHub 建空仓库，再 `git remote add origin <仓库地址>` → `git push -u origin main`；推送前 `git status` 并确认无敏感/大文件（排除规则见仓库根 `.gitignore`，已按本节排除目录维护）
 - 工作区根只保留：`AGENTS.md`（本文件，唯一规则文档）、`README.md`、`dsh-start.bat`、`push-to-github.bat`、`push-to-github.ps1`、`.gitignore`、`.gitattributes`、`工具/`（跨任务可复用工具，如 `窗口查看.ps1`）、`任务X/`（新任务一律建此类目录）；旧规则历史已归档到 `任务-规则防过度承诺与文档审查-2026-10-31/历史归档/`（2026-10-31 根目录清理：`AGENTS本地化/`、`规则统一/`、`素材/`、`logs/`、`npm-install.log` 已移除）；`.trae/` 已于 2026-10 删除（Trae 规则全部并入本文件，勿重建）；仓库只存文档/工具/小体积证据，大文件（`*.jar`、字体、`runtime/`、`交付/`、`素材/` 等）已在 `.gitignore` 排除，**禁止 `git add -f` 强塞**；本地日志与临时文件不入库
@@ -198,6 +198,8 @@
 - **「桌面已打开」却被忽略（2026-10-29，夸克网盘 Skill 安装 / 2026-10-28 插件核查）**：用户两次说明桌面已打开夸克浏览器（页面含技能地址、安装提示词、授权码入口），我却只用日志/接口/headless 页面推断，没去看用户眼前那个窗口，被质问「为什么还是没学会点进去看」。**铁律：用户说窗口已打开 = 立刻 `工具\窗口查看.ps1 -Action List/Shot/Text` 看，先看再说；看不到才求助且必须附尝试证据。** 本机已实测：夸克（Chromium）与 DSH（Electron）窗口都能 PrintWindow 截屏 + UIA 读字，别再找借口。
 - **大肥鱼桌宠「过度承诺」（2026-10-28~30，致命，用户点名）**：桌宠对 `desktop` profile 的 `pnpm add` 实测 **300 秒超时**（安装器报「部分实例安装失败」），我手工补 bundle 后在交付记录里写成「其余与正常安装 **等价**」；又写「DSH 对 profile bundle 变更做了 **热加载**，本次 **无需重启** 即生效」「下次重启 **也会** 正常加载」（机制未对照验证）、「**会尝试** 自动卸载」「与桌宠自身写入格式 **完全一致**」「改装 v4.3.4 可得 **106 段** 动画」（未核实）等断言。**教训：安装超时/部分失败就是失败，不许用「等价/已写完」抹平；机制与第三方行为没有对照实验就写「未实测」；跨版本/跨重启效果不许预测；「完全一致/106 段」这类量词必须有核对证据。** 事后核对（2026-10-31）：DSH 已升级到 `0.2.1-rc.5`，`plugin_manager` 中 `include:dsh-pet-bridge` 与 `include:cost-meter` 均 active，桌宠日志有 `[DSH STATE] idle -> working` 与联动音效——**最终能用 ≠ 当时那些话有依据**，两者必须分开陈述（详见 `任务-大肥鱼桌宠-2026-10-28\README.md` 的「事后核对」小节）。
 
+- **GitHub 推送网络排障（2026-10-31）**：本机 `https://github.com` 默认解析到 `20.205.243.166` 时常超时/被重置（`api.github.com`、`ssh.github.com:443` 可达），导致浏览器登录页与 `git push` 都失败，`push-to-github.bat` 本身没有问题。解决：① git 用 `http.curloptResolve` 覆盖 IP（实测 `20.27.177.113` 成功；`.166/.169` 时好时坏）；② Edge 用 `--host-resolver-rules="MAP github.com <IP>"` 启动后登录 GitHub、生成 token；③ token 存入 Windows 凭据管理器后 `git push` 永久免输；④ 成功校验：本地 HEAD = 远端 HEAD、`git ls-remote origin` 退出码 0、API 显示仓库 7 commits。**教训：不要把「网络被阻断」误判成脚本/权限问题；`github.com` 超时先测 `api.github.com` 与 `ssh.github.com:443`，再按 IP 覆盖/轮换；GitHub 网页与 git 走不同链路，需分别处理；token 只存凭据管理器，禁止写进文档/仓库；不要用真实 token 做测试。**
+
 ## 9. Trae / DSH 共用机制与本机操作说明
 
 - **唯一规则文档**：`C:\Users\31384\Documents\trae_projects\v b\AGENTS.md`（即本文件，git 仓库内，随仓库走）。**改规则只改这一个文件**，Trae 与 DSH 下次会话自动读取，无需同步；不要在任何其他位置再写规则正文。
@@ -233,6 +235,7 @@
   [System.IO.File]::ReadAllBytes("x.ps1")[0..2] -join ','
   [System.IO.File]::ReadAllBytes("x.vbs")[0..2] -join ','
   ```
+- **GitHub 仓库（2026-10-31 推送）**：`https://github.com/1-zh335/v-b`（公开，分支 `main`）；本地 `origin` 已配置；令牌（classic、`repo`、无过期）存于 Windows 凭据管理器，之后 `git push origin main` 免输入。若 `github.com` 连不上，按 §1/§8 换成当前可用 IP（`git config --global http.curloptResolve "github.com:443:<IP>"`）再试；远程只收文档/工具/小体积证据，大文件由 `.gitignore` 排除。
 - **维护铁律**：`.trae\rules\`（该目录已于 2026-10 删除，若重建只许放指针）、`C:\Users\31384\.trae-cn\user_rules\`、`C:\Users\31384\.dsh\AGENTS.md` 三处只允许放指针（说明"规则已统一到工作区根 AGENTS.md"），不得再写规则正文；改规则 = 只改本文件。
 
 ## 10. 文档维护与自检（2026-10-31 新增）
