@@ -102,6 +102,6 @@ Copy-Item "任务-规则防过度承诺与文档审查-2026-10-31\备份\大肥�
 
 1. **根目录清理完成**：`AGENTS本地化/`、`规则统一/` 移入本任务 `历史归档/`；`素材/`（65.7 MB 下载地址列表，历史测试素材）、`logs/`、`npm-install.log` 已删除。
 2. **`.gitignore` 扩写**：新增 `*.jar`、字体、`runtime/`、`交付/`、`源码/`、`目标端设备详情/`、`素材/` 等排除规则——否则未忽略文件约 **856 MB**，无法提交/推送。
-3. **sparse-checkout 已关闭**：仓库原为 cone 模式（只允许根文件入库），已执行 `git sparse-checkout disable`，否则 `git add -A` 会报 `outside of your sparse-checkout definition`。
+3. **sparse-checkout 已关闭**：仓库原为 cone 模式（只允许根文件入库），已执行 `git sparse-checkout disable`，否则 `git add -A` 会报 `outside of your sparse-checkout definition`。关闭时从 HEAD 恢复了旧的 `.trae/rules/工程规范.md`（已合并删除的规则副本），本次已再次删除并提交；**以后关闭 sparse-checkout 要检查恢复出来的旧文件**。
 4. **已 git 提交**（本地提交，仓库暂无 origin；见 git log）。
 5. 未做：`AGENTS.md` 拆分（当前 37 KB，Trae/DSH 需单文件入口，暂不拆）。
