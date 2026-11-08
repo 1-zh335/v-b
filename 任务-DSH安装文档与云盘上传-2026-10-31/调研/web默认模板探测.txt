@@ -1,0 +1,47 @@
+# web 出厂模板探测证据（Lead 实测，2026-10-31 09:22:20）
+# 目的：证明 DSH 0.2.1-rc.5 的出厂 web 模板只含 dsh-base + dsh-web-app，从而说明本机 web profile 的
+#       dsh-cost-meter / @dsh-pet/bridge 是后装插件（而非模板自带）。
+# 环境：隔离的临时 DSH_HOME = C:\Users\31384\Documents\trae_projects\v b\任务-DSH安装文档与云盘上传-2026-10-31\调研\_probe_home2（未触碰真实 %USERPROFILE%\.dsh；探测后已删除该临时目录）
+# 命令：dsh --profile probe-web --from-default-profile web --dump-config
+
+## 1) --dump-config 输出（前 25 行）
+# == @deepseek-ai/dsh-base
+- id: tool-plugin-manager
+  name: '@deepseek-ai/dsh-plugin-manager/tools'
+  disabled: true
+- id: plugin-manager
+  name: '@deepseek-ai/dsh-plugin-manager'
+  disabled: !!js '!ctx.get(''profileContext'')'
+- id: timer
+  name: '@deepseek-ai/cordis-plugin-timer'
+- id: hmr
+  name: '@deepseek-ai/dsh-hmr'
+  disabled: !!js '!ctx.get(''profileContext'')'
+  config:
+    root: []
+- id: llm
+  name: '@deepseek-ai/dsh-llm'
+- id: deepseek-llm-api-extensions
+  name: '@deepseek-ai/dsh-deepseek-llm-api-extensions'
+- id: session
+  name: '@deepseek-ai/dsh-session'
+- id: session-log-deepseek
+  name: '@deepseek-ai/dsh-session-log-deepseek'
+- id: typert
+  name: '@deepseek-ai/dsh-typert-registry'
+- id: typert-loader
+
+## 2) 生成的 probe-web/package.json（全文）
+{
+  "name": "dsh-profile-probe-web",
+  "private": true,
+  "dependencies": {},
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app"
+      ]
+    }
+  }
+}

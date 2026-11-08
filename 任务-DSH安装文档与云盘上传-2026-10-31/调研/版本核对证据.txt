@@ -1,0 +1,36 @@
+# 版本核对证据（第 2 版，2026-10-31 16:35:21）
+
+## 1) DSH nightly 最新版（下载更新源 nightly.yml）
+version: 0.2.1-rc.5
+files:
+  - url: >-
+      https://download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.2.1-rc.5-win-x64.exe
+    sha512: >-
+      gu2dH+aTr678c0P8DGAH/h4B1GaWfQIjpsPrLjl/ukLrQIh6DLVq/MhX4FZvJ8o1GCMocOhix6XbLa6KmtjXXg==
+    size: 289408544
+path: >-
+  https://download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.2.1-rc.5-win-x64.exe
+sha512: >-
+  gu2dH+aTr678c0P8DGAH/h4B1GaWfQIjpsPrLjl/ukLrQIh6DLVq/MhX4FZvJ8o1GCMocOhix6XbLa6KmtjXXg==
+releaseDate: '2026-10-29T14:04:01.198Z'
+
+
+## 2) 源机当前 DSH 版本
+dsh --version => 0.2.1-rc.5
+
+## 3) dsh-cost-meter npm registry 最新版
+npm view dsh-cost-meter version => 1.9.46
+
+## 4) 桌宠最新 release（GitHub API releases/latest，web_fetch HTTP 200，2026-10-31 16:3x）
+tag_name: v4.4.0
+published_at: 2026-10-22T16:20:54Z
+html_url: https://github.com/MerZlin/dsh-pet-indesktop/releases/tag/v4.4.0
+
+## 5) 夸克网盘 Skill 服务端自检（本任务 16:18 install.sh）
+{"type":"install_result","success":true,"updated":false,"from_version":"1.0.25","to_version":"1.0.25"}
+
+## 6) 宿主插件加载态（plugin_manager 工具实测，16:3x）
+total: 226
+include:cost-meter => version 1.9.46, active
+include:dsh-pet-bridge => active
+include:subagent-codex / include:subagent-claude-code => active（rows 各 2，无 error）

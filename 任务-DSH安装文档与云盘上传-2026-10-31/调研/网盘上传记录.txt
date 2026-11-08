@@ -1,0 +1,83 @@
+# 夸克网盘上传记录
+# 时间：2026-10-31 09:23:50
+# 命令：node scripts/quark-drive.cjs upload "<文档路径>" --session-id 1793409340-axEXiV --session-input "<用户原始提问>"
+# 退出码：1
+# 文件大小：72016 B
+
+## 原始输出（NDJSON）
+node.exe : [ERROR][FormUploadStrategy] Pre-upload failed: [14001] 参数错误: [upload dir blank]
+所在位置 行:1 字符: 850
++ ... ss"; $raw = & "C:\Program Files\nodejs\node.exe" "scripts\quark-drive ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([ERROR][FormUpl...load dir blank]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[ERROR][UploadManager] Task 159c17a1-2b9b-4a8e-9c62-8befd80a698c upload failed: [14001] 参数错误: [upload dir blank]
+{"code":14001,"msg":"参数错误: [upload dir blank]","data":{"recordId":"159c17a1-2b9b-4a8e-9c62-8befd80a698c"},"action":"upload","type":"list"}
+{"code":14001,"msg":"参数错误: [upload dir blank]","action":"upload","type":"result","data":{"fids":[],"successCount":0,"failedCount":1}}
+
+
+
+===== 重试：用户确认上传到网盘根目录（--parent-fid 0），2026-10-31 10:13:12 =====
+退出码：0
+文件大小：72016 B
+
+原始输出（NDJSON）：
+{"msg":"进行中","data":{"current":65536,"total":72016,"percent":91},"action":"upload","type":"progress"}
+{"msg":"进行中","data":{"current":72016,"total":72016,"percent":100},"action":"upload","type":"progress"}
+{"code":0,"msg":"上传成功","data":{"recordId":"29853639-ffb1-4fee-b98c-a3aad57214f6","fileId":"2fb5975c57cd4e95a0aa306f733fb8f8","fileName":"DSH-新机安装与插件迁移文档-2026-10-31.md","fileSize":72016,"instantUpload":false},"action":"upload","type":"list"}
+{"code":0,"msg":"成功","data":{"fileNames":["DSH-新机安装与插件迁移文档-2026-10-31.md"],"fileCount":1,"totalSize":72016,"fids":["2fb5975c57cd4e95a0aa306f733fb8f8"],"successCount":1,"instantUpload":false,"instantUploadCount":0,"fullPath":"夸克网盘","heapUsed":13928344,"rss":68595712},"action":"upload","type":"result"}
+
+
+
+===== 上传后核验（search --stdout-only），2026-10-31 10:13:24 =====
+退出码：0
+输出摘录：
+
+
+===== 清理失败任务记录（upload delete），2026-10-31 10:13:24 =====
+退出码：0
+输出：
+node.exe : [WARN][UploadManager] Delete task failed: task 159c17a1-2b9b-4a8e-9c62-8befd80a698c not found
+所在位置 行:1 字符: 1194
++ ...  ==="; $d = & "C:\Program Files\nodejs\node.exe" "scripts\quark-drive ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([WARN][UploadMa...a698c not found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+{"code":0,"msg":"成功","data":{"recordId":"159c17a1-2b9b-4a8e-9c62-8befd80a698c"},"action":"upload-delete","type":"result"}
+
+
+
+===== 最终版复传（本地最终版本，--parent-fid 0），2026-10-31 10:15:13 =====
+本地大小：73628 B
+退出码：0
+原始输出（NDJSON）：
+{"msg":"进行中","data":{"current":65536,"total":73628,"percent":89},"action":"upload","type":"progress"}
+{"msg":"进行中","data":{"current":73628,"total":73628,"percent":100},"action":"upload","type":"progress"}
+{"code":0,"msg":"上传成功","data":{"recordId":"2f48e7f9-4e76-45b9-b953-bcfbd8231e40","fileId":"fa85116384d644509c7de1869744a23a","fileName":"DSH-新机安装与插件迁移文档-2026-10-31.md","fileSize":73628,"instantUpload":false},"action":"upload","type":"list"}
+{"code":0,"msg":"成功","data":{"fileNames":["DSH-新机安装与插件迁移文档-2026-10-31.md"],"fileCount":1,"totalSize":73628,"fids":["fa85116384d644509c7de1869744a23a"],"successCount":1,"instantUpload":false,"instantUploadCount":0,"fullPath":"夸克网盘","heapUsed":13927240,"rss":68374528},"action":"upload","type":"result"}
+
+
+----- 上传后 search 核验（total=2，exit=0）-----
+{"code":0,"msg":"成功","data":{"total":2,"file_list":[{"fid":"~1qYjQT65ga64mAevlqcByh2XZ6_Vt28vw4Gthhmn2yXZCrapxhVmpmSaOJfkpaG4U8_D8y032tWa1zLUWF6hbPI|WFO3R-QW_rI","parent_fid":"~1q7eLf6JrZnQNBiqaFn-nohmXQ842MGuRtgZHZV4VzP3zQ|60KSBKP642U","category":4,"filename":"DSH-新机安装与插件迁移文档-2026-10-31.md","size":72016,"file_type":"1","format_type":"text/x-web-markdown","created_at":1793412793997,"updated_at":1793412793997,"check_link":"https://pan.quark.cn/open/v1/oauth/agent#/skill-search-result?sp=AAPfKLEDbjMDxI%2FY4XPGwqCdZZYrbzl2cCl6JCCjiNfdYYArBma9AO3BcCImtoN9NPWGp9LpOeAQCxNYYOUPpcxN60uBcpIDO2CR4nqN6asSq4JtX0HcA72mvROlfFjBdR1WNLGdiCAg7p2akMXc%2Bm7603vyXHIAzs%2FYAv3TznLC01HrYpDStNPfQh9R5ukTxVYPlO0fJQLGqAKQjRkRx0g3&preview_fid=~1qYjQT65ga64mAevlqcByh2XZ6_Vt28vw4Gthhmn2yXZCrapxhVmpmSaOJfkpaG4U8_D8y032tWa1zLUWF6hbPI|WFO3R-QW_rI"},{"fid":"~13XqMVx-ATVMvDwEsvjqAMYLg7drRwAxNBvE1r_OyAa0WlP5k9OED6gld3x-N-srmVXhCkaO7LN0P0ZBkqZh1Yc|kNPXKjGEChs","parent_fid":"~16ALP3i4wHPYHyYB2yHQvR9UXSs6AcIYcoehrYoFUcbGPg|60KSBKP642U","category":4,"filename":"DSH-新机安装与插件迁移文档-2026-10-31(1).md","size":73628,"file_type":"1","format_type":"text/x-web-markdown","created_at":1793412915141,"updated_at":1793412915141,"check_link":"https://pan.quark.cn/open/v1/oauth/agent#/skill-search-result?sp=AAPfKLEDbjMDxI%2FY4XPGwqCdZZYrbzl2cCl6JCCjiNfdYYArBma9AO3BcCImtoN9NPWGp9LpOeAQCxNYYOUPpcxN60uBcpIDO2CR4nqN6asSq4JtX0HcA72mvROlfFjBdR1WNLGdiCAg7p2akMXc%2Bm7603vyXHIAzs%2FYAv3TznLC01HrYpDStNPfQh9R5ukTxVYPlO0fJQLGqAKQjRkRx0g3&preview_fid=~13XqMVx-ATVMvDwEsvjqAMYLg7drRwAxNBvE1r_OyAa0WlP5k9OED6gld3x-N-srmVXhCkaO7LN0P0ZBkqZh1Yc|kNPXKjGEChs"}]},"action":"search","type":"result"}
+
+===== 旧文件删除核验（16:25，search --stdout-only）=====
+命令：node scripts/quark-drive.cjs search --keyword "DSH-新机安装与插件迁移文档" --stdout-only
+输出：
+{"code":0,"msg":"成功","data":{"total":0,"file_list":[]},"action":"search","type":"result"}
+{"code":0,"msg":"成功","data":{"file_path":"C:\Users\31384\.dsh\skills\quarkclouddrive\deepseek\search\4d85af5995834a4aaf598d683a4e7a33\search-20261031-162548-e9de1c.jsonl","count":0,"format":"jsonl"},"action":"search","type":"artifact"}
+结论：旧文件（72,016 B 首传快照 + 73,628 B 旧最终版）已不在网盘索引中；删除截图见 调研\证据-删除旧网盘文件\。
+
+===== 第 2 版上传与核验，2026-10-31 16:36:13 =====
+本地文件大小：98907 B
+上传退出码：0
+上传输出（NDJSON）：
+{"msg":"进行中","data":{"current":65536,"total":98907,"percent":66},"action":"upload","type":"progress"}
+{"msg":"进行中","data":{"current":98907,"total":98907,"percent":100},"action":"upload","type":"progress"}
+{"code":0,"msg":"上传成功","data":{"recordId":"ced19943-b1d3-4260-9674-79a6c2e47032","fileId":"6748d956aaa0438fa55a4023a9258892","fileName":"DSH-新机安装与插件迁移文档-2026-10-31.md","fileSize":98907,"instantUpload":false},"action":"upload","type":"list"}
+{"code":0,"msg":"成功","data":{"fileNames":["DSH-新机安装与插件迁移文档-2026-10-31.md"],"fileCount":1,"totalSize":98907,"fids":["6748d956aaa0438fa55a4023a9258892"],"successCount":1,"instantUpload":false,"instantUploadCount":0,"fullPath":"夸克网盘","heapUsed":13883824,"rss":68415488},"action":"upload","type":"result"}
+
+----- 上传后 search 核验（total=1，exit=0）-----
+{"code":0,"msg":"成功","data":{"total":1,"file_list":[{"fid":"~1Hs-CQ2DH4qgkKJVsmN1ElBwT0ZmgRmnYKtdymcRbDl5cYuC27LV-LDE61YA9BoDGjro5JZ6Mm4wSv8D6Fxa2UE|0DcnvZyY_-0","parent_fid":"~1LCXvQJLvXVsaIuIX8GYBwkeZbq_v8reH6vy28Vmq2_Qrg|60KSBKP642U","category":4,"filename":"DSH-新机安装与插件迁移文档-2026-10-31.md","size":98907,"file_type":"1","format_type":"text/x-web-markdown","created_at":1793435774918,"updated_at":1793435774918,"check_link":"https://pan.quark.cn/open/v1/oauth/agent#/skill-search-result?sp=AAPfKLEDbjMDxI%2FY4XPGwqCdZZYrbzl2cCl6JCCjiNfdYays%2FqyAlrvWvrD6cWkbivi2CYBYx4tTTf1nNocGxZ2zjaVktlPY%2BiCBLb%2Fmd16J5J2v1UVnuKBLhHJ%2FUKVewqoWvAp%2BwA0BQpCyEUmoVFzCkL0yBhzg4Y7QDKjR9CxKdCjcgGPFiiReMMSIjV52l4Z8gSlbbXysUkCzEUSf7Add&preview_fid=~1Hs-CQ2DH4qgkKJVsmN1ElBwT0ZmgRmnYKtdymcRbDl5cYuC27LV-LDE61YA9BoDGjro5JZ6Mm4wSv8D6Fxa2UE|0DcnvZyY_-0"}]},"action":"search","type":"result"}
+

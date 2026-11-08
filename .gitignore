@@ -61,6 +61,7 @@ jre/
 *.woff2
 *.orig
 *原始空规则备份
+conf.json.*备份
 appjar/
 uncle-novel.jar.unpacked/
 素材转换/
