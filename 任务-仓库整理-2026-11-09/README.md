@@ -38,13 +38,13 @@
 | 历史违禁路径 | 0（对 `--name-only` 全历史扫描：png/jpg/pdf/jar/bin/class/woff/orig/appjar/素材转换/原始空规则备份） | 重写克隆内扫描输出 |
 | HEAD 文件一致性 | 旧 319 = 新 319，双向差异 0 | 两个 `git ls-tree`/`ls-files` 对比 |
 | 本地文件保全 | 394/394 个被移出历史的文件仍在工作区 | 清单逐项 `Test-Path` |
-| 仓库体积 | git 对象 21.21 MB → **775 KB**（pack） | `git count-objects -vH` |
+| 仓库体积 | 重写克隆 pack **775 KB**；远端全新克隆 pack **1.76 MiB**（含 4 张证据截图）；本地 `.git` 23.24 MB → **1.84 MB**（gc 后） | `git count-objects -vH` / 远端 `git clone --no-local` |
 | 当前跟踪内容 | 319 个文件 / 约 2.98 MB | `git ls-files` + 文件大小统计 |
-| 远端结果 | force push 成功，远端 `main` = `46fc121`；本地与 `origin/main` 同步 | `git push` 输出 / `git ls-remote origin main` |
+| GitHub API `size` 字段 | 仍显示 21696 KB（force push 后不可达对象短时计入；以全新克隆 1.76 MiB 为准，GitHub 侧 GC 后可能更新） | API `/repos/1-zh335/v-b` | force push 成功；远端全新克隆：**12 个提交 / 335 个文件 / pack 1.76 MiB**；远端树扫描仅 4 个例外条目（用户指定入库的证据截图），其余无 png/pdf/jar/bin/class/素材残留 | `git push` 输出 / `git ls-remote` / GitHub API trees / 远端 `git clone` |
 
 ## 推送结果
 
-- **已推送**（2026-11-09）：`git push --force-with-lease=main:a0d33e57aa63e62212b98cc891ff77e181988eb8 origin main` 成功，输出 `+ a0d33e5...46fc121 main -> main (forced update)`；`git ls-remote origin main` 返回 `46fc1217f2d1279928b2719fd7b523b6316b598a`，本地 `main...origin/main` 同步（无 ahead/behind）。
+- **已推送**（2026-11-09）：`git push --force-with-lease=main:a0d33e57aa63e62212b98cc891ff77e181988eb8 origin main` 成功，输出 `+ a0d33e5...46fc121 main -> main (forced update)`；`git ls-remote origin main` 返回 `46fc1217f2d1279928b2719fd7b523b6316b598a`，本地 `main...origin/main` 同步（无 ahead/behind）。随后补充本次文档记录提交并普通推送成功（`46fc121..30c7569  main -> main`），远端 HEAD 现为 `30c7569`。
 
 ## 回滚
 
