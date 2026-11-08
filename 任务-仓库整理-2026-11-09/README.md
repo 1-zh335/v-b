@@ -34,17 +34,17 @@
 
 | 项 | 结果 | 证据 |
 |---|---|---|
-| 提交历史保留 | 10 个提交（重写后 SHA 变化，消息/顺序保留） | `git log --oneline` |
+| 提交历史保留 | 重写后 10 个提交，另加整理提交（推送 HEAD `46fc121`，共 11 个；SHA 变化、消息/顺序保留） | `git log --oneline` |
 | 历史违禁路径 | 0（对 `--name-only` 全历史扫描：png/jpg/pdf/jar/bin/class/woff/orig/appjar/素材转换/原始空规则备份） | 重写克隆内扫描输出 |
 | HEAD 文件一致性 | 旧 319 = 新 319，双向差异 0 | 两个 `git ls-tree`/`ls-files` 对比 |
 | 本地文件保全 | 394/394 个被移出历史的文件仍在工作区 | 清单逐项 `Test-Path` |
 | 仓库体积 | git 对象 21.21 MB → **775 KB**（pack） | `git count-objects -vH` |
 | 当前跟踪内容 | 319 个文件 / 约 2.98 MB | `git ls-files` + 文件大小统计 |
-| 远端结果 | 见「推送结果」小节 | `git ls-remote` / GitHub API |
+| 远端结果 | force push 成功，远端 `main` = `46fc121`；本地与 `origin/main` 同步 | `git push` 输出 / `git ls-remote origin main` |
 
 ## 推送结果
 
-- 待本次提交推送后补充（命令：`git push --force-with-lease=main:a0d33e57aa63e62212b98cc891ff77e181988eb8 origin main`）。
+- **已推送**（2026-11-09）：`git push --force-with-lease=main:a0d33e57aa63e62212b98cc891ff77e181988eb8 origin main` 成功，输出 `+ a0d33e5...46fc121 main -> main (forced update)`；`git ls-remote origin main` 返回 `46fc1217f2d1279928b2719fd7b523b6316b598a`，本地 `main...origin/main` 同步（无 ahead/behind）。
 
 ## 回滚
 
