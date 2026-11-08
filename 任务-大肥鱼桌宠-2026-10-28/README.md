@@ -126,3 +126,24 @@ idle → 回待机 + 完成提醒。只用本地文件通信，不联网；审�
 - 开机自启注册表值、音效配置等仍为「已写入」级别，**未做重启后的生效验证**。
 
 **结论**：**最终能用 ≠ 当时那些话有依据**。本任务后续同类交付一律按 `AGENTS.md` §6「承诺与交付纪律」执行：配置写入只写「已写入」，生效必须有运行时证据，超时/部分失败原样报告。
+---
+
+## 小米 MiMo TTS 接入（2026-10-31 追加）
+
+### 配置
+- 语音引擎：`voice_chime_tts_backend = "mimo"`
+- 模型：`voice_chime_mimo_model = "mimo-v2.5-tts"`（内置音色；另有 `mimo-v2.5-tts-voicedesign` 可用文字描述生成音色）
+- 音色：`voice_chime_mimo_voice = "冰糖"`（可选：茉莉/苏打/白桦/Mia/Chloe/Milo/Dean）
+- 语音报时保持启用（`voice_chime_enabled = true`，此前已开）
+- Key 存放：Windows 凭据管理器（keyring 服务名 `dsh-pet-standalone`，用户名 `tts/mimo`）；按 keyring 25.7.0 的复合名规则，原 DeepSeek 聊天 Key 已迁移到 `provider/openai-main@dsh-pet-standalone`，两条凭据共存。**Key 明文不写入 README / config.json / 日志。**
+
+### 验证（本机实测）
+- 直连小米 API 合成：`POST https://api.xiaomimimo.com/v1/chat/completions`，model=`mimo-v2.5-tts`，voice=`冰糖` → 返回 WAV 215,084 字节 / 约 4.48s / 24kHz 单声道 16bit（free 限时额度内）
+- 设置页「语音 → 语音引擎」显示为「小米 MiMo」，API Key 行显示「已保存」
+- 在设置页点击「立即试听」→ 生成 `voice_chime_cache\dcaee7dd3df2c951.wav`（268,844 字节 / 5.6s / 24kHz 单声道 16bit，与 MiMo 返回格式一致），无合成失败提示
+- 桌宠主进程运行正常；Agent 联动监视器仍在
+
+### 费用与切换
+- 费用：小米 MiMo 官方 Token Plan 文档（2026-10-20 更新）写明 TTS 系列「限时免费、不消耗套餐点数」；「限时」可能结束，之后按平台价格计费
+- 切回免费引擎：设置 → 语音 → 语音引擎选 `edge-tts（微软·免 Key）` 或 `Windows 本地语音（离线）`
+- 清除 Key：设置 → 语音 → API Key 行 →「清除」
