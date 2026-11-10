@@ -91,4 +91,4 @@
 
 ## 9. git 状态
 
-已提交并推送：提交 `054b1e1`（2026-11-10 23:2x，含本任务 v4 文档/记录、AGENTS.md 与 README.md 校正），已推送 `origin main`（本地/远端一致）；工作区除 `.gitignore` 忽略的证据截图外无未提交改动。
+已提交并推送：`054b1e1`（v4 文档/记录 + AGENTS/README 校正）与 `c7af7cf`（本 README 状态补充）均已推送 `origin main`，最终 HEAD `c7af7cf` 与远端一致（推送时使用 `http.curloptResolve github.com:443:140.82.112.3`，因 20.27.177.113 超时；工作区除 `.gitignore` 忽略的证据截图外无未提交改动）。
