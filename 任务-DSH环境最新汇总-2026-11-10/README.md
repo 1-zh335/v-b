@@ -91,4 +91,4 @@
 
 ## 9. git 状态
 
-已提交并推送：`054b1e1`（v4 文档/记录 + AGENTS/README 校正）与 `c7af7cf`（本 README 状态补充）均已推送 `origin main`，最终 HEAD `c7af7cf` 与远端一致（推送时使用 `http.curloptResolve github.com:443:140.82.112.3`，因 20.27.177.113 超时；工作区除 `.gitignore` 忽略的证据截图外无未提交改动）。
+已提交并推送：`054b1e1`（v4 文档/记录 + AGENTS/README 校正）与 `c7af7cf`（README 状态补充）经 `140.82.112.3` 正常推送；其后 `github.com` 被网络阻断，最后一笔提交（本段更新）改由 `api.github.com` 同步到远端，本地 HEAD 与远端 `main` 保持一致（最终 SHA 见 `git log -1`；工作区除 `.gitignore` 忽略的证据截图外无未提交改动）。
