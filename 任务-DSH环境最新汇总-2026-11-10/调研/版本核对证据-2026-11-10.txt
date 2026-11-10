@@ -1,0 +1,76 @@
+# 2026-11-10 版本/环境核对证据（采集时间 2026-11-10 07:37:53，UTC+8）
+
+## 1) DSH 版本与运行时
+dsh --version => 0.2.1-rc.5
+exe FileVersion => 0.2.1-rc.5
+runtime.json => {"desktopVersion":"0.2.1-rc.5","node":"24.21.0","pnpm":"11.28.5","python":"3.12.14"}
+resources mtime => 10/29/2026 22:02:52
+
+## 2) nightly 最新版本（下载更新源）
+version: 0.2.2-rc.1
+releaseDate: '2026-11-04T09:31:49.677Z'
+
+## 3) 更新缓存 pending
+C:\Users\31384\AppData\Local\@deepseek-aidsh-desktop-updater\current.blockmap  305273 B  11/08/2026 20:29:06
+C:\Users\31384\AppData\Local\@deepseek-aidsh-desktop-updater\installer.exe  289408544 B  10/30/2026 21:07:34
+C:\Users\31384\AppData\Local\@deepseek-aidsh-desktop-updater\pending\current.blockmap  305273 B  11/08/2026 20:29:06
+C:\Users\31384\AppData\Local\@deepseek-aidsh-desktop-updater\pending\deepseek-harness-0.2.2-rc.1-win-x64.exe  293425336 B  11/08/2026 20:29:59
+C:\Users\31384\AppData\Local\@deepseek-aidsh-desktop-updater\pending\update-info.json  185 B  11/08/2026 20:30:02
+
+## 4) npm 最新 dsh-cost-meter
+npm view dsh-cost-meter version => 1.9.62
+npm view dsh-cost-meter@1.9.62 engines => { dsh: '>=0.2.0-rc.1 <0.3.0-0', node: '>=20' }
+
+## 5) 应用版本
+Edge => 157.0.4341.42
+Quark => 7.4.7.1036
+Trae => 3.4.7
+Node/npm => v26.7.0 / 11.19.0
+Python => Python 3.12.10
+git => git version 2.55.0.windows.3
+
+## 6) 工作区 git
+HEAD => 39cb981ecad1f3ea35e0eefa90db51cce18e7bde
+log -1 => 39cb981 2026-11-09 07:44:33 +0800 docs: 补充仓库整理后的远端克隆/GC 验证数据
+remote => origin	https://github.com/1-zh335/v-b.git (fetch)
+branch => * main 39cb981 [origin/main] docs: 补充仓库整理后的远端克隆/GC 验证数据
+status(porcelain) => [?? 任务-DSH环境最新汇总-2026-11-10/]
+commit count => 13
+tracked files => 335
+count-objects:
+  count: 4
+  size: 4.11 KiB
+  in-pack: 453
+  packs: 1
+  size-pack: 1.76 MiB
+  prune-packable: 0
+  garbage: 0
+  size-garbage: 0 bytes
+
+## 7) 配置快照哈希
+C:\Users\31384\.dsh\profiles\desktop\package.json => 1341 B, 10/31/2026 16:25:53, sha256 26EAD4011EA85F0ED5E32E9F914B19A6B9663A5A1B35F79629B3A5B40CF143BD
+C:\Users\31384\.dsh\profiles\web\package.json => 448 B, 10/31/2026 16:26:23, sha256 76A981A41C1DE50A512717B20DD0C0C71005B7F92833851117733DBB5BA3E507
+C:\Users\31384\.dsh\profiles\desktop\cordis.patch.yml => 2242 B, 10/31/2026 15:44:20, sha256 1BAAD0ADD7FA2CE870DBA10B93863EE8809B580898C1AAA021CD95DC2C18DF13
+C:\Users\31384\AppData\Roaming\dsh-pet-standalone-webm-chat\config.json => 3253 B, 10/31/2026 16:16:06, sha256 3FB88ED4F13C27E0243A6AE3ED1EA40C0F23812BE4F55C8F773AD1C4C2C27632
+
+## 8) 桌宠/服务状态
+dsh-pet process => NONE
+HKCU Run dsh-pet => cmd /c start "" /D "C:\Users\31384\AppData\Local\Programs\dsh-pet-standalone-webm-chat" "C:\Users\31384\AppData\Local\Programs\dsh-pet-standalone-webm-chat\dsh-pet-standalone-webm-chat.exe" --slot 0
+bridge event: dsh-22548.jsonl 169953 B 11/10/2026 07:37:59
+bridge event: dsh-22764.jsonl 934 B 11/09/2026 07:30:29
+bridge event: dsh-33812.jsonl 933 B 11/09/2026 07:30:09
+settings.yaml exists => False
+
+## 9) 插件加载态（plugin_manager 工具实测）
+total=226；include:cost-meter version 1.9.46 active；include:dsh-pet-bridge active；subagent-codex/claude-code 0.2.1-rc.5 active（rows 各 2、无 error）；list_bundles total=22 / enabled=18
+
+## 10) 2026-11-10 补充实测（Lead 复核）
+- Quark 浏览器：FileVersion=7.4.7.1036、ProductVersion=7.4.7.1036、注册表 DisplayVersion=7.4.7.1036、运行进程同版本；exe LastWriteTime=2026-11-05 16:56:32（与 2026-10-31 记录的 7.4.2.1020 不同；自动更新，时点未确认）
+- DSH 宿主：PID 22548，GUI 127.0.0.1:65119（11-09 07:32 重启，版本 0.2.1-rc.5）
+- dsh web 常驻实例：PID 16928，监听 127.0.0.1:38080，命令行 web --host 127.0.0.1 --port 38080 --no-open（2026-10-31 15:33:29 起），GET / 返回 401
+- 桌宠：进程 0；最后日志 2026-11-08 20:30:06；停止原因未确认（系统自 2026-10-31 15:32:24 未重启）
+- 桥接事件：dsh-22548.jsonl 135,718 B @2026-11-10 07:35:58（仍在写）
+- cost-meter ledger.json：1,760,028 B @2026-11-10 07:33（storages 目录 6.11 MB）
+- 磁盘可用：858.1 GB（≈799 GiB）
+- 体积：DSH 安装 1,043.3 MB；.dsh 924.6 MB；profiles 635.1 MB；桌宠 556.3 MB；工作区 1,787.2 MB
+- 仓库旧历史备份（勿删）：C:\Users\31384\Documents\v-b-backup-2026-11-09\（约 66.8 MB）
