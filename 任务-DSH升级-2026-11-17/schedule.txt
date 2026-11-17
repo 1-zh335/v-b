@@ -1,0 +1,7 @@
+DSH 更新安装计划（2026-11-17）
+任务名：DeepSeekHarnessUpdate_20261117
+计划开始：2026-11-17 20:57:00
+脚本：C:\Users\31384\AppData\Local\Temp\dsh_update_20261117.ps1
+安装包：%LOCALAPPDATA%\@deepseek-aidsh-desktop-updater\pending\deepseek-harness-0.2.2-rc.3-win-x64.exe（299,595,752 B，SHA512 校验一致、签名有效）
+预期结果：DSH 版本变为 0.2.2-rc.3，App 自动重启；结果写入本目录 install-result.txt
+备注：任务运行时会先停止所有 DeepSeek Harness.exe（含 dsh web 38080 实例），再静默安装并重启桌面端。

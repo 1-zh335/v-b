@@ -1,0 +1,32 @@
+﻿[2026-11-17 20:57:01] === install task start ===
+[2026-11-17 20:57:01] installer exists=True path=C:\Users\31384\AppData\Local\@deepseek-aidsh-desktop-updater\pending\deepseek-harness-0.2.2-rc.3-win-x64.exe
+[2026-11-17 20:57:01] installer size=299595752 lastwrite=11/17/2026 20:42:42
+[2026-11-17 20:57:01] round 1: running DSH processes=9
+[2026-11-17 20:57:01]   close request PID=10312
+[2026-11-17 20:57:01]   close request PID=10544
+[2026-11-17 20:57:01]   close request PID=13380
+[2026-11-17 20:57:01]   close request PID=17120
+[2026-11-17 20:57:01]   close request PID=17640
+[2026-11-17 20:57:01]   close request PID=18112
+[2026-11-17 20:57:01]   close request PID=19232
+[2026-11-17 20:57:01]   close request PID=19388
+[2026-11-17 20:57:01]   close request PID=20412
+[2026-11-17 20:57:05]   force killed PID=10312
+[2026-11-17 20:57:05]   force killed PID=10544
+[2026-11-17 20:57:05]   force killed PID=13380
+[2026-11-17 20:57:05]   force killed PID=17120
+[2026-11-17 20:57:05]   force killed PID=17640
+[2026-11-17 20:57:06]   force killed PID=18112
+[2026-11-17 20:57:06]   force killed PID=19232
+[2026-11-17 20:57:06]   force killed PID=19388
+[2026-11-17 20:57:06]   force killed PID=20412
+[2026-11-17 20:57:09] round 2: running DSH processes=0
+[2026-11-17 20:57:09] remaining DSH processes=0
+[2026-11-17 20:57:59] installer exit code=0
+[2026-11-17 20:58:09] installed exe FileVersion=0.2.2-rc.3
+[2026-11-17 20:58:09] runtime desktopVersion=0.2.2-rc.3 node=24.21.0 pnpm=11.28.5 python=3.12.14
+[2026-11-17 20:58:11] dsh --version => 0.2.2-rc.3
+[2026-11-17 20:58:11] RESULT: SUCCESS (version 0.2.2-rc.3 detected)
+[2026-11-17 20:58:11] app relaunched
+[2026-11-17 20:58:11] scheduled task deleted
+[2026-11-17 20:58:11] === install task end ===

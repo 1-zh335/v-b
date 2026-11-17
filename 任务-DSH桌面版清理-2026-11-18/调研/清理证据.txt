@@ -1,0 +1,13 @@
+# DSH 桌面版清理证据（2026-11-18 00:50-00:51）
+
+清理后检查：
+- 监听 38080/3080：0 个
+- dsh web 进程：0 个
+- profiles 目录：desktop（web 已归档）
+- 归档：C:\Users\31384\.dsh\profiles-archive\web-20261118（原 ~/.dsh/profiles/web，14.7 MB/1161 文件）
+- dsh-start.bat / DSH 启动.lnk：已移入本任务 归档\
+- 桌宠：PID 11544 运行中，config harness_autostart=false，日志无 web 启动
+
+清理前：
+- dsh web host PID 18868，父 cmd PID 18660，监听 127.0.0.1:38080，由桌宠 PID 18152 拉起
+- web profile 1161 文件/14.7 MB；桌宠 harness_autostart=true
