@@ -1,0 +1,15 @@
+安装验证 - 2026-11-19
+skills_dir=C:\Users\31384\.dsh\skills
+frontend-design files=2 skill_md=True name='frontend-design' refs=0 missing=
+webapp-testing files=6 skill_md=True name='webapp-testing' refs=1 missing=
+find-skills files=1 skill_md=True name='find-skills' refs=0 missing=
+frontend-code-review files=9 skill_md=True name='frontend-code-review' refs=8 missing=
+code-reviewer files=1 skill_md=True name='code-reviewer' refs=0 missing=
+pr-creator files=1 skill_md=True name='pr-creator' refs=0 missing=
+fix files=1 skill_md=True name='fix' refs=0 missing=
+update-docs files=3 skill_md=True name='update-docs' refs=2 missing=
+cache-components files=3 skill_md=True name='cache-components' refs=1 missing=
+fullstack-developer files=1 skill_md=True name='fullstack-developer' refs=0 missing=
+
+DSH 运行时发现（2026-11-19 22:0x）：安装后下一步 available_skills 已列出全部 10 个名称
+catalog=frontend-design, webapp-testing, find-skills, frontend-code-review, code-reviewer, pr-creator, fix, update-docs, cache-components, fullstack-developer

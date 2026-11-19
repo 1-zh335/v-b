@@ -4,7 +4,7 @@
 > **生效范围**：本工作区（`v b`）内所有 DSH 会话与 Trae 项目会话；离开本工作区时按下方「指针」规则处理。
 > **加载机制**：DSH 先加载用户级 `$DSH_HOME/AGENTS.md`（本机为**指针**，只给路径不含规则正文）→ 再加载「项目根 → 当前工作目录」链上的 `AGENTS.md`/`CLAUDE.md`（及 `.local` 变体）；本工作区含 `.git`，项目根即工作区根。Trae 通过 `AI.rules.importAgentsMd`（已显式设 `true`）自动加载项目根 `AGENTS.md`，用户级 `~/.trae-cn/user_rules/工程规范.md` 只是指针。
 > **优先级**：用户直接指令 > 项目级 `AGENTS.md`（本文件，更具体） > 其他指针/说明。本文件不覆盖系统/用户的直接指令。
-> **最后修订**：**2026-11-19**（审阅与整理：复核 DSH 已自动升级到 `0.2.2-rc.5`、subagent 同步 rc.5；把两个 Uncle小说快捷方式全部移入 `任务-uncle-novel优化-2026-10-25\` 并补充「快捷方式污染桌面」教训；更新 §0 版本/插件/HEAD 字面值与技能核验；以网盘 39,496 B（2026-11-16）与 44,935 B（2026-11-17）两版为骨架，环境事实按本机实测重写）。
+> **最后修订**：**2026-11-19**（审阅与整理：复核 DSH 已自动升级到 `0.2.2-rc.5`、subagent 同步 rc.5；把两个 Uncle小说快捷方式全部移入 `任务-uncle-novel优化-2026-10-25\` 并补充「快捷方式污染桌面」教训；更新 §0 版本/插件/HEAD 字面值与技能核验；以网盘 39,496 B（2026-11-16）与 44,935 B（2026-11-17）两版为骨架，环境事实按本机实测重写；当晚从上游安装 10 个第三方技能并通过 DSH 技能目录发现验证）。
 > **维护铁律**：规则正文只改本文件；`$DSH_HOME/AGENTS.md`、`~/.trae-cn/user_rules/工程规范.md` 仅允许放**指针**（路径说明，不写规则正文）；禁止再建其他规则副本。
 
 ---
@@ -37,7 +37,7 @@
 | 已装 DSH 插件（desktop） | `dsh-cost-meter@1.9.62`；`@deepseek-ai/dsh-subagent-codex@0.2.2-rc.5`；`@deepseek-ai/dsh-subagent-claude-code@0.2.2-rc.5`；`@dsh-pet/bridge@0.2.0`（link）；插件市场索引 `https://dshopen.org/index.json`。精确值以 `~/.dsh/profiles/desktop/package.json` 为准 |
 | 桌宠 | 已安装 **v4.4.0**（`%LOCALAPPDATA%\Programs\dsh-pet-standalone-webm-chat\`，运行中，HKCU Run 自启）；`harness_autostart` 已于 2026-11-18 关闭（不再自动启动 `dsh web`）；`@dsh-pet/bridge` 联动保留 |
 | 夸克网盘 Skill | `~\.dsh\skills\quarkclouddrive`（**1.0.25，已授权**，账号「时雨既溯」/SVIP+）；用 DSH 自带 node 执行 `scripts\quark-drive.cjs` |
-| 用户级技能（第三方） | 本机 `$DSH_HOME\skills` 实测**只有** `quarkclouddrive`（1.0.25）；云端最新版列出的 10 个第三方技能（cache-components / code-reviewer / find-skills / fix / frontend-code-review / frontend-design / fullstack-developer / pr-creator / update-docs / webapp-testing）**不在本机**，不要照抄为「已安装」（📄 2026-11-19 复核） |
+| 用户级技能（第三方） | **已安装 10 个**（2026-11-19 22:01）：`cache-components`、`code-reviewer`、`find-skills`、`fix`、`frontend-code-review`、`frontend-design`、`fullstack-developer`、`pr-creator`、`update-docs`、`webapp-testing`；另有 `quarkclouddrive`（1.0.25）。来源/文件数见 §9.6；DSH 会话技能目录已刷新出现全部 10 个名称（2026-11-19 复核） |
 | 本地工具 | `工具\窗口查看.ps1`（16,485 B，UTF-8 BOM+CRLF）；`工具\浏览器\`（Edge CDP + playwright-core 1.64.1）；`push-to-github.bat`/`.ps1`；`dsh-start.bat` 已于 2026-11-18 归档（网页版清理，不再使用） |
 | 不存在的工具 | ❌ `check_win_bat_standards`；❌ `wmic`；❌ Chrome；❌ `dsh web`（本机不再使用网页版） |
 | 网络 | `github.com` 偶发被阻断（2026-11-17 晚所有候选 IP 超时、2026-11-19 再次超时；`api.github.com` 通常可达）；可用 `git config --global http.curloptResolve "github.com:443:<IP>"` 轮换 IP，或改走 GitHub API contents / `codeload.github.com`；token 只存 Windows 凭据管理器，禁止写入文件/文档/日志 |
@@ -331,7 +331,7 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 - **预算**：单文件源码上限 **1 MiB**；每条链渲染预算 **65536 字节**；本文件 + 项目级文件之和不要逼近上限（当前文件约 46 KB 内，见 §10 自检）。
 - **生效时机**：改完本文件后，**新会话/新基线**生效；当前会话已注入的内容不会热替换。Trae 若未立即生效，重启 Trae 或重新打开工作区。
 - **Trae 刷新规则**：Trae 已有任务线程会沿用创建时的规则快照；改完 AGENTS.md 后必须**新建任务/会话**（或重启 Trae 后新任务）才能验证最新内容。实测 2026-11-19：旧任务仍按旧规则回答（说 §9.6 无技能内容），新建任务后正确引用最新 §9.6。
-- **技能发现（据 0.2.2 机制文档，rc.3 时核对；rc.5 未复核）**：按 rank 扫描 项目根 `.dsh/skills`(100)、`.agents/skills`(200)、customSkillDirs(300)、`$DSH_HOME/skills`(400)、`~/.agents/skills`(500)、bundled(600)；每层只认 `<root>/<name>/SKILL.md` 或 `<root>/<name>.md`（不递归）；frontmatter 必须含 kebab-case 的 `name` 与 `description`，非法条目静默跳过。本机第三方技能目录为 `$DSH_HOME\skills\`（当前仅 quarkclouddrive）。
+- **技能发现（2026-11-19 rc.5 实测）**：按 rank 扫描 项目根 `.dsh/skills`(100)、`.agents/skills`(200)、customSkillDirs(300)、`$DSH_HOME/skills`(400)、`~/.agents/skills`(500)、bundled(600)；每层只认 `<root>/<name>/SKILL.md` 或 `<root>/<name>.md`（不递归）；frontmatter 必须含 kebab-case 的 `name` 与 `description`，非法条目静默跳过。本机第三方技能目录为 `$DSH_HOME\skills\`（2026-11-19 已安装 10 个第三方技能 + quarkclouddrive，见 §9.6；新增目录后会话技能目录立即出现全部名称）。
 - **禁止副本**：历史教训见 §8；任何情况下不要再建第二份规则正文或多余指针。
 
 ### 9.2 权限模式
@@ -369,11 +369,27 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 
 ### 9.6 用户级技能（第三方）
 
-- **本机现状**：`$DSH_HOME\skills` 实测只有 `quarkclouddrive`（1.0.25，见 §9.4）；云端最新版 AGENTS.md（2026-11-17）列出的 10 个第三方技能属于另一台机器，本机**未安装**，不要写成已安装。
+- **现状（2026-11-19 22:01 安装）**：`$DSH_HOME\skills` 现有 **10 个第三方技能 + quarkclouddrive**（1.0.25）；DSH 会话技能目录已出现全部 10 个名称（技能发现机制生效，无需重启验证）。
+- **来源与文件（均为上游原样文件；路径为本地安装目录 `$DSH_HOME\skills\<name>\`）**：
+
+| 技能 | 上游来源 | 文件数 |
+| --- | --- | --- |
+| `frontend-design` | anthropics/skills → `skills/frontend-design` | 2（SKILL.md + LICENSE.txt） |
+| `webapp-testing` | anthropics/skills → `skills/webapp-testing` | 6（SKILL.md + LICENSE + scripts/examples） |
+| `find-skills` | vercel-labs/skills → `skills/find-skills` | 1（SKILL.md） |
+| `frontend-code-review` | aiskillstore/marketplace → `skills/langgenius/frontend-code-review`（Dify 上游已移除，镜像旧版） | 9（SKILL.md + 8 references） |
+| `code-reviewer` | google-gemini/gemini-cli → `.gemini/skills/code-reviewer` | 1（SKILL.md） |
+| `pr-creator` | google-gemini/gemini-cli → `.gemini/skills/pr-creator` | 1（SKILL.md） |
+| `fix` | react/react → `.claude/skills/fix`（原 facebook/react 已重定向） | 1（SKILL.md） |
+| `update-docs` | vercel/next.js → `.agents/skills/update-docs` | 3（SKILL.md + 2 references） |
+| `cache-components` | vercel/next.js → `skills/next-cache-components-adoption`（frontmatter 已改为 `cache-components`） | 3（SKILL.md + 2 references） |
+| `fullstack-developer` | aiskillstore/marketplace → `skills/shubhamsaboo/fullstack-developer` | 1（SKILL.md） |
+
+- **验证（2026-11-19）**：10 个目录均存在、`SKILL.md` frontmatter 的 `name` 与目录名一致、`references/scripts/examples` 相对引用 0 缺失；DSH 下一步技能目录列出全部 10 个名称。验证记录见 `任务-第三方技能安装-2026-11-19\README.md`。
 - **新增/安装**：把 `<kebab-name>/SKILL.md`（可带 `references/`、`scripts/`、`examples/`）放进 `$DSH_HOME\skills\`，目录被监听，下一步自动进入技能目录；frontmatter 必须 kebab-case 且含 `description`，写错会静默跳过（无逐条诊断）。
-- **来源与升级**：没有统一包管理器；可从 GitHub API contents 拉取（`api.github.com` 本机可直连，`raw.githubusercontent.com` 可能被 reset）；拉取前确认上游路径仍存在（上游会删改技能）。
+- **来源与升级**：没有统一包管理器；小仓库可用 `codeload.github.com` tar.gz（`raw.githubusercontent.com` 常被 reset），大仓库用 GitHub API contents 逐文件拉取（`api.github.com` 本机可用，未认证 60 次/小时）；拉取前确认上游路径仍存在（上游会删改技能，Dify 的 frontend-code-review 已移除）。
 - **安全**：技能目录不要放授权码/token（夸克技能例外：授权状态在 `deepseek\config.json`，本身不含授权码）。
-- **与 Trae 的关系**：本机历史 Trae 技能包已于 2026-11 清理，不要从旧 Trae 备份目录找技能副本。
+- **与 Trae 的关系**：本机历史 Trae 技能包已于 2026-11 清理；`~/.trae-cn/skills` 的 5 个技能是 Trae 自带，不要当成 DSH 技能；不要把规则/技能复制到 `~/.agents/skills`。
 
 ### 9.7 维护铁律
 
@@ -413,4 +429,4 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 > **2026-11-17 云端新版补充**：部署前复查发现网盘根目录另有一份更新的 `AGENTS.md`（44,935 B，2026-11-17 21:30 上传；比 2026-11-16 版新增技能发现机制、§9.6 用户级技能与技能自检）。已下载并参考其**通用机制**；其中「10 个第三方技能已安装」等事实属于另一台机器，**未写入本机事实**（本机实际清单见 §0/§9.6）。
 
 
-> **2026-11-19 审阅修订**：复核 DSH 已自动升级到 `0.2.2-rc.5`（subagent 同步 rc.5），更新 §0 版本/插件/HEAD 字面值；把残留的 `Uncle小说.lnk` 也移入任务目录，并在 §5/§8/§10 补充「快捷方式污染桌面」教训与自检项；复核本机 `$DSH_HOME\skills` 仍只有 `quarkclouddrive`（云端版的 10 个第三方技能未安装）。
+> **2026-11-19 审阅修订**：复核 DSH 已自动升级到 `0.2.2-rc.5`（subagent 同步 rc.5），更新 §0 版本/插件/HEAD 字面值；把残留的 `Uncle小说.lnk` 也移入任务目录，并在 §5/§8/§10 补充「快捷方式污染桌面」教训与自检项；复核本机 `$DSH_HOME\skills`；当晚从上游安装 10 个第三方技能（见 §9.6），此前「未安装」记录已被取代。
