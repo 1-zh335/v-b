@@ -1,0 +1,34 @@
+兼容性测试证据 - 2026-11-19
+dsh_version=0.2.2-rc.5
+skills_dirs=cache-components,code-reviewer,find-skills,fix,frontend-code-review,frontend-design,fullstack-developer,pr-creator,quarkclouddrive,update-docs,webapp-testing
+total_third_party_files=28
+tool_gh=MISSING
+tool_yarn=MISSING
+tool_pnpm=C:\Users\31384\AppData\Roaming\npm\pnpm.ps1
+tool_npx=C:\Program Files\nodejs\npx.ps1
+tool_python=C:\Users\31384\AppData\Local\Programs\Python\Python312\python.exe
+python_playwright=False
+find_cmd=C:\Windows\system32\find.exe
+tmp_exists=False
+py_compile=0
+with_server_help=usage: with_server.py [-h] --server SERVERS --port PORTS [--timeout TIMEOUT] /                       ...
+next_latest=16.4.6
+react_latest=19.3.1
+skills_cli_latest=1.9.0
+npx_skills_list_g:
+  Global Skills
+  
+  data-analysis ~\.trae-cn\skills\data-analysis
+    Agents: Trae CN  Source: untracked
+  gh-cli        ~\.trae-cn\skills\gh-cli       
+    Agents: Trae CN  Source: untracked
+  git-commit    ~\.trae-cn\skills\git-commit   
+    Agents: Trae CN  Source: untracked
+  mcp-builder   ~\.trae-cn\skills\mcp-builder  
+    Agents: Trae CN  Source: untracked
+  screenshot    ~\.trae-cn\skills\screenshot   
+    Agents: Trae CN  Source: untracked
+  
+cache_components_requires_next=16.3 (SKILL.md L24); next_latest=16.4.6 -> compatible
+frontend_code_review_upstream=Dify removed; installed from aiskillstore mirror (old)
+not_modified=no skill files changed during audit; py_compile caches removed after test

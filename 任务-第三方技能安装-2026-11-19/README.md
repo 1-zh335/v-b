@@ -61,3 +61,14 @@
 
 - `AGENTS.md` §0「用户级技能」行、§9.1 技能发现、§9.6 来源表已更新为「已安装」。
 - 审阅报告 `任务-AGENTS规则优化-2026-11-18\调研\AGENTS审阅-2026-11-19.md` 已追加事后更新说明。
+## 8. 兼容性测试（2026-11-19）
+
+- 测试报告：`调研\兼容性测试-2026-11-19.md`；证据：`调研\兼容性证据.txt`。
+- **格式与 DSH 发现：10/10 通过**（均已出现在 DSH 技能目录；frontmatter/引用/文件数正常）。
+- **上游版本：9/10 为安装时默认分支快照；rontend-code-review 为 Dify 已删除后的 marketplace 旧镜像，已过时。**
+- **环境结论：3 个直接可用（frontend-design、update-docs 限 Next.js 仓库、fullstack-developer）；6 个有前置/上下文缺口；1 个过时。**
+- 主要缺口：gh 未安装（code-reviewer/pr-creator 远程 PR）；Python playwright 未安装（webapp-testing）；yarn 未安装（fix）；
+px skills 只识别 Trae CN、不识别 DSH（find-skills）；webapp-testing 的 /tmp 与 cache-components 的 Unix ind 需 Windows 适配；cache-components 建议的 
+ext-dev-loop 伴生技能未装。
+- 版本匹配：cache-components 要求 Next.js ≥16.3，当前 npm 最新 16.4.6，满足；update-docs 面向 Next.js canary；React 当前 19.3.1。
+- 本次**未修改任何技能文件**，只做只读测试；需要补依赖/做 Windows 与 DSH 适配时再处理。
