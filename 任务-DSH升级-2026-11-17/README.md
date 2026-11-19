@@ -46,3 +46,6 @@
 - **插件对齐（同日）**：升级后 subagent 两包 0.2.1-rc.5 与内核不兼容（`incompatible-version`、rows 空）→ 用 `dsh plugin --profile desktop add @deepseek-ai/dsh-subagent-codex@0.2.2-rc.3` 与 `...claude-code@0.2.2-rc.3` 升级（exit 0）；`plugin_manager` 中两包 **rows 恢复、active**；`dsh-cost-meter@1.9.62`、`@dsh-pet/bridge` 仍 active。
 - **网页版清理**：另见 `任务-DSH桌面版清理-2026-11-18\README.md`（web profile 归档、38080 实例已停、桌宠 `harness_autostart` 关闭并验证不再拉起）。
 - **未验证**：升级后 GUI 界面的更新提示/设置页显示（未逐项目检）；旧 rc.5 安装包仍在更新缓存根目录，可手动回退。
+---
+
+> **2026-11-19 复核**：DSH 已由 nightly 自动升级至 `0.2.2-rc.5`（exe/runtime/CLI 三处一致；2026-11-18 19:34 安装包更新），subagent codex/claude-code 也同步为 `0.2.2-rc.5`；本任务 2026-11-17 的 rc.3 升级目标已被后续自动更新覆盖，桌面端运行正常。

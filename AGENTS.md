@@ -4,12 +4,12 @@
 > **生效范围**：本工作区（`v b`）内所有 DSH 会话与 Trae 项目会话；离开本工作区时按下方「指针」规则处理。
 > **加载机制**：DSH 先加载用户级 `$DSH_HOME/AGENTS.md`（本机为**指针**，只给路径不含规则正文）→ 再加载「项目根 → 当前工作目录」链上的 `AGENTS.md`/`CLAUDE.md`（及 `.local` 变体）；本工作区含 `.git`，项目根即工作区根。Trae 通过 `AI.rules.importAgentsMd`（已显式设 `true`）自动加载项目根 `AGENTS.md`，用户级 `~/.trae-cn/user_rules/工程规范.md` 只是指针。
 > **优先级**：用户直接指令 > 项目级 `AGENTS.md`（本文件，更具体） > 其他指针/说明。本文件不覆盖系统/用户的直接指令。
-> **最后修订**：**2026-11-18**（以网盘最新版 AGENTS.md（2026-11-16，39,496 B）为骨架，按本机 2026-11-18 实测事实重写环境部分；同日完成 DSH 0.2.2-rc.3 升级后插件对齐、DSH 网页版清理（仅保留桌面版）、工作区规则部署；同日补充「桌面整洁」规则并把 Uncle小说快捷方式移入对应任务目录；同日并入云端 2026-11-17 版新增的技能发现/用户级技能章节（仅通用机制，技能清单按本机实际）。
+> **最后修订**：**2026-11-19**（审阅与整理：复核 DSH 已自动升级到 `0.2.2-rc.5`、subagent 同步 rc.5；把两个 Uncle小说快捷方式全部移入 `任务-uncle-novel优化-2026-10-25\` 并补充「快捷方式污染桌面」教训；更新 §0 版本/插件/HEAD 字面值与技能核验；以网盘 39,496 B（2026-11-16）与 44,935 B（2026-11-17）两版为骨架，环境事实按本机实测重写）。
 > **维护铁律**：规则正文只改本文件；`$DSH_HOME/AGENTS.md`、`~/.trae-cn/user_rules/工程规范.md` 仅允许放**指针**（路径说明，不写规则正文）；禁止再建其他规则副本。
 
 ---
 
-## 0. 本机事实核对表（2026-11-18 实测）
+## 0. 本机事实核对表（2026-11-19 复核）
 
 以下为**实测**值。⚠️ 版本号会漂移（DSH nightly、Edge、夸克自动更新），**引用前先核**（命令见下方核对片段）。
 
@@ -22,7 +22,7 @@
 | PowerShell | DSH 的 `pwsh` 工具实测 **Windows PowerShell 5.1**（`5.1.26100.9233`）；`ExecutionPolicy=Unrestricted`，仍统一用 `powershell -NoProfile -ExecutionPolicy Bypass -File "x.ps1"` 执行脚本；**避免 PS7 独有语法** |
 | 默认工作目录 | `C:\Users\31384\Documents\trae_projects\v b`（**路径含空格**，命令引用必须加引号） |
 | 项目根 | 工作目录含 `.git` → DSH 项目根 = 工作区根；规则加载链 = `$DSH_HOME\AGENTS.md`（指针）→ 项目根 `AGENTS.md`（正文） |
-| DSH 桌面端 | **`0.2.2-rc.3`**（2026-11-17 20:58 由 0.2.1-rc.5 升级成功；nightly 自动更新；精确值以 `dsh --version` 与 `runtime.json` 为准） |
+| DSH 桌面端 | **`0.2.2-rc.5`**（2026-11-19 复核：exe/runtime/CLI 均 rc.5；2026-11-18 19:34 由 rc.3 自动升级到 rc.5；nightly 自动更新；精确值以 `dsh --version` 与 `runtime.json` 为准） |
 | DSH 安装目录 | `C:\Users\31384\AppData\Local\Programs\DeepSeek Harness\`；主程序 `...\DeepSeek Harness.exe` |
 | DSH CLI | `...\resources\runtime\cli\bin\dsh.cmd`（PATH 首位，裸 `dsh` 即此；npm 全局 `@deepseek-ai/dsh@0.1.1-rc.2` 仍装但排在 PATH 之后、当前不生效） |
 | DSH_HOME | `C:\Users\31384\.dsh` |
@@ -34,16 +34,16 @@
 | 浏览器 | Edge **157.0.4341.60**（`C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`，唯一常用；**未装 Chrome**）；夸克浏览器 **7.4.7.1036**（`C:\Program Files\Quark\quark.exe`，Chromium 内核，PrintWindow/UIA 可用） |
 | Trae | `C:\Users\31384\AppData\Local\Programs\Trae CN\Trae CN.exe` **3.4.20**；已显式开启 `AI.rules.importAgentsMd=true`，项目根 `AGENTS.md` 自动生效 |
 | 屏幕 | 1920×1080 @150% 缩放；截图前必须 DPI 感知（`工具\窗口查看.ps1` 已处理） |
-| 已装 DSH 插件（desktop） | `dsh-cost-meter@1.9.62`；`@deepseek-ai/dsh-subagent-codex@0.2.2-rc.3`；`@deepseek-ai/dsh-subagent-claude-code@0.2.2-rc.3`；`@dsh-pet/bridge@0.2.0`（link）；插件市场索引 `https://dshopen.org/index.json`。精确值以 `~/.dsh/profiles/desktop/package.json` 为准 |
+| 已装 DSH 插件（desktop） | `dsh-cost-meter@1.9.62`；`@deepseek-ai/dsh-subagent-codex@0.2.2-rc.5`；`@deepseek-ai/dsh-subagent-claude-code@0.2.2-rc.5`；`@dsh-pet/bridge@0.2.0`（link）；插件市场索引 `https://dshopen.org/index.json`。精确值以 `~/.dsh/profiles/desktop/package.json` 为准 |
 | 桌宠 | 已安装 **v4.4.0**（`%LOCALAPPDATA%\Programs\dsh-pet-standalone-webm-chat\`，运行中，HKCU Run 自启）；`harness_autostart` 已于 2026-11-18 关闭（不再自动启动 `dsh web`）；`@dsh-pet/bridge` 联动保留 |
 | 夸克网盘 Skill | `~\.dsh\skills\quarkclouddrive`（**1.0.25，已授权**，账号「时雨既溯」/SVIP+）；用 DSH 自带 node 执行 `scripts\quark-drive.cjs` |
-| 用户级技能（第三方） | 本机 `$DSH_HOME\skills` 实测**只有** `quarkclouddrive`（1.0.25）；云端最新版列出的 10 个第三方技能（cache-components / code-reviewer / find-skills / fix / frontend-code-review / frontend-design / fullstack-developer / pr-creator / update-docs / webapp-testing）**不在本机**，不要照抄为「已安装」（📄 2026-11-18 实测） |
+| 用户级技能（第三方） | 本机 `$DSH_HOME\skills` 实测**只有** `quarkclouddrive`（1.0.25）；云端最新版列出的 10 个第三方技能（cache-components / code-reviewer / find-skills / fix / frontend-code-review / frontend-design / fullstack-developer / pr-creator / update-docs / webapp-testing）**不在本机**，不要照抄为「已安装」（📄 2026-11-19 复核） |
 | 本地工具 | `工具\窗口查看.ps1`（16,485 B，UTF-8 BOM+CRLF）；`工具\浏览器\`（Edge CDP + playwright-core 1.64.1）；`push-to-github.bat`/`.ps1`；`dsh-start.bat` 已于 2026-11-18 归档（网页版清理，不再使用） |
 | 不存在的工具 | ❌ `check_win_bat_standards`；❌ `wmic`；❌ Chrome；❌ `dsh web`（本机不再使用网页版） |
-| 网络 | `github.com` 偶发被阻断（2026-11-17 晚所有候选 IP 超时，`api.github.com` 可达）；可用 `git config --global http.curloptResolve "github.com:443:<IP>"` 轮换 IP，或改走 GitHub API contents / `codeload.github.com`；token 只存 Windows 凭据管理器，禁止写入文件/文档/日志 |
+| 网络 | `github.com` 偶发被阻断（2026-11-17 晚所有候选 IP 超时、2026-11-19 再次超时；`api.github.com` 通常可达）；可用 `git config --global http.curloptResolve "github.com:443:<IP>"` 轮换 IP，或改走 GitHub API contents / `codeload.github.com`；token 只存 Windows 凭据管理器，禁止写入文件/文档/日志 |
 | 权限模式 | **`danger-full-access` + 审批禁用**：文件沙箱不限制，需要审批的动作自动失败——**不要请求提权/`sandbox_permissions`** |
 | 默认模型 | 以 DSH 桌面端设置为准（本会话为 `deepseek-flash`，Provider `deepseek-account`；子代理可用模型见 profile `cordis.patch.yml`） |
-| 工作区 git | 分支 `main`，HEAD `32068ad`（2026-11-10），远程 `origin=https://github.com/1-zh335/v-b.git`；2026-11-18 规则/清理改动（提交状态以 `git status` 为准） |
+| 工作区 git | 分支 `main`，HEAD `409e98c`（2026-11-18），远程 `origin=https://github.com/1-zh335/v-b.git`；提交 `409e98c` 已推送、工作区干净（2026-11-19 复核）；本轮审阅改动提交后以 `git log` 为准 |
 
 **核对片段**（一次跑完，输出即上表依据）：
 
@@ -195,7 +195,7 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
   - Trae 设置 `AI.rules.importAgentsMd=true`（已写入 `%APPDATA%\Trae CN\User\settings.json`），自动加载项目根 `AGENTS.md`。
   - **不要**在 `.trae\rules\`、`~/.agents\`、`Documents\AGENTS(1).md` 等位置再建规则副本；历史副本教训见 §8。
 - **网页版已清理（2026-11-18）**：`~\.dsh\profiles\web` 已归档到 `~\.dsh\profiles-archive\web-20261118`；`dsh-start.bat` 与桌面「DSH 启动.lnk」已归档到 `任务-DSH桌面版清理-2026-11-18\归档\`；桌宠 `harness_autostart=false`。**不要再启动/重装 `dsh web`**，本机只用桌面版。
-- **桌面整洁（2026-11-18 新增）**：桌面只放系统/常用入口；**项目/任务的快捷方式（`.lnk`/`.url`）一律放进对应工作区任务文件夹**，不要留在桌面。2026-11-18 已将 `Uncle小说 · 本地TXT快速阅读.lnk` 从桌面移入 `任务-uncle-novel优化-2026-10-25\`（桌面不再保留）；详见 `任务-桌面快捷方式整理-2026-11-18\README.md`。
+- **桌面整洁（2026-11-19 更新）**：桌面只放系统/常用应用入口；**项目/任务的快捷方式（`.lnk`/`.url`）一律放进对应工作区任务文件夹**，不要留在桌面。2026-11-18/19 已把 `Uncle小说 · 本地TXT快速阅读.lnk` 与 `Uncle小说.lnk` 都移入 `任务-uncle-novel优化-2026-10-25\`；安装器/构建脚本应在项目内生成快捷方式，验收时枚举桌面所有 `.lnk/.url` 按 TargetPath 归位。详见 `任务-桌面快捷方式整理-2026-11-18\README.md`。
 - 工作区根保留：`AGENTS.md`（本文件）、`README.md`、`push-to-github.bat`/`.ps1`、`.gitignore`、`.gitattributes`、`工具/`（跨任务工具）、`任务X/`（新任务）；`dsh-start.bat` 已归档，不再放回根目录。
 - 本机 `工具\窗口查看.ps1`、`工具\浏览器\`（含 `node_modules`）属可复用资产，勿随意删除。
 
@@ -313,23 +313,25 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 - **DSH 0.2.2 起的 profile 限制**：`dsh --profile desktop --dump-config` 报 `error: profile "desktop" is managed exclusively by the Electron application`（exit 1）。验证 desktop 配置改用「临时 DSH_HOME + 同 bundles 的等价 profile + node_modules junction 跑 `--dump-config`」，或只改 web profile 验证语法。**别再按旧文档直接 dump desktop**。
 - **插件安装的生效标准**：命令 exit 0 ≠ 已生效；`plugin_manager` 显示 `fiberPhase: active` + GUI 面板/日志出现才算生效。优先用 `plugin_manager` 的 live 安装（不重启当前实例），CLI `dsh plugin add` 写入后通常需重启桌面端才加载。
 - **授权码 / 一次性 token 处理**：不写入文件/日志/文档；CLI 输出保存前脱敏；不放进 `--session-input` 等追踪参数。夸克 Skill 授权状态写在技能目录 `deepseek\config.json`（不含授权码）。
-- **版本字面量漂移**：DSH nightly 自动升级（本机 2026-11-17 由 0.2.1-rc.5 升到 0.2.2-rc.3）；Edge/夸克也会自动更新。引用版本前按 §0/§10 核对。
+- **版本字面量漂移**：DSH nightly 自动升级（本机 2026-11-17 由 0.2.1-rc.5 升到 0.2.2-rc.3，2026-11-18 又自动升到 0.2.2-rc.5）；Edge/夸克也会自动更新。引用版本前按 §0/§10 核对。
 - **DSH 更新失败排查（2026-11-17 实测）**：更新包已下载但版本不变时，先检查更新缓存根目录是否残留旧 `installer.exe`，以及是否有多个 `DeepSeek Harness.exe` 实例（含独立 `dsh web` 实例）在跑；处理：停止全部实例 → 直接运行 `pending` 里的新版安装包 → 校验 exe FileVersion、`runtime.json.desktopVersion`、`dsh --version` 三处 → 重启桌面端。不要只反复点自动更新。
 - **内核升级后必须对齐插件版本**：0.2.2-rc.3 下 subagent `0.2.1-rc.5` 报 `incompatible-version`（rows 为空）；用 `dsh plugin --profile desktop add <包>@0.2.2-rc.3` 升级，必要时重启；命令 exit 0 ≠ 已生效，以 `plugin_manager` 的 active/rows 为准。
+- **快捷方式溢出桌面（2026-11-19 教训）**：项目安装器/构建脚本默认把快捷方式写到桌面；上次只移走用户点名的一个（`Uncle小说 · 本地TXT快速阅读.lnk`），另一个 `Uncle小说.lnk` 仍残留，被用户追问。**规则**：项目产物快捷方式必须生成/归档到对应任务目录；收尾时枚举桌面 `.lnk/.url`，按 TargetPath 判断属于本项目的全部移走；安装脚本应直接创建到任务目录或交付包内，不要让桌面成为「额外输出目录」。
 - **网页版清理（2026-11-18）**：用户只要桌面版；`dsh web` 实例、web profile、`dsh-start.bat`/快捷方式已清理，桌宠 `harness_autostart` 已关闭。不要再按旧文档启动 web（3080/38080）。
 
 ---
 
 ## 9. DSH 运行机制与本机操作说明
 
-### 9.1 规则加载（2026-11-18 按本机 0.2.2-rc.3 复核）
+### 9.1 规则加载（2026-11-19 按本机 0.2.2-rc.5 复核）
 
 - **用户级**：`$DSH_HOME/AGENTS.md`（`C:\Users\31384\.dsh\AGENTS.md`）是**指针**，只告诉 DSH 去读工作区 AGENTS.md，不含规则正文。
 - **项目级**：从「项目根」到「会话工作目录」的每一层，按 `AGENTS.md` → `CLAUDE.md` → `AGENTS.local.md` → `CLAUDE.local.md` 顺序加载（按 trimmed 内容去重，更具体者优先）。本工作区含 `.git` → 项目根 = `C:\Users\31384\Documents\trae_projects\v b`，正文即本文件。
 - **Trae**：`AI.rules.importAgentsMd=true`（已显式写入 Trae 设置）→ 自动加载项目根 `AGENTS.md`；`~/.trae-cn/user_rules\工程规范.md` 仅指针。
-- **预算**：单文件源码上限 **1 MiB**；每条链渲染预算 **65536 字节**；本文件 + 项目级文件之和不要逼近上限（当前文件约 45 KB 内，见 §10 自检）。
+- **预算**：单文件源码上限 **1 MiB**；每条链渲染预算 **65536 字节**；本文件 + 项目级文件之和不要逼近上限（当前文件约 46 KB 内，见 §10 自检）。
 - **生效时机**：改完本文件后，**新会话/新基线**生效；当前会话已注入的内容不会热替换。Trae 若未立即生效，重启 Trae 或重新打开工作区。
-- **技能发现（据 0.2.2-rc.3 机制文档，本机未独立复核）**：按 rank 扫描 项目根 `.dsh/skills`(100)、`.agents/skills`(200)、customSkillDirs(300)、`$DSH_HOME/skills`(400)、`~/.agents/skills`(500)、bundled(600)；每层只认 `<root>/<name>/SKILL.md` 或 `<root>/<name>.md`（不递归）；frontmatter 必须含 kebab-case 的 `name` 与 `description`，非法条目静默跳过。本机第三方技能目录为 `$DSH_HOME\skills\`（当前仅 quarkclouddrive）。
+- **Trae 刷新规则**：Trae 已有任务线程会沿用创建时的规则快照；改完 AGENTS.md 后必须**新建任务/会话**（或重启 Trae 后新任务）才能验证最新内容。实测 2026-11-19：旧任务仍按旧规则回答（说 §9.6 无技能内容），新建任务后正确引用最新 §9.6。
+- **技能发现（据 0.2.2 机制文档，rc.3 时核对；rc.5 未复核）**：按 rank 扫描 项目根 `.dsh/skills`(100)、`.agents/skills`(200)、customSkillDirs(300)、`$DSH_HOME/skills`(400)、`~/.agents/skills`(500)、bundled(600)；每层只认 `<root>/<name>/SKILL.md` 或 `<root>/<name>.md`（不递归）；frontmatter 必须含 kebab-case 的 `name` 与 `description`，非法条目静默跳过。本机第三方技能目录为 `$DSH_HOME\skills\`（当前仅 quarkclouddrive）。
 - **禁止副本**：历史教训见 §8；任何情况下不要再建第二份规则正文或多余指针。
 
 ### 9.2 权限模式
@@ -342,7 +344,7 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 - 位置：`~\.dsh\profiles\desktop\`（桌面 App）；**本机只保留 desktop**，`web` profile 已于 2026-11-18 归档到 `~\.dsh\profiles-archive\web-20261118`，不要重建、也不要再启动 `dsh web`。
 - 每个 profile 含 `package.json`（`dsh.profile.bundles`）、`cordis.patch.yml`、`pnpm-lock.yaml`、`cordis.yml`；用户配置只改 `cordis.patch.yml`（`cordis.yml` 是空入口列表，勿手改）。
 - 插件管理：优先 `plugin_manager` 工具（live 安装/启停/查询 active）；CLI `dsh plugin --profile desktop add|remove <包>` 写入后通常需重启桌面端才加载。`dsh plugin list` 无内置子命令，用 `dsh plugin --profile desktop list --depth=0`。
-- 当前已装（desktop）：`dsh-cost-meter@1.9.62`、`@deepseek-ai/dsh-subagent-codex@0.2.2-rc.3`、`@deepseek-ai/dsh-subagent-claude-code@0.2.2-rc.3`、`@dsh-pet/bridge@0.2.0`（link）；插件市场索引 `https://dshopen.org/index.json`。
+- 当前已装（desktop）：`dsh-cost-meter@1.9.62`、`@deepseek-ai/dsh-subagent-codex@0.2.2-rc.5`、`@deepseek-ai/dsh-subagent-claude-code@0.2.2-rc.5`、`@dsh-pet/bridge@0.2.0`（link）；插件市场索引 `https://dshopen.org/index.json`。
 - 升级 DSH：走桌面端 nightly 自动更新；**不要**用 `npm install -g @deepseek-ai/dsh`（不改变桌面端 `dsh` 版本，且本机系统 npm 与 DSH 运行时不同套）。DSH 升级后必须检查插件兼容性并升级 subagent 等与内核绑定的插件。
 - 装插件时 pnpm 有 24h `minimumReleaseAge`：刚发布版本可能被暂缓或报 `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`；改用已满 24h 的版本，或加 `--config.minimum-release-age=0`。
 - 桌宠：已安装 v4.4.0 并运行（HKCU Run 自启）；`@dsh-pet/bridge` 已装且 active；`harness_autostart=false`（不再启动 web）。不要提议卸载用户桌宠，也不要在用户未要求时改其设置。
@@ -386,20 +388,21 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 - 本文件的**版本字面值会漂移**，引用前按 §0 的核对片段先核；关键项：`dsh --version`、`runtime.json` 的 `desktopVersion/node/pnpm/python`、Edge/夸克安装文件 `ProductVersion`、Trae 版本。
 - **改环境必须同步改文档**：升级/增删插件/换工具后更新 §0/§9，并在页首写日期与变化；不允许「只改操作、不改文档」。
 - **大改后自检清单**：① §0 列出的绝对路径逐一 `Test-Path`（允许个别外部路径变体，但必须写清）；② §9 提到的工具/脚本存在；③ 工作区根只有一个 `AGENTS.md`，无重复副本；④ `$DSH_HOME/AGENTS.md` 与 `~/.trae-cn/user_rules\工程规范.md` 仍是纯指针；⑤ Trae 设置 `AI.rules.importAgentsMd=true`；⑥ 本文件大小 **< 65536 B**；⑦ 示例命令至少抽 1 条实际跑通。
+- **桌面污染自检**：收尾前枚举 `%USERPROFILE%\Desktop` 的 `.lnk/.url`，按 TargetPath 判断是否为本项目产物；是则移入对应任务目录，并在任务 README 记录。
 - **技能自检**：`$DSH_HOME\skills` 下每个 `SKILL.md` 的 `references/`、`scripts/`、`examples/` 相对引用逐个 `Test-Path`；新增/升级技能后更新 §9.6 与页首日期；确认未在 `~/.agents/skills` 或其他位置产生技能副本。
 - 本文件写下的流程与代码同等对待：**必须可执行、可验证**。
 
 ---
 
-## 11. 版本来源与合并说明（2026-11-18）
+## 11. 版本来源与合并说明（2026-11-19）
 
-本次部署由 Lead 在 2026-11-18 完成，来源与处理如下：
+本次部署由 Lead 于 2026-11-18 初版、2026-11-19 审阅修订，来源与处理如下：
 
 | 来源 | 大小/日期 | 处置 |
 | --- | --- | --- |
 | 夸克网盘 `AGENTS.md` | **39,496 B（2026-11-16 上传）+ 44,935 B（2026-11-17 21:30 更新版）**（对应另一台 `desktop-kji2ku0` 机器，原路径 `F:\DeeoSeek`、`E:\论文`） | 以 2026-11-16 版为骨架；2026-11-17 版新增的技能发现机制/§9.6 已并入（仅通用机制，技能清单按本机实际） |
 | 本机旧 `AGENTS.md` | 41,809 B（工作区 CRLF 副本；git HEAD 为 41,558 B 的 LF 版），2026-11-10 | 保留其中本机已有的多轮教训与流程；旧版本仍在 git 历史，可 `git show HEAD:AGENTS.md` 恢复 |
-| 本机 2026-11-18 实测 | — | 更新 DSH 0.2.2-rc.3、插件版本、系统/DSH 双运行时、Trae 设置、桌宠、网页版清理、网络状态等事实 |
+| 本机 2026-11-19 复核 | — | 更新 DSH 0.2.2-rc.5、subagent rc.5、HEAD 409e98c、技能核验、快捷方式清理、网络状态等事实 |
 
 **关键改动**：① 环境事实全部按本机重写（`MOSS\31384`、`%LOCALAPPDATA%` 安装路径、系统 Node/npm、Trae 存在、桌宠存在等）；② 规则架构改为「工作区唯一正文 + 两个纯指针」，同时满足 DSH 与 Trae；③ 新增 2026-11-17 DSH 升级与插件兼容、2026-11-18 网页版清理的经验；④ 删除仅适用于云机源的路径与假设。
 
@@ -409,3 +412,5 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 
 > **2026-11-17 云端新版补充**：部署前复查发现网盘根目录另有一份更新的 `AGENTS.md`（44,935 B，2026-11-17 21:30 上传；比 2026-11-16 版新增技能发现机制、§9.6 用户级技能与技能自检）。已下载并参考其**通用机制**；其中「10 个第三方技能已安装」等事实属于另一台机器，**未写入本机事实**（本机实际清单见 §0/§9.6）。
 
+
+> **2026-11-19 审阅修订**：复核 DSH 已自动升级到 `0.2.2-rc.5`（subagent 同步 rc.5），更新 §0 版本/插件/HEAD 字面值；把残留的 `Uncle小说.lnk` 也移入任务目录，并在 §5/§8/§10 补充「快捷方式污染桌面」教训与自检项；复核本机 `$DSH_HOME\skills` 仍只有 `quarkclouddrive`（云端版的 10 个第三方技能未安装）。
