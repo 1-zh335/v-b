@@ -72,3 +72,10 @@ px skills 只识别 Trae CN、不识别 DSH（find-skills）；webapp-testing �
 ext-dev-loop 伴生技能未装。
 - 版本匹配：cache-components 要求 Next.js ≥16.3，当前 npm 最新 16.4.6，满足；update-docs 面向 Next.js canary；React 当前 19.3.1。
 - 本次**未修改任何技能文件**，只做只读测试；需要补依赖/做 Windows 与 DSH 适配时再处理。
+## 9. 2026-11-19 修复与验证
+
+- **依赖已装**：Python Playwright 1.65.2、GitHub CLI 2.105.0（未登录）、Yarn 1.22.22；webapp-testing 用 Edge channel + --no-proxy-server 冒烟通过（with_server.py helper_exit=0、screenshot=True）。
+- **技能修补**：webapp-testing（Windows/Edge/路径）、find-skills（DSH 路径说明）、cache-components（PowerShell find、next-dev-loop 可选）、code-reviewer/pr-creator（gh 与 preflight 条件）、fix（包管理器自适应）、frontend-code-review（标注 Dify 旧镜像）。
+- 修复后 10 个技能、28 个文件；frontmatter 与引用校验通过。
+- 详细记录：`调研\修复验证.txt`；审计报告已追加 §8 修复结果。
+- 仍需人工处理：gh auth login（远程 PR）；rontend-code-review 上游已删除，无新版本可拉取。

@@ -28,13 +28,13 @@
 
 6. **并入云端 2026-11-17 更新版的技能机制**：新增 §9.6「用户级技能（第三方）」、§9.1 技能发现机制、§10 技能自检；当时本机未安装这 10 个技能（云端版事实属于另一台机器）；2026-11-19 22:01 已按上游来源全部安装，见 §9 与 `任务-第三方技能安装-2026-11-19`。
 
-**结果**：50,653 B / 432 行，UTF-8 无 BOM，LF；< 65536 渲染预算；SHA-256 `A05FC78CC6CE53C13B3B4A066E794C2B544810C0CED9FF3342FC96AD657BCA0F`。
+**结果**：51,656 B / 434 行，UTF-8 无 BOM，LF；< 65536 渲染预算；SHA-256 `9B02C66D57B79975F8530926BFBF957ABF324E5D43DF5DB09F56037BF7870586`。
 
 ## 4. 部署位置与验证
 
 | 位置 | 内容 | 验证 |
 |---|---|---|
-| `C:\Users\31384\Documents\trae_projects\v b\AGENTS.md` | **唯一规则正文**（50,653 B） | 工作区根仅此 1 个 `AGENTS.md`；UTF-8 无 BOM；大小 < 65,536 B |
+| `C:\Users\31384\Documents\trae_projects\v b\AGENTS.md` | **唯一规则正文**（51,656 B） | 工作区根仅此 1 个 `AGENTS.md`；UTF-8 无 BOM；大小 < 65,536 B |
 | `C:\Users\31384\.dsh\AGENTS.md` | DSH 用户级**指针**（只给路径） | 文件存在；内容 6 行、无规则正文 |
 | `C:\Users\31384\.trae-cn\user_rules\工程规范.md` | Trae 用户级**指针** | 文件存在；内容 5 行、无规则正文 |
 | `%APPDATA%\Trae CN\User\settings.json` | 新增 `"AI.rules.importAgentsMd": true` | JSON 解析通过；与已有 `importClaudeMd=true` 并存 |
@@ -56,7 +56,7 @@
 ## 6. 文件清单
 
 - 云端原件：`下载\AGENTS.md`（44,935 B，2026-11-17 更新版）+ `下载\旧版-39496-2026-11-16\AGENTS.md`（39,496 B，SHA-256 `F9AE86…` 见上）
-- 部署正文：工作区根 `AGENTS.md`（50,653 B，SHA-256 `A05FC7…`）
+- 部署正文：工作区根 `AGENTS.md`（51,656 B，SHA-256 `9B02C6…`）
 - 指针：`~/.dsh/AGENTS.md`、`~/.trae-cn/user_rules/工程规范.md`
 - Trae 设置：`%APPDATA%\Trae CN\User\settings.json`
 
@@ -82,3 +82,8 @@
 - 安装 10 个技能后，AGENTS.md 更新为 **50,653 B / 432 行**，UTF-8 无 BOM，SHA-256 `A05FC78CC6CE53C13B3B4A066E794C2B544810C0CED9FF3342FC96AD657BCA0F`；§0 技能行、§9.1 技能发现、§9.6 来源表已改为「已安装」。
 - 已上传夸克网盘：`AGENTS-本机优化版-2026-11-19-技能版.md`（50,653 B）；fileId `aad26c75b6e74b99b19e3781dd874d41`，recordId `1ec5d4b6-4c43-47ac-af7b-5ae26542ba19`；网盘 fid `~1CbX4f0RbwHEOk6kif7vJAiv2E0_rgCEhV0QNCz-rkiQVWz3QZH0oqkXR-OJilIPyXiOqoO-PhPZJMxJUT0RmTY|UwJ04H1rrTw`；search 核验 total=1、size=50,653。
 - 技能安装详细记录见 `任务-第三方技能安装-2026-11-19\README.md`。
+## 10. 技能运行修复后的 AGENTS 再同步（2026-11-19 22:38）
+
+- 修复依赖（Playwright 1.65.2、gh 2.105.0、yarn 1.22.22）及技能 Windows/DSH 适配后，AGENTS.md 更新为 **51,656 B / 434 行**，UTF-8 无 BOM，SHA-256 `9B02C66D57B79975F8530926BFBF957ABF324E5D43DF5DB09F56037BF7870586`；§0 新增技能运行依赖行，§9.6 新增运行前置/本地适配说明。
+- 已上传夸克网盘：`AGENTS-本机优化版-2026-11-19-修复版.md`（51,656 B）；fileId `70291cd5dee541e8bee81f89709bf66e`，recordId `953bda43-3641-4cf8-9e04-dabc20bf675e`；网盘 fid `~1-pY_x06w0PkhMLl8Z6Td0IZss6YcXGKHWAkHJE09fCMu4eTkEYEl88CX3S7OxfUHmRuMgb-mpSEJz2ZRzVrHwI|u0K8w_-o8lw`；search `AGENTS-本机优化版` 共 4 条，其中修复版 size=51,656 已核验。
+- 技能修复明细见 `任务-第三方技能安装-2026-11-19\调研\修复验证.txt` 与兼容性报告 §8。
