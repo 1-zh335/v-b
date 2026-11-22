@@ -9,7 +9,7 @@
 
 ---
 
-## 0. 本机事实核对表（2026-11-19 复核）
+## 0. 本机事实核对表（2026-11-22 复核）
 
 以下为**实测**值。⚠️ 版本号会漂移（DSH nightly、Edge、夸克自动更新），**引用前先核**（命令见下方核对片段）。
 
@@ -37,14 +37,14 @@
 | 已装 DSH 插件（desktop） | `dsh-cost-meter@1.9.62`；`@deepseek-ai/dsh-subagent-codex@0.2.2-rc.5`；`@deepseek-ai/dsh-subagent-claude-code@0.2.2-rc.5`；`@dsh-pet/bridge@0.2.0`（link）；插件市场索引 `https://dshopen.org/index.json`。精确值以 `~/.dsh/profiles/desktop/package.json` 为准 |
 | 桌宠 | 已安装 **v4.4.0**（`%LOCALAPPDATA%\Programs\dsh-pet-standalone-webm-chat\`，运行中，HKCU Run 自启）；`harness_autostart` 已于 2026-11-18 关闭（不再自动启动 `dsh web`）；`@dsh-pet/bridge` 联动保留 |
 | 夸克网盘 Skill | `~\.dsh\skills\quarkclouddrive`（**1.0.25，已授权**，账号「时雨既溯」/SVIP+）；用 DSH 自带 node 执行 `scripts\quark-drive.cjs` |
-| 用户级技能（第三方） | **已安装 10 个**（2026-11-19 22:01）：`cache-components`、`code-reviewer`、`find-skills`、`fix`、`frontend-code-review`、`frontend-design`、`fullstack-developer`、`pr-creator`、`update-docs`、`webapp-testing`；另有 `quarkclouddrive`（1.0.25）。来源/文件数见 §9.6；DSH 会话技能目录已刷新出现全部 10 个名称（2026-11-19 复核） |
+| 用户级技能（第三方） | **已安装 10 个**（2026-11-22 复核）：`cache-components`、`code-reviewer`、`find-skills`、`fix`、`frontend-code-review`、`frontend-design`、`fullstack-developer`、`pr-creator`、`update-docs`、`webapp-testing`；另有 `quarkclouddrive`（1.0.25）。来源/文件数见 §9.6；DSH 会话技能目录已刷新出现全部 10 个名称（2026-11-19 复核） |
 | 技能运行依赖 | Python Playwright **1.65.2**（已安装；Edge channel + localhost `--no-proxy-server` 冒烟通过）；GitHub CLI **2.105.0**（**已登录账号 `1-zh335`**，token scopes `repo`/`read:org`/`gist`，keyring 存储；`gh auth setup-git` 已执行）；Yarn **1.22.22**（已安装）；详见 §9.6 |
 | 本地工具 | `工具\窗口查看.ps1`（16,485 B，UTF-8 BOM+CRLF）；`工具\浏览器\`（Edge CDP + playwright-core 1.64.1）；`push-to-github.bat`/`.ps1`；`dsh-start.bat` 已于 2026-11-18 归档（网页版清理，不再使用） |
 | 不存在的工具 | ❌ `check_win_bat_standards`；❌ `wmic`；❌ Chrome；❌ `dsh web`（本机不再使用网页版） |
 | 网络 | `github.com` 偶发被阻断（2026-11-17 晚所有候选 IP 超时、2026-11-19 再次超时；`api.github.com` 通常可达）；可用 `git config --global http.curloptResolve "github.com:443:<IP>"` 轮换 IP，或改走 GitHub API contents / `codeload.github.com`；token 只存 Windows 凭据管理器，禁止写入文件/文档/日志 |
 | 权限模式 | **`danger-full-access` + 审批禁用**：文件沙箱不限制，需要审批的动作自动失败——**不要请求提权/`sandbox_permissions`** |
 | 默认模型 | 以 DSH 桌面端设置为准（本会话为 `deepseek-flash`，Provider `deepseek-account`；子代理可用模型见 profile `cordis.patch.yml`） |
-| 工作区 git | 分支 `main`，HEAD `409e98c`（2026-11-18），远程 `origin=https://github.com/1-zh335/v-b.git`；提交 `409e98c` 已推送、工作区干净（2026-11-19 复核）；本轮审阅改动提交后以 `git log` 为准 |
+| 工作区 git | 分支 `main`，HEAD `c7821d0`（2026-11-22），远程 `origin=https://github.com/1-zh335/v-b.git`；已推送、工作区干净（2026-11-22 复核）；后续提交以 `git log` 为准 |
 
 **核对片段**（一次跑完，输出即上表依据）：
 
@@ -329,7 +329,7 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 - **用户级**：`$DSH_HOME/AGENTS.md`（`C:\Users\31384\.dsh\AGENTS.md`）是**指针**，只告诉 DSH 去读工作区 AGENTS.md，不含规则正文。
 - **项目级**：从「项目根」到「会话工作目录」的每一层，按 `AGENTS.md` → `CLAUDE.md` → `AGENTS.local.md` → `CLAUDE.local.md` 顺序加载（按 trimmed 内容去重，更具体者优先）。本工作区含 `.git` → 项目根 = `C:\Users\31384\Documents\trae_projects\v b`，正文即本文件。
 - **Trae**：`AI.rules.importAgentsMd=true`（已显式写入 Trae 设置）→ 自动加载项目根 `AGENTS.md`；`~/.trae-cn/user_rules\工程规范.md` 仅指针。
-- **预算**：单文件源码上限 **1 MiB**；每条链渲染预算 **65536 字节**；本文件 + 项目级文件之和不要逼近上限（当前文件约 46 KB 内，见 §10 自检）。
+- **预算**：单文件源码上限 **1 MiB**；每条链渲染预算 **65536 字节**；本文件 + 项目级文件之和不要逼近上限（当前文件约 51 KB 内，见 §10 自检）。
 - **生效时机**：改完本文件后，**新会话/新基线**生效；当前会话已注入的内容不会热替换。Trae 若未立即生效，重启 Trae 或重新打开工作区。
 - **Trae 刷新规则**：Trae 已有任务线程会沿用创建时的规则快照；改完 AGENTS.md 后必须**新建任务/会话**（或重启 Trae 后新任务）才能验证最新内容。实测 2026-11-19：旧任务仍按旧规则回答（说 §9.6 无技能内容），新建任务后正确引用最新 §9.6。
 - **技能发现（2026-11-19 rc.5 实测）**：按 rank 扫描 项目根 `.dsh/skills`(100)、`.agents/skills`(200)、customSkillDirs(300)、`$DSH_HOME/skills`(400)、`~/.agents/skills`(500)、bundled(600)；每层只认 `<root>/<name>/SKILL.md` 或 `<root>/<name>.md`（不递归）；frontmatter 必须含 kebab-case 的 `name` 与 `description`，非法条目静默跳过。本机第三方技能目录为 `$DSH_HOME\skills\`（2026-11-19 已安装 10 个第三方技能 + quarkclouddrive，见 §9.6；新增目录后会话技能目录立即出现全部名称）。
@@ -412,7 +412,7 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 
 ---
 
-## 11. 版本来源与合并说明（2026-11-19）
+## 11. 版本来源与合并说明（2026-11-22）
 
 本次部署由 Lead 于 2026-11-18 初版、2026-11-19 审阅修订，来源与处理如下：
 
@@ -420,7 +420,7 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 | --- | --- | --- |
 | 夸克网盘 `AGENTS.md` | **39,496 B（2026-11-16 上传）+ 44,935 B（2026-11-17 21:30 更新版）**（对应另一台 `desktop-kji2ku0` 机器，原路径 `F:\DeeoSeek`、`E:\论文`） | 以 2026-11-16 版为骨架；2026-11-17 版新增的技能发现机制/§9.6 已并入（仅通用机制，技能清单按本机实际） |
 | 本机旧 `AGENTS.md` | 41,809 B（工作区 CRLF 副本；git HEAD 为 41,558 B 的 LF 版），2026-11-10 | 保留其中本机已有的多轮教训与流程；旧版本仍在 git 历史，可 `git show HEAD:AGENTS.md` 恢复 |
-| 本机 2026-11-19 复核 | — | 更新 DSH 0.2.2-rc.5、subagent rc.5、HEAD 409e98c、技能核验、快捷方式清理、网络状态等事实 |
+| 本机 2026-11-22 复核 | — | 更新 DSH 0.2.2-rc.5、subagent rc.5、HEAD c7821d0、技能安装与运行依赖、GitHub CLI 登录、快捷方式清理、网络状态等事实 |
 
 **关键改动**：① 环境事实全部按本机重写（`MOSS\31384`、`%LOCALAPPDATA%` 安装路径、系统 Node/npm、Trae 存在、桌宠存在等）；② 规则架构改为「工作区唯一正文 + 两个纯指针」，同时满足 DSH 与 Trae；③ 新增 2026-11-17 DSH 升级与插件兼容、2026-11-18 网页版清理的经验；④ 删除仅适用于云机源的路径与假设。
 
