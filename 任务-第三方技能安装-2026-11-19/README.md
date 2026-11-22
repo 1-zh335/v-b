@@ -79,3 +79,9 @@ ext-dev-loop 伴生技能未装。
 - 修复后 10 个技能、28 个文件；frontmatter 与引用校验通过。
 - 详细记录：`调研\修复验证.txt`；审计报告已追加 §8 修复结果。
 - 仍需人工处理：gh auth login（远程 PR）；rontend-code-review 上游已删除，无新版本可拉取。
+## 10. 可选伴生技能 next-dev-loop（2026-11-22）
+
+- 已从 ercel/next.js canary skills/next-dev-loop 安装到 `C:\Users\31384\.dsh\skills\next-dev-loop`（1 个 SKILL.md），DSH 技能目录已列出该技能。
+- 用途：配合 cache-components 做 Next.js 运行时验证；要求 Next.js **16.3+ Turbopack**。
+- 依赖 gent-browser **0.43.0**（已安装）；本机无 Chrome，已用 Edge 冒烟成功（open about:blank / snapshot / close），用户环境变量 AGENT_BROWSER_EXECUTABLE_PATH 指向 Edge。
+- 未验证：真实 Next.js 16.3+ 项目中的 /_next/mcp + gent-browser 联调（当前工作区无 Next 项目）。

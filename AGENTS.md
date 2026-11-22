@@ -38,6 +38,7 @@
 | 桌宠 | 已安装 **v4.4.0**（`%LOCALAPPDATA%\Programs\dsh-pet-standalone-webm-chat\`，运行中，HKCU Run 自启）；`harness_autostart` 已于 2026-11-18 关闭（不再自动启动 `dsh web`）；`@dsh-pet/bridge` 联动保留 |
 | 夸克网盘 Skill | `~\.dsh\skills\quarkclouddrive`（**1.0.25，已授权**，账号「时雨既溯」/SVIP+）；用 DSH 自带 node 执行 `scripts\quark-drive.cjs` |
 | 用户级技能（第三方） | **已安装 10 个**（2026-11-22 复核）：`cache-components`、`code-reviewer`、`find-skills`、`fix`、`frontend-code-review`、`frontend-design`、`fullstack-developer`、`pr-creator`、`update-docs`、`webapp-testing`；另有 `quarkclouddrive`（1.0.25）。来源/文件数见 §9.6；DSH 会话技能目录已刷新出现全部 10 个名称（2026-11-19 复核） |
+| 可选伴生技能 | `next-dev-loop`（2026-11-22 安装，来源 `vercel/next.js` canary `skills/next-dev-loop`，1 个 SKILL.md）；配合 `cache-components` 使用；要求 Next.js 16.3+ Turbopack；`agent-browser` 0.43.0 已安装并用本机 Edge 冒烟通过（`AGENT_BROWSER_EXECUTABLE_PATH` 指向 Edge，无需 Chrome） |
 | 技能运行依赖 | Python Playwright **1.65.2**（已安装；Edge channel + localhost `--no-proxy-server` 冒烟通过）；GitHub CLI **2.105.0**（**已登录账号 `1-zh335`**，token scopes `repo`/`read:org`/`gist`，keyring 存储；`gh auth setup-git` 已执行）；Yarn **1.22.22**（已安装）；详见 §9.6 |
 | 本地工具 | `工具\窗口查看.ps1`（16,485 B，UTF-8 BOM+CRLF）；`工具\浏览器\`（Edge CDP + playwright-core 1.64.1）；`push-to-github.bat`/`.ps1`；`dsh-start.bat` 已于 2026-11-18 归档（网页版清理，不再使用） |
 | 不存在的工具 | ❌ `check_win_bat_standards`；❌ `wmic`；❌ Chrome；❌ `dsh web`（本机不再使用网页版） |
@@ -388,6 +389,7 @@ $bash    = "C:\Program Files\Git\bin\bash.exe"
 
 - **验证（2026-11-19）**：10 个目录均存在、`SKILL.md` frontmatter 的 `name` 与目录名一致、`references/scripts/examples` 相对引用 0 缺失；DSH 下一步技能目录列出全部 10 个名称。验证记录见 `任务-第三方技能安装-2026-11-19\README.md`。
 - **运行前置与本地适配（2026-11-19 修复）**：Python Playwright 1.65.2 已安装，`webapp-testing` 用 Edge channel（localhost 加 `--no-proxy-server`）冒烟通过，`/tmp` 示例已改为本地路径；`gh` 2.105.0 已登录账号 `1-zh335`（scopes `repo`/`read:org`/`gist`，keyring 存储；`gh auth setup-git` 已执行）；`yarn` 1.22.22 已安装；`find-skills` 增加 DSH 安装路径说明；`cache-components` 增加 PowerShell `find` 替代与 `next-dev-loop` 可选说明；`code-reviewer`/`pr-creator` 的 `npm run preflight` 改为条件执行并补前置；`fix` 改为按项目包管理器执行；`frontend-code-review` 标注为 Dify 已移除的旧镜像。
+- **next-dev-loop（2026-11-22 安装）**：`$DSH_HOME\skills\next-dev-loop`（1 文件）已出现在 DSH 技能目录；它是 `cache-components` 的可选伴生验证技能，需 Next.js 16.3+ + Turbopack。`agent-browser` 0.43.0 已安装；Windows 无 Chrome，已用 Edge 执行 `open about:blank` / `snapshot` / `close` 冒烟，并设置用户环境变量 `AGENT_BROWSER_EXECUTABLE_PATH` 指向 `C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe`。
 - **新增/安装**：把 `<kebab-name>/SKILL.md`（可带 `references/`、`scripts/`、`examples/`）放进 `$DSH_HOME\skills\`，目录被监听，下一步自动进入技能目录；frontmatter 必须 kebab-case 且含 `description`，写错会静默跳过（无逐条诊断）。
 - **来源与升级**：没有统一包管理器；小仓库可用 `codeload.github.com` tar.gz（`raw.githubusercontent.com` 常被 reset），大仓库用 GitHub API contents 逐文件拉取（`api.github.com` 本机可用，未认证 60 次/小时）；拉取前确认上游路径仍存在（上游会删改技能，Dify 的 frontend-code-review 已移除）。
 - **安全**：技能目录不要放授权码/token（夸克技能例外：授权状态在 `deepseek\config.json`，本身不含授权码）。

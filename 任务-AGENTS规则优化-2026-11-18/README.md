@@ -28,13 +28,13 @@
 
 6. **并入云端 2026-11-17 更新版的技能机制**：新增 §9.6「用户级技能（第三方）」、§9.1 技能发现机制、§10 技能自检；当时本机未安装这 10 个技能（云端版事实属于另一台机器）；2026-11-19 22:01 已按上游来源全部安装，见 §9 与 `任务-第三方技能安装-2026-11-19`。
 
-**结果**：51,899 B / 434 行，UTF-8 无 BOM，LF；< 65536 渲染预算；SHA-256 `94EC6BD628A6DE964AC15A2DA8A2301F57BE1997F82109A7E3AB626B7F0725EF`。
+**结果**：52,706 B / 436 行，UTF-8 无 BOM，LF；< 65536 渲染预算；SHA-256 `01167E588063824EDA908A9EE1C433491B7178C31C1F4BEB10B3FAA208EEEAB2`。
 
 ## 4. 部署位置与验证
 
 | 位置 | 内容 | 验证 |
 |---|---|---|
-| `C:\Users\31384\Documents\trae_projects\v b\AGENTS.md` | **唯一规则正文**（51,899 B） | 工作区根仅此 1 个 `AGENTS.md`；UTF-8 无 BOM；大小 < 65,536 B |
+| `C:\Users\31384\Documents\trae_projects\v b\AGENTS.md` | **唯一规则正文**（52,706 B） | 工作区根仅此 1 个 `AGENTS.md`；UTF-8 无 BOM；大小 < 65,536 B |
 | `C:\Users\31384\.dsh\AGENTS.md` | DSH 用户级**指针**（只给路径） | 文件存在；内容 6 行、无规则正文 |
 | `C:\Users\31384\.trae-cn\user_rules\工程规范.md` | Trae 用户级**指针** | 文件存在；内容 5 行、无规则正文 |
 | `%APPDATA%\Trae CN\User\settings.json` | 新增 `"AI.rules.importAgentsMd": true` | JSON 解析通过；与已有 `importClaudeMd=true` 并存 |
@@ -56,7 +56,7 @@
 ## 6. 文件清单
 
 - 云端原件：`下载\AGENTS.md`（44,935 B，2026-11-17 更新版）+ `下载\旧版-39496-2026-11-16\AGENTS.md`（39,496 B，SHA-256 `F9AE86…` 见上）
-- 部署正文：工作区根 `AGENTS.md`（51,899 B，SHA-256 `94EC6B…`）
+- 部署正文：工作区根 `AGENTS.md`（52,706 B，SHA-256 `01167E…`）
 - 指针：`~/.dsh/AGENTS.md`、`~/.trae-cn/user_rules/工程规范.md`
 - Trae 设置：`%APPDATA%\Trae CN\User\settings.json`
 
@@ -96,3 +96,8 @@
 
 - 校正 AGENTS 中残留的过期字面值（§0 复核日期/HEAD、§9.1 文件大小、§11 标题与来源日期）后，最终为 **51,899 B / 434 行**，UTF-8 无 BOM，SHA-256 `94EC6BD628A6DE964AC15A2DA8A2301F57BE1997F82109A7E3AB626B7F0725EF`。
 - 已上传夸克网盘：`AGENTS-本机优化版-2026-11-22-final.md`（51,899 B）；fileId `44242a93558a42f2936cb6f256ba2500`，recordId `bc38c08d-9181-413f-8dbc-bd98a96c643c`。
+## 13. next-dev-loop 安装后的 AGENTS 再同步（2026-11-22）
+
+- 安装可选伴生技能 
+ext-dev-loop 并配置 gent-browser 使用 Edge 后，AGENTS.md 为 **52,706 B / 436 行**，UTF-8 无 BOM，SHA-256 `01167E588063824EDA908A9EE1C433491B7178C31C1F4BEB10B3FAA208EEEAB2`。
+- 已上传夸克网盘：`AGENTS-本机优化版-2026-11-22-next-dev-loop.md`（52,706 B）；上传 result code=0（fileId/recordId 见 CLI 输出，未另存）。
