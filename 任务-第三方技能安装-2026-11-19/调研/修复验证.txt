@@ -3,7 +3,7 @@
 依赖安装
 - Python Playwright 1.65.2（pip 清华镜像安装成功；`playwright_py=1.65.2`）
 - Playwright Edge channel 冒烟：headless Edge 打开本地 http://127.0.0.1:8798/index.html，读取 `#ok` 文本成功；webapp-testing 的 with_server.py 管理 server → 执行脚本 → 停 server，helper_exit=0，screenshot=True。
-- GitHub CLI 2.105.0（winget 安装成功；`gh` 命令经 %APPDATA%\npm\gh.cmd shim 可用）；`gh auth status` = 未登录，远程 PR 前需 `gh auth login`。
+- GitHub CLI 2.105.0（winget 安装成功；`gh` 命令经 %APPDATA%\npm\gh.cmd shim 可用）；`gh auth login` 已完成（2026-11-22）：账号 `1-zh335`，scopes `gist`/`read:org`/`repo`，keyring 存储；`gh auth setup-git` 已执行；`gh api user` 返回 `1-zh335`。
 - Yarn 1.22.22（npm 全局安装成功）。
 
 技能修补（均保留原目录/名称，DSH 发现正常）
@@ -17,4 +17,6 @@
 最终状态
 - 10 个技能、28 个文件；每个 SKILL.md frontmatter name 与目录一致，description 非空；引用 0 缺失。
 - 未重新拉取上游内容（仅本机适配修补）；`frontend-code-review` 的 Dify 上游已删除，无法通过更新恢复。
-- 未执行 `gh auth login`（需要用户账号交互）。
+- `gh auth login` 已于 2026-11-22 完成（设备授权 + token 交换；token 不写入文档）。
+
+- 登录验证：gh auth status 显示 account 1-zh335、active=true、protocol=https、token scopes gist/read:org/repo。

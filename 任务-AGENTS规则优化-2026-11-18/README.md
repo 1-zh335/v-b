@@ -28,13 +28,13 @@
 
 6. **并入云端 2026-11-17 更新版的技能机制**：新增 §9.6「用户级技能（第三方）」、§9.1 技能发现机制、§10 技能自检；当时本机未安装这 10 个技能（云端版事实属于另一台机器）；2026-11-19 22:01 已按上游来源全部安装，见 §9 与 `任务-第三方技能安装-2026-11-19`。
 
-**结果**：51,656 B / 434 行，UTF-8 无 BOM，LF；< 65536 渲染预算；SHA-256 `9B02C66D57B79975F8530926BFBF957ABF324E5D43DF5DB09F56037BF7870586`。
+**结果**：51,895 B / 434 行，UTF-8 无 BOM，LF；< 65536 渲染预算；SHA-256 `931A11C782B5A0B7B407BDB438ECA983624736637CB0F80D5902D180CCEE2F7D`。
 
 ## 4. 部署位置与验证
 
 | 位置 | 内容 | 验证 |
 |---|---|---|
-| `C:\Users\31384\Documents\trae_projects\v b\AGENTS.md` | **唯一规则正文**（51,656 B） | 工作区根仅此 1 个 `AGENTS.md`；UTF-8 无 BOM；大小 < 65,536 B |
+| `C:\Users\31384\Documents\trae_projects\v b\AGENTS.md` | **唯一规则正文**（51,895 B） | 工作区根仅此 1 个 `AGENTS.md`；UTF-8 无 BOM；大小 < 65,536 B |
 | `C:\Users\31384\.dsh\AGENTS.md` | DSH 用户级**指针**（只给路径） | 文件存在；内容 6 行、无规则正文 |
 | `C:\Users\31384\.trae-cn\user_rules\工程规范.md` | Trae 用户级**指针** | 文件存在；内容 5 行、无规则正文 |
 | `%APPDATA%\Trae CN\User\settings.json` | 新增 `"AI.rules.importAgentsMd": true` | JSON 解析通过；与已有 `importClaudeMd=true` 并存 |
@@ -56,7 +56,7 @@
 ## 6. 文件清单
 
 - 云端原件：`下载\AGENTS.md`（44,935 B，2026-11-17 更新版）+ `下载\旧版-39496-2026-11-16\AGENTS.md`（39,496 B，SHA-256 `F9AE86…` 见上）
-- 部署正文：工作区根 `AGENTS.md`（51,656 B，SHA-256 `9B02C6…`）
+- 部署正文：工作区根 `AGENTS.md`（51,895 B，SHA-256 `931A11…`）
 - 指针：`~/.dsh/AGENTS.md`、`~/.trae-cn/user_rules/工程规范.md`
 - Trae 设置：`%APPDATA%\Trae CN\User\settings.json`
 
@@ -87,3 +87,8 @@
 - 修复依赖（Playwright 1.65.2、gh 2.105.0、yarn 1.22.22）及技能 Windows/DSH 适配后，AGENTS.md 更新为 **51,656 B / 434 行**，UTF-8 无 BOM，SHA-256 `9B02C66D57B79975F8530926BFBF957ABF324E5D43DF5DB09F56037BF7870586`；§0 新增技能运行依赖行，§9.6 新增运行前置/本地适配说明。
 - 已上传夸克网盘：`AGENTS-本机优化版-2026-11-19-修复版.md`（51,656 B）；fileId `70291cd5dee541e8bee81f89709bf66e`，recordId `953bda43-3641-4cf8-9e04-dabc20bf675e`；网盘 fid `~1-pY_x06w0PkhMLl8Z6Td0IZss6YcXGKHWAkHJE09fCMu4eTkEYEl88CX3S7OxfUHmRuMgb-mpSEJz2ZRzVrHwI|u0K8w_-o8lw`；search `AGENTS-本机优化版` 共 4 条，其中修复版 size=51,656 已核验。
 - 技能修复明细见 `任务-第三方技能安装-2026-11-19\调研\修复验证.txt` 与兼容性报告 §8。
+## 11. GitHub CLI 登录后的 AGENTS 再同步（2026-11-22）
+
+- 完成 gh auth login 后更新 AGENTS.md：**51,895 B / 434 行**，UTF-8 无 BOM，SHA-256 `931A11C782B5A0B7B407BDB438ECA983624736637CB0F80D5902D180CCEE2F7D`；§0 技能运行依赖与 §9.6 运行前置已改为「已登录账号 1-zh335」。
+- 登录验证：gh auth status 显示 github.com 已登录 1-zh335、active=true、protocol=https、token scopes gist/ead:org/epo；gh auth setup-git 已执行，gh api user 返回 1-zh335。
+- 已上传夸克网盘：`AGENTS-本机优化版-2026-11-22-gh登录版.md`（51,895 B）；fileId `78232410461948e0af676a828e720640`，recordId `061217de-732f-4c3a-9a6a-9927c0773526`。
